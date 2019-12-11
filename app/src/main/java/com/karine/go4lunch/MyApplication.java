@@ -1,5 +1,6 @@
 package com.karine.go4lunch;
 
+import android.app.Application;
 import android.content.Context;
 
 import androidx.multidex.MultiDex;

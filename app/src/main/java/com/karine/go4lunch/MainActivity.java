@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         this.startSignInActivity();
 
+        MyApplication myApplication = new MyApplication();
     }
 
 
