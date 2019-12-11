@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Go4Lunch</string>
     <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="connection_succeed" />
+    <string name="error_authentication_canceled" />
+    <string name="error_no_internet" />
+    <string name="error_unknown_error" />
 </resources>
