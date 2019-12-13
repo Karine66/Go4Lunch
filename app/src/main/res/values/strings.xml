@@ -1,8 +1,17 @@
 <resources>
     <string name="app_name">Go4Lunch</string>
-    <string name="sign_in_with_google">Sign in with Google</string>
     <string name="connection_succeed" />
     <string name="error_authentication_canceled" />
     <string name="error_no_internet" />
     <string name="error_unknown_error" />
+    <string name="sign_in_with_facebook">Sign in with Facebook</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--BOTTOM NAVIGATION VIEW-->
+    <string name="bottom_navigation_menu_map"> Map View</string>
+    <string name="bottom_navigation_menu_list">List View</string>
+    <string name="bottom_navigation_menu_workmates">Workmates</string>
+    <string name="bottom_navigation_menu_chat">Chat</string>
 </resources>
