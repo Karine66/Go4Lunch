@@ -18,22 +18,27 @@
 
     <Button
         android:id="@+id/google_btn"
-        android:layout_width="212dp"
-        android:layout_height="38dp"
+        android:layout_width="213dp"
+        android:layout_height="33dp"
         android:layout_gravity="center"
+        android:background="#ffff"
         android:drawableStart="@drawable/fui_ic_googleg_color_24dp"
-        android:hint="@string/sign_in_with_google"
-        android:onClick="onClickGoogleBtn" />
+        android:hint="Continue with Google"
+        android:onClick="onClickGoogleBtn"
+        android:paddingStart="6dp"
+        android:paddingEnd="28dp"/>
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/facebook_btn"
-        android:layout_width="207dp"
-        android:layout_height="400dp"
+        android:layout_width="213dp"
+        android:layout_height="200dp"
         android:layout_gravity="center"
         android:layout_marginBottom="130dp"
-
-        android:hint="@string/sign_in_with_facebook"
-        android:onClick="onClickFacebookBtn" />
+        android:onClick="onClickFacebookBtn"
+        android:paddingStart="20dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:textSize="12sp" />
 </LinearLayout>
     <FrameLayout
         android:id="@+id/activity_main_frame_layout"
