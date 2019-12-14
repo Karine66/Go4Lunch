@@ -25,6 +25,6 @@
         android:enabled="true"
         android:icon="@drawable/baseline_chat_black_24dp"
         android:title="@string/bottom_navigation_menu_chat"
-        
+
         app:showAsAction="ifRoom" />
 </menu>

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Go4Lunch</string>
     <string name="connection_succeed" />
     <string name="error_authentication_canceled" />
@@ -14,4 +14,9 @@
     <string name="bottom_navigation_menu_list">List View</string>
     <string name="bottom_navigation_menu_workmates">Workmates</string>
     <string name="bottom_navigation_menu_chat">Chat</string>
+    <!--For Facebook-->
+    <string name="facebook_application_id"
+        translatable="false">2179065909065296</string>
+    <string name="facebook_login_protocol_scheme" translatable="false"
+        tools:ignore="UnusedResources">fb2179065909065296</string>
 </resources>
