@@ -9,6 +9,8 @@
     android:background="@drawable/go4lunch"
     tools:context=".MainActivity">
 
+
+
 <LinearLayout
     android:id="@+id/connection_btn"
     android:layout_width="match_parent"

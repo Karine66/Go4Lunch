@@ -1,4 +1,4 @@
-package com.karine.go4lunch;
+package com.karine.go4lunch.controllers.fragments;
 
 
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.karine.go4lunch.R;
 
 
 /**

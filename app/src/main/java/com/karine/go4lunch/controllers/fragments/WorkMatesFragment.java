@@ -1,4 +1,4 @@
-package com.karine.go4lunch;
+package com.karine.go4lunch.controllers.fragments;
 
 
 import android.os.Bundle;
@@ -9,14 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.karine.go4lunch.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ListFragment extends Fragment {
+public class WorkMatesFragment extends Fragment {
 
 
-    public ListFragment() {
+    public WorkMatesFragment() {
         // Required empty public constructor
     }
 
@@ -25,7 +27,7 @@ public class ListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list, container, false);
+        return inflater.inflate(R.layout.fragment_work_mates, container, false);
     }
 
 }
