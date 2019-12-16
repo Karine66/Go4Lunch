@@ -8,14 +8,7 @@
     android:background="#E94"
     tools:context=".controllers.fragments.MapFragment">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/main_toolbar"
-        android:minHeight="?attr/actionBarSize"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:title="I'm hungry !"
-        app:titleTextColor="#fff"
-        android:background="?attr/colorPrimary"/>
+
 
 
 </LinearLayout>

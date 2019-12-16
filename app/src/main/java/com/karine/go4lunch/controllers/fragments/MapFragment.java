@@ -3,22 +3,14 @@ package com.karine.go4lunch.controllers.fragments;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import androidx.appcompat.widget.Toolbar;
 
 import com.karine.go4lunch.R;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
@@ -27,7 +19,6 @@ import butterknife.ButterKnife;
  */
 public class MapFragment extends Fragment {
 
-//@BindView(R.id.menu_toolbar) Toolbar toolbar;
 
 
     public MapFragment() {
@@ -45,6 +36,11 @@ public class MapFragment extends Fragment {
         return view;
     }
 
+
+}
+
+
+
 //    @Override
 //    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 //        inflater.inflate(R.menu.menu_toolbar, menu);
@@ -52,9 +48,6 @@ public class MapFragment extends Fragment {
 //    }
 //       private void configureToolbar(){
 //        //get the toolbar view inside the activity layout
-//           ((AppCompatActivity).setSupportActionBar(toolbar));
-//    }
+//           ((LoginActivity) Objects.requireNonNull(getActivity().setSupportActionBar(toolbar));
 
 
-
-}
