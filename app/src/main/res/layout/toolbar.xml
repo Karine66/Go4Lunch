@@ -11,7 +11,7 @@
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
-            app:title="I'm hungry !"
+            app:title="I'm Hungry !"
             app:titleTextColor="#fff" />
 
 </LinearLayout>

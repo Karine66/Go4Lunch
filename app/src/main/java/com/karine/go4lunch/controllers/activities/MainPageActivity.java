@@ -4,11 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.karine.go4lunch.R;
 import com.karine.go4lunch.controllers.fragments.ChatFragment;
@@ -26,6 +30,8 @@ public class MainPageActivity extends AppCompatActivity {
     @BindView(R.id.bottom_navigation)
     BottomNavigationView bottomNavigationView;
 
+    private GoogleMap mMap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +39,11 @@ public class MainPageActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         configureToolbar();
         bottomNavigationView.setOnNavigationItemSelectedListener(navlistener);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.main_map, new MapFragment());
+        fragmentTransaction.commit();
     }
         @Override
     public boolean onCreateOptionsMenu (Menu menu){
@@ -72,4 +83,5 @@ public class MainPageActivity extends AppCompatActivity {
                     return true;
                 }
             };
+
 }
