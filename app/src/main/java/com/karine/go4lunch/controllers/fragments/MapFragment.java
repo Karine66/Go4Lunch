@@ -42,7 +42,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         ButterKnife.bind(this, view);
 
-     // mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.mapView);
         return view;
     }
     @Override

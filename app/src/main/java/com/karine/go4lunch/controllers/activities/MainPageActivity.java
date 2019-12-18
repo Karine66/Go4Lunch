@@ -40,10 +40,7 @@ public class MainPageActivity extends AppCompatActivity {
         configureToolbar();
         bottomNavigationView.setOnNavigationItemSelectedListener(navlistener);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.main_map, new MapFragment());
-        fragmentTransaction.commit();
+
     }
         @Override
     public boolean onCreateOptionsMenu (Menu menu){
