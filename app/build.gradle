@@ -41,6 +41,9 @@ dependencies {
     implementation 'com.jakewharton:butterknife:10.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
+    //For retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     //Facebook
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
     //For test
@@ -50,5 +53,6 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
     //For Map Google
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.android.libraries.places:places:2.1.0'
 }
 apply plugin: 'com.google.gms.google-services'

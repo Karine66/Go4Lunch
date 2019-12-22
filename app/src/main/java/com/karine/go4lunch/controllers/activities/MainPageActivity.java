@@ -39,7 +39,7 @@ public class MainPageActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         configureToolbar();
         bottomNavigationView.setOnNavigationItemSelectedListener(navlistener);
-        
+
     }
         @Override
     public boolean onCreateOptionsMenu (Menu menu){
