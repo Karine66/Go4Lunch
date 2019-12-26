@@ -1,6 +1,7 @@
 package com.karine.go4lunch.controllers.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.karine.go4lunch.R;
 import com.karine.go4lunch.controllers.fragments.ChatFragment;
@@ -25,8 +27,8 @@ import butterknife.ButterKnife;
 
 public class MainPageActivity extends AppCompatActivity {
 
-    @BindView(R.id.main_toolbar)
-    Toolbar toolbar;
+//    @BindView(R.id.main_toolbar)
+//    Toolbar toolbar;
     @BindView(R.id.bottom_navigation)
     BottomNavigationView bottomNavigationView;
 
@@ -37,8 +39,15 @@ public class MainPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
         ButterKnife.bind(this);
-        configureToolbar();
+
+        //For change title Action Bar
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setTitle("I'm Hungry");
+
         bottomNavigationView.setOnNavigationItemSelectedListener(navlistener);
+        getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_frame_layout,
+                new MapFragment()).commit();
 
     }
         @Override
@@ -47,12 +56,7 @@ public class MainPageActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_toolbar,menu);
         return true;
     }
-    private void configureToolbar(){
-        //get the toolbar view inside the activity layout
-        setSupportActionBar(toolbar);
-    }
-
-
+  
     //button connection with fragments
     private BottomNavigationView.OnNavigationItemSelectedListener navlistener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {

@@ -7,15 +7,15 @@
     android:layout_height="match_parent"
     tools:context=".controllers.activities.MainPageActivity">
 
-    <fragment
-        android:name="com.karine.go4lunch.controllers.fragments.MapFragment"
-        android:id="@+id/main_map"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    <include
-        layout="@layout/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+<!--    <fragment-->
+<!--        android:name="com.karine.go4lunch.controllers.fragments.MapFragment"-->
+<!--        android:id="@+id/main_map"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"/>-->
+<!--    <include-->
+<!--        layout="@layout/toolbar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"/>-->
 
     <FrameLayout
         android:id="@+id/activity_main_frame_layout"
