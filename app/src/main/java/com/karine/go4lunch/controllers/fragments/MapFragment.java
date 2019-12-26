@@ -2,76 +2,50 @@ package com.karine.go4lunch.controllers.fragments;
 
 
 import android.Manifest;
-import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.net.PlacesClient;
 import com.karine.go4lunch.R;
-import com.karine.go4lunch.controllers.activities.MainPageActivity;
 
 
 import java.util.Objects;
-import java.util.concurrent.Executor;
 
 import butterknife.ButterKnife;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends Fragment implements LocationListener {
 
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;
-    private FusedLocationProviderClient mFusedLocationClient;
-    Location currentLocation;
-    private static final int REQUEST_CODE = 100;
-    private Context context;
-    private boolean mLocationPermissionGranted;
-
-    private String position;
-
+    private LocationManager locationManager;
+    private static final int PERMS_CALL_ID = 200;
+    private Location location;
 
     public MapFragment() {
         // Required empty public constructor
@@ -84,11 +58,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         ButterKnife.bind(this, view);
-//        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(getContext()));
-//        fetchLocation();
-//        mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.map);
-//        assert mapFragment != null;
-//        mapFragment.getMapAsync(this);
+
         return view;
 
     }
@@ -97,34 +67,108 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onActivityCreated(@Nullable Bundle saveInstanceState) {
         super.onActivityCreated(saveInstanceState);
 
-//        LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-//        Criteria criteria = new Criteria();
-//
-//        String provider = locationManager.getBestProvider(criteria, true);
-//        @SuppressLint("MissingPermission") Location location = locationManager.getLastKnownLocation(provider);
-//
-//        double lat = currentLocation.getLatitude();
-//        double lng = currentLocation.getLongitude();
-//        LatLng latLng = new LatLng(lat, lng);
-
-
         mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.map);
-        assert mapFragment != null;
-        mapFragment.getMapAsync(this);
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        checkPermissions();
 
+        loadMap();
+
+    }
+
+    private void checkPermissions() {
+        if (ActivityCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions((Activity) getContext(), new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+            }, PERMS_CALL_ID);
+            return;
+        }
+        locationManager = (LocationManager) Objects.requireNonNull(getContext()).getSystemService(Context.LOCATION_SERVICE);
+        assert locationManager != null;
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+            locationManager.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER, 10000, 0,  this);
+        if (locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER))
+            locationManager.requestLocationUpdates(
+                    LocationManager.PASSIVE_PROVIDER, 10000, 0,  this);
+        if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
+            locationManager.requestLocationUpdates(
+                    LocationManager.NETWORK_PROVIDER, 10000, 0,  this);
     }
 
 
 
-
-
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+       public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
+        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
+        if(requestCode==PERMS_CALL_ID) {
+            checkPermissions();
+        }
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(locationManager !=null) {
+            locationManager.removeUpdates( this);
+        }
 
-}}
+    }
+
+    private void loadMap() {
+        mapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                mMap = googleMap;
+                googleMap.moveCamera(CameraUpdateFactory.zoomBy(15));
+                googleMap.setMyLocationEnabled(true);
+
+            }
+        });
+    }
+
+
+
+    public void onProviderDisabled (String provider) {
+           }
+
+    public void onProviderEnabled (String provider) {
+        Log.d("LocationProject", "Provider Enabled");
+    }
+
+    public void onLocationChanged (Location location) {
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+
+        Toast.makeText(getContext(), "Location" + latitude + "/" + longitude, Toast.LENGTH_LONG).show();
+        if(mMap !=null) {
+            LatLng googleLocation = new LatLng(latitude,longitude);
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(googleLocation));
+        }
+
+    }
+
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+
+}
+
+
+//    @Override
+//    public void onMapReady(GoogleMap googleMap) {
+//        mMap = googleMap;
+//        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+//        mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
+//        mMap.setMyLocationEnabled(true);
+//
+//
+//}}
 
 
 

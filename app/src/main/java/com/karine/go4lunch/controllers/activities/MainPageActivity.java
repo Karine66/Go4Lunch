@@ -56,7 +56,7 @@ public class MainPageActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_toolbar,menu);
         return true;
     }
-  
+
     //button connection with fragments
     private BottomNavigationView.OnNavigationItemSelectedListener navlistener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
