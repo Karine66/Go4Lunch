@@ -30,10 +30,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.karine.go4lunch.R;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+import Utils.Go4LunchStream;
 import butterknife.ButterKnife;
-
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
+import models.GoogleApi;
+import models.Result;
 
 
 /**
@@ -46,6 +52,8 @@ public class MapFragment extends Fragment implements LocationListener {
     private LocationManager locationManager;
     private static final int PERMS_CALL_ID = 200;
     private Location location;
+    private Disposable mDisposable;
+    private String loc;
 
     public MapFragment() {
         // Required empty public constructor
@@ -71,10 +79,15 @@ public class MapFragment extends Fragment implements LocationListener {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.disposeWhenDestroy();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         checkPermissions();
-
         loadMap();
 
     }
@@ -92,29 +105,29 @@ public class MapFragment extends Fragment implements LocationListener {
         assert locationManager != null;
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
             locationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER, 10000, 0,  this);
+                    LocationManager.GPS_PROVIDER, 10000, 0, this);
         if (locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER))
             locationManager.requestLocationUpdates(
-                    LocationManager.PASSIVE_PROVIDER, 10000, 0,  this);
+                    LocationManager.PASSIVE_PROVIDER, 10000, 0, this);
         if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
             locationManager.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER, 10000, 0,  this);
+                    LocationManager.NETWORK_PROVIDER, 10000, 0, this);
     }
 
 
-
     @Override
-       public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
-        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
-        if(requestCode==PERMS_CALL_ID) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMS_CALL_ID) {
             checkPermissions();
         }
     }
+
     @Override
     public void onPause() {
         super.onPause();
-        if(locationManager !=null) {
-            locationManager.removeUpdates( this);
+        if (locationManager != null) {
+            locationManager.removeUpdates(this);
         }
 
     }
@@ -131,25 +144,25 @@ public class MapFragment extends Fragment implements LocationListener {
         });
     }
 
+    public void onProviderDisabled(String provider) {
+    }
 
-
-    public void onProviderDisabled (String provider) {
-           }
-
-    public void onProviderEnabled (String provider) {
+    public void onProviderEnabled(String provider) {
         Log.d("LocationProject", "Provider Enabled");
     }
 
-    public void onLocationChanged (Location location) {
+    public void onLocationChanged(Location location) {
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
 
-        Toast.makeText(getContext(), "Location" + latitude + "/" + longitude, Toast.LENGTH_LONG).show();
-        if(mMap !=null) {
-            LatLng googleLocation = new LatLng(latitude,longitude);
+//        Toast.makeText(getContext(), "Location" + latitude + "/" + longitude, Toast.LENGTH_LONG).show();
+        if (mMap != null) {
+            LatLng googleLocation = new LatLng(latitude, longitude);
             mMap.moveCamera(CameraUpdateFactory.newLatLng(googleLocation));
+            loc = latitude + "," + longitude;
+            Log.d("TestLatLng", loc);
+            executeHttpRequestWithRetrofit();
         }
-
     }
 
     public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -157,37 +170,56 @@ public class MapFragment extends Fragment implements LocationListener {
     }
 
 
-}
 
 
-//    @Override
-//    public void onMapReady(GoogleMap googleMap) {
-//        mMap = googleMap;
-//        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-//        mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
-//        mMap.setMyLocationEnabled(true);
+    /**
+     * HTTP request RX Java for restaurants
+     */
+    private void executeHttpRequestWithRetrofit() {
+
+        this.mDisposable = Go4LunchStream.streamFetchRestaurants(loc, 5000, "restaurant")
+                .subscribeWith(new DisposableObserver<GoogleApi>() {
+
+
+                    private List<Result> result = new ArrayList<>();
+
+                    @Override
+                    public void onNext(GoogleApi mResults) {
+                        Log.d("TestRestaurantsMap2", mResults.toString());
+                       result.addAll(mResults.getResults());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                      result.size();
+                        Log.d("TestRestaurantsMap1", String.valueOf(result.size()));
+                       // updateUI(result);
+
+                        Log.d("TestRestaurantsMap", String.valueOf(result.size()));
+
+
+                        Log.d("ON_Complete", "Test onComplete");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("onErrorRestaurantsMap", Log.getStackTraceString(e));
+                    }
+                });
+    }
+////updte UI with restaurants list
+//    public void updateUI(List <Result> results) {
 //
+//       results.clear();
+//        results.addAll(results);
 //
-//}}
-
-
-
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
-
-
-
-
-
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        inflater.inflate(R.menu.menu_toolbar, menu);
-//        super.onCreateOptionsMenu(menu,inflater);
 //    }
-//       private void configureToolbar(){
-//        //get the toolbar view inside the activity layout
-//           ((LoginActivity) Objects.requireNonNull(getActivity().setSupportActionBar(toolbar));
 
-
+    /**
+     * Dispose subscription
+     */
+    private void disposeWhenDestroy() {
+        if (this.mDisposable != null && !this.mDisposable.isDisposed())
+            this.mDisposable.dispose();
+    }
+}
