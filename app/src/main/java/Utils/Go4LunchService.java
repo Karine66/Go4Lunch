@@ -8,7 +8,7 @@ import retrofit2.http.Query;
 
 public interface Go4LunchService {
 
-    String API_KEY = "AIzaSyCM-y8wLzp1QBMtzH_iokAhyRgTutq016g";
+    String API_KEY = "AIzaSyDRx8LRA_qMswRC9G8DdyY9P-pe-ImYvwg";
 
     //GoogleAPI API Request
     @GET("maps/api/place/nearbysearch/json?key="+API_KEY)
