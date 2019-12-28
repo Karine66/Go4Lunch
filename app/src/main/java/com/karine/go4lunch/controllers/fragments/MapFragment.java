@@ -103,17 +103,17 @@ public class MapFragment extends Fragment implements LocationListener {
         }
         locationManager = (LocationManager) Objects.requireNonNull(getContext()).getSystemService(Context.LOCATION_SERVICE);
         assert locationManager != null;
-        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             locationManager.requestLocationUpdates(
                     LocationManager.GPS_PROVIDER, 10000, 0, this);
-        if (locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER))
+        } else if (locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER)) {
             locationManager.requestLocationUpdates(
                     LocationManager.PASSIVE_PROVIDER, 10000, 0, this);
-        if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
+        } else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             locationManager.requestLocationUpdates(
                     LocationManager.NETWORK_PROVIDER, 10000, 0, this);
+        }
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
