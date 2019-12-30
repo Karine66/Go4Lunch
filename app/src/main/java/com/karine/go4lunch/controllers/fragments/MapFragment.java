@@ -19,7 +19,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -27,6 +26,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.karine.go4lunch.R;
 
 
@@ -54,6 +55,9 @@ public class MapFragment extends Fragment implements LocationListener {
     private Location location;
     private Disposable mDisposable;
     private String loc;
+    private List <Result> result;
+    private Marker marker;
+
 
     public MapFragment() {
         // Required empty public constructor
@@ -105,13 +109,16 @@ public class MapFragment extends Fragment implements LocationListener {
         assert locationManager != null;
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             locationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER, 10000, 0, this);
+                    LocationManager.GPS_PROVIDER, 15000, 10, this);
+            Log.e("GPSProvider", "test");
         } else if (locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER)) {
             locationManager.requestLocationUpdates(
-                    LocationManager.PASSIVE_PROVIDER, 10000, 0, this);
+                    LocationManager.PASSIVE_PROVIDER, 15000, 10, this);
+            Log.e("PassiveProvider", "test");
         } else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             locationManager.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER, 10000, 0, this);
+                    LocationManager.NETWORK_PROVIDER, 15000, 10, this);
+            Log.e("NetWorkProvider", "test");
         }
     }
 
@@ -162,15 +169,14 @@ public class MapFragment extends Fragment implements LocationListener {
             loc = latitude + "," + longitude;
             Log.d("TestLatLng", loc);
             executeHttpRequestWithRetrofit();
+
+
         }
     }
 
     public void onStatusChanged(String provider, int status, Bundle extras) {
 
     }
-
-
-
 
     /**
      * HTTP request RX Java for restaurants
@@ -181,24 +187,28 @@ public class MapFragment extends Fragment implements LocationListener {
                 .subscribeWith(new DisposableObserver<GoogleApi>() {
 
 
-                    private List<Result> result = new ArrayList<>();
+                    private List<Result> resultList = new ArrayList<>();
 
                     @Override
                     public void onNext(GoogleApi mResults) {
-                        Log.d("TestRestaurantsMap2", mResults.toString());
-                       result.addAll(mResults.getResults());
+                        Log.d("TestonNextMap", mResults.toString());
+                       resultList.addAll(mResults.getResults());
+                       Log.d("TestonNextSize", String.valueOf(resultList.size()));
                     }
 
                     @Override
                     public void onComplete() {
-                      result.size();
-                        Log.d("TestRestaurantsMap1", String.valueOf(result.size()));
-                       // updateUI(result);
 
-                        Log.d("TestRestaurantsMap", String.valueOf(result.size()));
+                        for (Result res : resultList){
+                            LatLng latLng = new LatLng(res.getGeometry().getLocation().getLat(),
+                                                       res.getGeometry().getLocation().getLng()
+                                                        );
+                            marker = mMap.addMarker(new MarkerOptions().position(latLng));
+                        }
+
+                        Log.d("TestOnComleteMap", String.valueOf(resultList.size()));
 
 
-                        Log.d("ON_Complete", "Test onComplete");
                     }
 
                     @Override
