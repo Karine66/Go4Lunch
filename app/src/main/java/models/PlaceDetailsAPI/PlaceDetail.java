@@ -1,17 +1,17 @@
 
-package models;
+package models.PlaceDetailsAPI;
 
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 
 @SuppressWarnings("unused")
-public class GoogleApi {
+public class PlaceDetail {
 
     @SerializedName("html_attributions")
     private List<Object> mHtmlAttributions;
-    @SerializedName("results")
-    private List<Result> mResults;
+    @SerializedName("result")
+    private Result mResult;
     @SerializedName("status")
     private String mStatus;
 
@@ -23,12 +23,12 @@ public class GoogleApi {
         mHtmlAttributions = htmlAttributions;
     }
 
-    public List<Result> getResults() {
-        return mResults;
+    public Result getResult() {
+        return mResult;
     }
 
-    public void setResults(List<Result> results) {
-        mResults = results;
+    public void setResult(Result result) {
+        mResult = result;
     }
 
     public String getStatus() {
@@ -39,12 +39,4 @@ public class GoogleApi {
         mStatus = status;
     }
 
-    @Override
-    public String toString() {
-        return "GoogleApi{" +
-                "mHtmlAttributions=" + mHtmlAttributions +
-                ", mResults=" + mResults +
-                ", mStatus='" + mStatus + '\'' +
-                '}';
-    }
 }

@@ -1,9 +1,13 @@
 
-package models;
+package models.NearbySearchAPI;
 
 import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
+
+import models.NearbySearchAPI.Geometry;
+import models.NearbySearchAPI.OpeningHours;
+import models.NearbySearchAPI.Photo;
 
 
 @SuppressWarnings("unused")

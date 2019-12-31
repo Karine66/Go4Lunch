@@ -39,8 +39,8 @@ import Utils.Go4LunchStream;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
-import models.GoogleApi;
-import models.Result;
+import models.NearbySearchAPI.GoogleApi;
+import models.NearbySearchAPI.Result;
 
 
 /**
@@ -204,6 +204,7 @@ public class MapFragment extends Fragment implements LocationListener {
                                                        res.getGeometry().getLocation().getLng()
                                                         );
                             marker = mMap.addMarker(new MarkerOptions().position(latLng));
+
                         }
 
                         Log.d("TestOnComleteMap", String.valueOf(resultList.size()));

@@ -1,5 +1,5 @@
 
-package models;
+package models.NearbySearchAPI;
 
 import com.google.gson.annotations.SerializedName;
 
