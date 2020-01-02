@@ -8,7 +8,6 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import models.NearbySearchAPI.GoogleApi;
-import models.PlaceDetailsAPI.PlaceDetail;
 
 public class Go4LunchStream {
 

@@ -1,6 +1,7 @@
 
 package models.PlaceDetailsAPI;
 
+
 import com.google.gson.annotations.SerializedName;
 
 

@@ -2,6 +2,7 @@
 package models.PlaceDetailsAPI;
 
 import java.util.List;
+
 import com.google.gson.annotations.SerializedName;
 
 

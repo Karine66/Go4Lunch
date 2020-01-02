@@ -18,7 +18,5 @@ public interface Go4LunchService {
 
     //PlaceDetails API Request
     @GET("maps/api/place/details/json?key="+API_KEY)
-    Observable<PlaceDetail> getDetails(@Query("name") String name, @Query("photo_reference") String photoReference,
-                                       @Query("vicinity") String vicinity, @Query("open_now") Boolean openNow,
-                                       @Query("rating") Long rating);
+    Observable<PlaceDetail> getDetails(@Query("fields") String fields, @Query("place_id") String placeId);
 }
