@@ -4,7 +4,7 @@ package models.PlaceDetailsAPI;
 import com.google.gson.annotations.SerializedName;
 
 
-@SuppressWarnings("unused")
+
 public class Location {
 
     @SerializedName("lat")
