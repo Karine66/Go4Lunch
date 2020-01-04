@@ -187,13 +187,14 @@ public class MapFragment extends Fragment implements LocationListener {
              .subscribeWith(new DisposableObserver<PlaceDetail>() {
 
                                 @Override
-                                public void onNext(PlaceDetail mResult ) {
-                                    Log.d("testdetails", mResult.getResult().getName());
+                                public void onNext(PlaceDetail resultDetail ) {
+
+                                    Log.d("testdetails", resultDetail.getResult().getName());
                                 }
 
                                 @Override
                                 public void onError(Throwable e) {
-
+                                Log.e("TestDetail", Log.getStackTraceString(e));
                                 }
 
                                 @Override
