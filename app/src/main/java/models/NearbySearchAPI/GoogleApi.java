@@ -11,7 +11,7 @@ public class GoogleApi {
     @SerializedName("html_attributions")
     private List<Object> mHtmlAttributions;
     @SerializedName("results")
-    private List<Result> mResults;
+    private List<ResultSearch> mResultSearches;
     @SerializedName("status")
     private String mStatus;
 
@@ -23,12 +23,12 @@ public class GoogleApi {
         mHtmlAttributions = htmlAttributions;
     }
 
-    public List<Result> getResults() {
-        return mResults;
+    public List<ResultSearch> getResults() {
+        return mResultSearches;
     }
 
-    public void setResults(List<Result> results) {
-        mResults = results;
+    public void setResults(List<ResultSearch> resultSearches) {
+        mResultSearches = resultSearches;
     }
 
     public String getStatus() {
@@ -43,7 +43,7 @@ public class GoogleApi {
     public String toString() {
         return "GoogleApi{" +
                 "mHtmlAttributions=" + mHtmlAttributions +
-                ", mResults=" + mResults +
+                ", mResultSearches=" + mResultSearches +
                 ", mStatus='" + mStatus + '\'' +
                 '}';
     }

@@ -40,7 +40,8 @@ import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 import models.NearbySearchAPI.GoogleApi;
-import models.NearbySearchAPI.Result;
+import models.NearbySearchAPI.ResultSearch;
+import models.PlaceDetailsAPI.PlaceDetail;
 
 
 /**
@@ -55,7 +56,7 @@ public class MapFragment extends Fragment implements LocationListener {
     private Location location;
     private Disposable mDisposable;
     private String loc;
-    private List <Result> result;
+    private List <ResultSearch> resultSearch;
     private Marker marker;
 
 
@@ -182,44 +183,61 @@ public class MapFragment extends Fragment implements LocationListener {
      * HTTP request RX Java for restaurants
      */
     private void executeHttpRequestWithRetrofit() {
+        this.mDisposable = Go4LunchStream.streamFetchRestaurantDetails(loc, 5000, "restaurant")
+             .subscribeWith(new DisposableObserver<PlaceDetail>() {
 
-        this.mDisposable = Go4LunchStream.streamFetchRestaurants(loc, 5000, "restaurant")
-                .subscribeWith(new DisposableObserver<GoogleApi>() {
+                                @Override
+                                public void onNext(PlaceDetail mResult ) {
+                                    Log.d("testdetails", mResult.getResult().getName());
+                                }
 
+                                @Override
+                                public void onError(Throwable e) {
 
-                    private List<Result> resultList = new ArrayList<>();
+                                }
 
-                    @Override
-                    public void onNext(GoogleApi mResults) {
-                        Log.d("TestonNextMap", mResults.toString());
-                       resultList.addAll(mResults.getResults());
-                       Log.d("TestonNextSize", String.valueOf(resultList.size()));
-                    }
+                                @Override
+                                public void onComplete() {
 
-                    @Override
-                    public void onComplete() {
-
-                        for (Result res : resultList){
-                            LatLng latLng = new LatLng(res.getGeometry().getLocation().getLat(),
-                                                       res.getGeometry().getLocation().getLng()
-                                                        );
-                            marker = mMap.addMarker(new MarkerOptions().position(latLng));
-
-                        }
-
-                        Log.d("TestOnComleteMap", String.valueOf(resultList.size()));
-
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("onErrorRestaurantsMap", Log.getStackTraceString(e));
-                    }
-                });
+                                }
+                            });
+        //this.mDisposable = Go4LunchStream.streamFetchRestaurants(loc, 5000, "restaurant")
+//                .subscribeWith(new DisposableObserver<GoogleApi>() {
+//
+//
+//                    private List<ResultSearch> resultSearchList = new ArrayList<>();
+//
+//                    @Override
+//                    public void onNext(GoogleApi mResults) {
+//                        Log.d("TestonNextMap", mResults.toString());
+//                       resultSearchList.addAll(mResults.getResults());
+//                       Log.d("TestonNextSize", String.valueOf(resultSearchList.size()));
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//
+//                        for (ResultSearch res : resultSearchList){
+//                            LatLng latLng = new LatLng(res.getGeometry().getLocation().getLat(),
+//                                                       res.getGeometry().getLocation().getLng()
+//                                                        );
+//                            marker = mMap.addMarker(new MarkerOptions().position(latLng));
+//
+//                        }
+//
+//                        Log.d("TestOnComleteMap", String.valueOf(resultSearchList.size()));
+//
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        Log.e("onErrorRestaurantsMap", Log.getStackTraceString(e));
+//                    }
+//                });
     }
 ////updte UI with restaurants list
-//    public void updateUI(List <Result> results) {
+//    public void updateUI(List <ResultSearch> results) {
 //
 //       results.clear();
 //        results.addAll(results);

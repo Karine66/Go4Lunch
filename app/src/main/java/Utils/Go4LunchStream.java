@@ -2,16 +2,27 @@ package Utils;
 
 
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import models.NearbySearchAPI.GoogleApi;
+import models.NearbySearchAPI.ResultSearch;
 import models.PlaceDetailsAPI.PlaceDetail;
+import models.PlaceDetailsAPI.Result;
 import retrofit2.http.Query;
 
 public class Go4LunchStream {
+
+    public static String fields = "opening_hours,photo,rating,vicinity,name";
 
     //Create stream google restaurants
     public static Observable<GoogleApi> streamFetchRestaurants (String location, int radius, String type) {
@@ -28,5 +39,25 @@ public class Go4LunchStream {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
+    }
+
+    public static Observable <PlaceDetail> streamFetchRestaurantDetails (String location, int radius, String type) {
+        return streamFetchRestaurants(location, radius, type)
+                .map(new Function<GoogleApi, List <ResultSearch>>() {
+                    @Override
+                    public List<ResultSearch> apply(GoogleApi googleApi) throws Exception {
+                        return googleApi.getResults();
+                    }
+                })
+               .flatMap(new Function <List<ResultSearch>, Observable<PlaceDetail>>() {
+
+                   @Override
+                   public Observable<PlaceDetail> apply(List<ResultSearch> resultSearch) throws Exception {
+                        
+
+                       return streamFetchDetails(fields, resultSearch.get(0).getPlaceId());
+                   }
+               });
+
     }
 }

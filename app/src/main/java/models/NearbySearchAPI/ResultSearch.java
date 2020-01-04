@@ -11,7 +11,7 @@ import models.NearbySearchAPI.Photo;
 
 
 @SuppressWarnings("unused")
-public class Result {
+public class ResultSearch {
 
     @SerializedName("geometry")
     private Geometry mGeometry;
@@ -116,7 +116,7 @@ public class Result {
 
     @Override
     public String toString() {
-        return "Result{" +
+        return "ResultSearch{" +
                 "mGeometry=" + mGeometry +
                 ", mIcon='" + mIcon + '\'' +
                 ", mId='" + mId + '\'' +
