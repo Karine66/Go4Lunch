@@ -56,7 +56,7 @@ public class MapFragment extends Fragment implements LocationListener {
     private static final int PERMS_CALL_ID = 200;
     private Location location;
     private Disposable mDisposable;
-    private String loc;
+    private String position;
     private List <ResultSearch> resultSearch;
     private Marker marker;
 
@@ -160,78 +160,80 @@ public class MapFragment extends Fragment implements LocationListener {
         Log.d("LocationProject", "Provider Enabled");
     }
 
+
+
     public void onLocationChanged(Location location) {
-        double latitude = location.getLatitude();
-        double longitude = location.getLongitude();
+        double mLatitude = location.getLatitude();
+        double mLongitude = location.getLongitude();
 
 //        Toast.makeText(getContext(), "Location" + latitude + "/" + longitude, Toast.LENGTH_LONG).show();
         if (mMap != null) {
-            LatLng googleLocation = new LatLng(latitude, longitude);
+            LatLng googleLocation = new LatLng(mLatitude, mLongitude);
             mMap.moveCamera(CameraUpdateFactory.newLatLng(googleLocation));
-            loc = latitude + "," + longitude;
-            Log.d("TestLatLng", loc);
+            position = mLatitude + "," + mLongitude;
+            Log.d("TestLatLng", position);
             executeHttpRequestWithRetrofit();
-
-
         }
     }
+
+
 
     public void onStatusChanged(String provider, int status, Bundle extras) {
 
     }
 
-    /**
-     * HTTP request RX Java for restaurants
-     */
+//    /**
+//     * HTTP request RX Java for restaurants
+//     */
     private void executeHttpRequestWithRetrofit() {
-        this.mDisposable = Go4LunchStream.streamFetchRestaurantDetails(loc, 5000, "restaurant")
-             .subscribeWith(new DisposableSingleObserver<List<PlaceDetail>>() {
+//        this.mDisposable = Go4LunchStream.streamFetchRestaurantDetails(loc, 5000, "restaurant")
+//             .subscribeWith(new DisposableSingleObserver<List<PlaceDetail>>() {
+//
+//                 @Override
+//                 public void onSuccess(List<PlaceDetail> placeDetails) {
+//                     Log.d("TestDetails", String.valueOf(placeDetails.size()));
+//                 }
+//
+//                 @Override
+//                 public void onError(Throwable e) {
+//                     Log.e("TestDetail", Log.getStackTraceString(e));
+//
+//                 }
+//             });
+        this.mDisposable = Go4LunchStream.streamFetchRestaurants(position, 5000, "restaurant")
+                .subscribeWith(new DisposableObserver<GoogleApi>() {
 
-                 @Override
-                 public void onSuccess(List<PlaceDetail> placeDetails) {
-                     Log.d("TestDetails", String.valueOf(placeDetails.size()));
-                 }
 
-                 @Override
-                 public void onError(Throwable e) {
-                     Log.e("TestDetail", Log.getStackTraceString(e));
+                    private List<ResultSearch> resultSearchList = new ArrayList<>();
 
-                 }
-             });
-        //this.mDisposable = Go4LunchStream.streamFetchRestaurants(loc, 5000, "restaurant")
-//                .subscribeWith(new DisposableObserver<GoogleApi>() {
-//
-//
-//                    private List<ResultSearch> resultSearchList = new ArrayList<>();
-//
-//                    @Override
-//                    public void onNext(GoogleApi mResults) {
-//                        Log.d("TestonNextMap", mResults.toString());
-//                       resultSearchList.addAll(mResults.getResults());
-//                       Log.d("TestonNextSize", String.valueOf(resultSearchList.size()));
-//                    }
-//
-//                    @Override
-//                    public void onComplete() {
-//
-//                        for (ResultSearch res : resultSearchList){
-//                            LatLng latLng = new LatLng(res.getGeometry().getLocation().getLat(),
-//                                                       res.getGeometry().getLocation().getLng()
-//                                                        );
-//                            marker = mMap.addMarker(new MarkerOptions().position(latLng));
-//
-//                        }
-//
-//                        Log.d("TestOnComleteMap", String.valueOf(resultSearchList.size()));
-//
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        Log.e("onErrorRestaurantsMap", Log.getStackTraceString(e));
-//                    }
-//                });
+                    @Override
+                    public void onNext(GoogleApi mResultSearches) {
+                        Log.d("TestonNextMap", mResultSearches.toString());
+                       resultSearchList.addAll(mResultSearches.getResults());
+                       Log.d("TestonNextSize", String.valueOf(resultSearchList.size()));
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                        for (ResultSearch res : resultSearchList){
+                            LatLng latLng = new LatLng(res.getGeometry().getLocation().getLat(),
+                                                       res.getGeometry().getLocation().getLng()
+                                                        );
+                            marker = mMap.addMarker(new MarkerOptions().position(latLng));
+
+                        }
+
+                        Log.d("TestOnComleteMap", String.valueOf(resultSearchList.size()));
+
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("onErrorRestaurantsMap", Log.getStackTraceString(e));
+                    }
+                });
     }
 ////updte UI with restaurants list
 //    public void updateUI(List <ResultSearch> results) {
