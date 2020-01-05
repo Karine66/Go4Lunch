@@ -1,28 +1,16 @@
 package Utils;
 
-
-
-import android.os.Build;
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import models.NearbySearchAPI.GoogleApi;
 import models.NearbySearchAPI.ResultSearch;
 import models.PlaceDetailsAPI.PlaceDetail;
-import models.PlaceDetailsAPI.Result;
 import retrofit2.http.Query;
 
 public class Go4LunchStream {
@@ -45,34 +33,23 @@ public class Go4LunchStream {
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
     }
-
-    public static Observable<PlaceDetail> streamFetchRestaurantDetails(String location, int radius, String type) {
+    //For 2 chained requests
+    public static Single<List<PlaceDetail>> streamFetchRestaurantDetails(String location, int radius, String type) {
         return streamFetchRestaurants(location, radius, type)
-                .map(new Function<GoogleApi, List<ResultSearch>>() {
+                .flatMapIterable(new Function<GoogleApi, List<ResultSearch>>() {
                     @Override
                     public List<ResultSearch> apply(GoogleApi googleApi) throws Exception {
                         return googleApi.getResults();
                     }
                 })
-                .flatMap(new Function<List<ResultSearch>, Observable<PlaceDetail>>() {
-
-
-                    private int resultDetail;
-
-
+                .flatMap(new Function<ResultSearch, Observable<PlaceDetail>>() {
                     @Override
-                    public Observable<PlaceDetail> apply(List<ResultSearch> resultSearch) throws Exception {
-
-                        for (ResultSearch resultDetail : resultSearch) {
-                            resultDetail.getName();
-
-                            Log.d("TestFor", resultDetail.getName());
-
-                            // return streamFetchDetails(fields, resultSearch.get(0).getPlaceId());
-                        }
-                        return streamFetchDetails(fields, resultSearch.get(resultDetail).getPlaceId());
+                    public Observable<PlaceDetail> apply(ResultSearch resultSearch) throws Exception {
+                        return streamFetchDetails(fields, resultSearch.getPlaceId());
                     }
-
-                });
+                })
+                .toList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }

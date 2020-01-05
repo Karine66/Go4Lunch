@@ -39,6 +39,7 @@ import Utils.Go4LunchStream;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
+import io.reactivex.observers.DisposableSingleObserver;
 import models.NearbySearchAPI.GoogleApi;
 import models.NearbySearchAPI.ResultSearch;
 import models.PlaceDetailsAPI.PlaceDetail;
@@ -184,24 +185,19 @@ public class MapFragment extends Fragment implements LocationListener {
      */
     private void executeHttpRequestWithRetrofit() {
         this.mDisposable = Go4LunchStream.streamFetchRestaurantDetails(loc, 5000, "restaurant")
-             .subscribeWith(new DisposableObserver<PlaceDetail>() {
+             .subscribeWith(new DisposableSingleObserver<List<PlaceDetail>>() {
 
-                                @Override
-                                public void onNext(PlaceDetail resultDetail ) {
+                 @Override
+                 public void onSuccess(List<PlaceDetail> placeDetails) {
+                     Log.d("TestDetails", String.valueOf(placeDetails.size()));
+                 }
 
-                                    Log.d("testdetails", resultDetail.getResult().getName());
-                                }
+                 @Override
+                 public void onError(Throwable e) {
+                     Log.e("TestDetail", Log.getStackTraceString(e));
 
-                                @Override
-                                public void onError(Throwable e) {
-                                Log.e("TestDetail", Log.getStackTraceString(e));
-                                }
-
-                                @Override
-                                public void onComplete() {
-
-                                }
-                            });
+                 }
+             });
         //this.mDisposable = Go4LunchStream.streamFetchRestaurants(loc, 5000, "restaurant")
 //                .subscribeWith(new DisposableObserver<GoogleApi>() {
 //
