@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -59,12 +60,12 @@ public class MapFragment extends Fragment implements LocationListener {
     private String position;
     private List <ResultSearch> resultSearch;
     private Marker marker;
+    private String TAG_LIST_FRAGMENT;
 
 
     public MapFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,6 +73,9 @@ public class MapFragment extends Fragment implements LocationListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         ButterKnife.bind(this, view);
+
+
+
 
         return view;
 
@@ -82,6 +86,8 @@ public class MapFragment extends Fragment implements LocationListener {
         super.onActivityCreated(saveInstanceState);
 
         mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.map);
+
+
     }
 
     @Override
@@ -112,15 +118,15 @@ public class MapFragment extends Fragment implements LocationListener {
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             locationManager.requestLocationUpdates(
                     LocationManager.GPS_PROVIDER, 15000, 10, this);
-            Log.e("GPSProvider", "test");
+            Log.e("GPSProvider", "testGPS");
         } else if (locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER)) {
             locationManager.requestLocationUpdates(
                     LocationManager.PASSIVE_PROVIDER, 15000, 10, this);
-            Log.e("PassiveProvider", "test");
+            Log.e("PassiveProvider", "testPassive");
         } else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             locationManager.requestLocationUpdates(
                     LocationManager.NETWORK_PROVIDER, 15000, 10, this);
-            Log.e("NetWorkProvider", "test");
+            Log.e("NetWorkProvider", "testNetwork");
         }
     }
 
