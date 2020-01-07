@@ -57,7 +57,7 @@ public class MapFragment extends Fragment implements LocationListener {
     private static final int PERMS_CALL_ID = 200;
     private Location location;
     private Disposable mDisposable;
-    private String position;
+    private String mPosition;
     private List <ResultSearch> resultSearch;
     private Marker marker;
     private String TAG_LIST_FRAGMENT;
@@ -176,8 +176,8 @@ public class MapFragment extends Fragment implements LocationListener {
         if (mMap != null) {
             LatLng googleLocation = new LatLng(mLatitude, mLongitude);
             mMap.moveCamera(CameraUpdateFactory.newLatLng(googleLocation));
-            position = mLatitude + "," + mLongitude;
-            Log.d("TestLatLng", position);
+            mPosition = mLatitude + "," + mLongitude;
+            Log.d("TestLatLng", mPosition);
             executeHttpRequestWithRetrofit();
         }
     }
@@ -206,7 +206,7 @@ public class MapFragment extends Fragment implements LocationListener {
 //
 //                 }
 //             });
-        this.mDisposable = Go4LunchStream.streamFetchRestaurants(position, 5000, "restaurant")
+        this.mDisposable = Go4LunchStream.streamFetchRestaurants(mPosition, 5000, "restaurant")
                 .subscribeWith(new DisposableObserver<GoogleApi>() {
 
 

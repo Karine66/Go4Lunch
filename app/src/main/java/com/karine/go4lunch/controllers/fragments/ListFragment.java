@@ -13,6 +13,8 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +33,7 @@ import java.util.List;
 import java.util.Objects;
 
 import Utils.Go4LunchStream;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
@@ -38,6 +41,7 @@ import models.NearbySearchAPI.GoogleApi;
 import models.NearbySearchAPI.ResultSearch;
 import models.PlaceDetailsAPI.PlaceDetail;
 import models.PlaceDetailsAPI.Result;
+import views.Go4LunchAdapter;
 
 
 /**
@@ -46,12 +50,16 @@ import models.PlaceDetailsAPI.Result;
 public class ListFragment extends Fragment implements LocationListener {
 
     public Disposable mDisposable;
-    private String position;
+    private String mPosition;
     public List<PlaceDetail> placeDetails;
     private GoogleMap mMap;
     private Location location;
     private LocationManager locationManager;
     private Object provider;
+    private Go4LunchAdapter adapter;
+    List<PlaceDetail> resultDetail = new ArrayList<>();
+    @BindView(R.id.fragment_list_RV)
+    RecyclerView mRecyclerView;
 
 
     public ListFragment() {
@@ -65,7 +73,7 @@ public class ListFragment extends Fragment implements LocationListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         ButterKnife.bind(this, view);
-
+        this.configureRecyclerView();
 
        // executeHttpRequestWithRetrofit();
         return view;
@@ -74,8 +82,24 @@ public class ListFragment extends Fragment implements LocationListener {
     @Override
     public void onActivityCreated(@Nullable Bundle saveInstanceState) {
         super.onActivityCreated(saveInstanceState);
+    }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.disposeWhenDestroy();
+    }
+    //Configuration RV
+    //Configure RecyclerView, Adapter, LayoutManager & glue it
+    private void configureRecyclerView() {
+        //reset List
+        this.resultDetail = new ArrayList<>();
+        //create adapter passing the list of users
+        this.adapter = new Go4LunchAdapter(this.resultDetail);
+        //Attach the adapter to the recyclerview to items
+        this.mRecyclerView.setAdapter(adapter);
+        //Set layout manager to position the items
+        this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     @Override
@@ -125,8 +149,8 @@ public class ListFragment extends Fragment implements LocationListener {
         public void onLocationChanged(Location location){
             double mLatitude = location.getLatitude();
             double mLongitude = location.getLongitude();
-                position = mLatitude + "," + mLongitude;
-                Log.d("TestListPosition", position);
+                mPosition = mLatitude + "," + mLongitude;
+                Log.d("TestListPosition", mPosition);
                 executeHttpRequestWithRetrofit();
             }
 //        }
@@ -136,15 +160,18 @@ public class ListFragment extends Fragment implements LocationListener {
     private void executeHttpRequestWithRetrofit() {
 
 
-        this.mDisposable = Go4LunchStream.streamFetchRestaurantDetails(position, 5000, "restaurant")
+        this.mDisposable = Go4LunchStream.streamFetchRestaurantDetails(mPosition, 5000, "restaurant")
                 .subscribeWith(new DisposableSingleObserver<List<PlaceDetail>>() {
 
                     @Override
                     public void onSuccess(List<PlaceDetail> placeDetails) {
 
+                       // resultDetail.addAll(placeDetails);
+                        //update RV after getting results
+                        updateUI(resultDetail);
 
 
-                   Log.d("TestPlaceDetail", String.valueOf(placeDetails.get(0)));
+                   Log.d("TestResultDetail", String.valueOf(resultDetail.size()));
 
                     }
 
@@ -155,6 +182,14 @@ public class ListFragment extends Fragment implements LocationListener {
                     }
                 });
     }
+        private void disposeWhenDestroy() {
+        if(this.mDisposable != null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
+        }
 
-
+        //Update UI
+    private void updateUI(List<PlaceDetail> placeDetails) {
+        resultDetail.clear();
+        resultDetail.addAll(placeDetails);
+        adapter.notifyDataSetChanged();
+    }
 }
