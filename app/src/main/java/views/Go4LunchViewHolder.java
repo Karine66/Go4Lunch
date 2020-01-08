@@ -36,12 +36,12 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
     }
 
     //For update details restaurants
-    public void updateWithDetails (PlaceDetail mResult) {
+    public void updateWithDetails (PlaceDetail resultDetail) {
 
 
-        this.mName.setText(mResult.getResult().getName());
-        Log.d("Testname", mResult.getResult().getName());
-        this.mAdress.setText(mResult.getResult().getVicinity());
-        this.mOpenHours.setText(mResult.getResult().getOpeningHours().getOpenNow().toString());
+        this.mName.setText(resultDetail.getResult().getName());
+        Log.d("Testname", resultDetail.getResult().getName());
+        this.mAdress.setText(resultDetail.getResult().getVicinity());
+        this.mOpenHours.setText(resultDetail.getResult().getOpeningHours().getOpenNow().toString());
     }
 }

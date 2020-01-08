@@ -57,7 +57,7 @@ public class ListFragment extends Fragment implements LocationListener {
     private LocationManager locationManager;
     private Object provider;
     private Go4LunchAdapter adapter;
-    List<PlaceDetail> resultDetail = new ArrayList<>();
+    private List<PlaceDetail> resultDetail = new ArrayList<>();
     @BindView(R.id.fragment_list_RV)
     RecyclerView mRecyclerView;
 
