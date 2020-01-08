@@ -57,7 +57,7 @@ public class ListFragment extends Fragment implements LocationListener {
     private LocationManager locationManager;
     private Object provider;
     private Go4LunchAdapter adapter;
-    private List<PlaceDetail> resultDetail = new ArrayList<>();
+    public List<PlaceDetail> resultDetail = new ArrayList<>();
     @BindView(R.id.fragment_list_RV)
     RecyclerView mRecyclerView;
 
@@ -166,7 +166,7 @@ public class ListFragment extends Fragment implements LocationListener {
                     @Override
                     public void onSuccess(List<PlaceDetail> placeDetails) {
 
-                       // resultDetail.addAll(placeDetails);
+                        resultDetail.addAll(placeDetails);
                         //update RV after getting results
                         updateUI(resultDetail);
 
@@ -188,8 +188,8 @@ public class ListFragment extends Fragment implements LocationListener {
 
         //Update UI
     private void updateUI(List<PlaceDetail> placeDetails) {
-        resultDetail.clear();
-        resultDetail.addAll(placeDetails);
+       // placeDetails.clear();
+        placeDetails.addAll(resultDetail);
         adapter.notifyDataSetChanged();
     }
 }

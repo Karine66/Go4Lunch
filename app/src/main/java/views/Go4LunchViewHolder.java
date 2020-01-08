@@ -9,14 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.karine.go4lunch.R;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import models.NearbySearchAPI.GoogleApi;
-import models.NearbySearchAPI.ResultSearch;
+
 import models.PlaceDetailsAPI.PlaceDetail;
-import models.PlaceDetailsAPI.Result;
+
 
 public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
 
@@ -27,7 +24,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
     TextView mAdress;
     @BindView(R.id.list_openhours)
     TextView mOpenHours;
-    private List<PlaceDetail> resultDetail;
+
 
 
     public Go4LunchViewHolder(View itemView) {
@@ -36,12 +33,12 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
     }
 
     //For update details restaurants
-    public void updateWithDetails (PlaceDetail resultDetail) {
+    public void updateWithDetails (PlaceDetail placeDetails) {
 
 
-        this.mName.setText(resultDetail.getResult().getName());
-        Log.d("Testname", resultDetail.getResult().getName());
-        this.mAdress.setText(resultDetail.getResult().getVicinity());
-        this.mOpenHours.setText(resultDetail.getResult().getOpeningHours().getOpenNow().toString());
+        this.mName.setText(placeDetails.getResult().getName());
+        Log.d("Testname", placeDetails.getResult().getName());
+        this.mAdress.setText(placeDetails.getResult().getVicinity());
+        this.mOpenHours.setText(placeDetails.getResult().getOpeningHours().getOpenNow().toString());
     }
 }
