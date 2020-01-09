@@ -46,8 +46,10 @@ public class ListFragment extends Fragment implements LocationListener {
     private Location location;
     private LocationManager locationManager;
     private Object provider;
+
     private Go4LunchAdapter adapter;
-    public List<PlaceDetailsResult> resultDetail;
+    public List<PlaceDetailsResult> mDetailResult;
+
     @BindView(R.id.fragment_list_RV)
     RecyclerView mRecyclerView;
 
@@ -83,9 +85,9 @@ public class ListFragment extends Fragment implements LocationListener {
     //Configure RecyclerView, Adapter, LayoutManager & glue it
     private void configureRecyclerView() {
         //reset List
-        this.resultDetail = new ArrayList<>();
+        this.mDetailResult = new ArrayList<>();
         //create adapter passing the list of users
-        this.adapter = new Go4LunchAdapter(this.resultDetail);
+        this.adapter = new Go4LunchAdapter(this.mDetailResult);
         //Attach the adapter to the recyclerview to items
         this.mRecyclerView.setAdapter(adapter);
         //Set layout manager to position the items
@@ -154,14 +156,14 @@ public class ListFragment extends Fragment implements LocationListener {
                 .subscribeWith(new DisposableSingleObserver<List<PlaceDetail>>() {
 
                     @Override
-                    public void onSuccess(List<PlaceDetail> resultDetail) {
+                    public void onSuccess(List<PlaceDetail> placeDetails) {
 
 //                        resultDetail.addAll(placeDetails);
                         //update RV after getting results
-                       updateUI(resultDetail);
+                       updateUI(placeDetails);
 
 
-                   Log.d("TestPlaceDetail", String.valueOf(resultDetail.size()));
+                   Log.d("TestPlaceDetail", String.valueOf(placeDetails.size()));
 
                     }
 
@@ -177,10 +179,10 @@ public class ListFragment extends Fragment implements LocationListener {
         }
 
         //Update UI
-    private void updateUI(List<PlaceDetail> resultDetail) {
-       // resultDetail.clear();
-//       resultDetail.addAll(placeDetails);
-        Log.d("TestUI", resultDetail.toString());
+    private void updateUI(List<PlaceDetail> placeDetails) {
+    //    mDetailResult.clear();
+       // mDetailResult.addAll(placeDetails);
+        Log.d("TestUI", mDetailResult.toString());
         adapter.notifyDataSetChanged();
     }
 }

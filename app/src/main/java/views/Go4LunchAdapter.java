@@ -21,8 +21,8 @@ public class Go4LunchAdapter extends RecyclerView.Adapter<Go4LunchViewHolder> {
     private List<PlaceDetail> placeDetails;
     private List<PlaceDetailsResult> mDetailResult;
     //Constructor
-    public Go4LunchAdapter(List<PlaceDetailsResult> result) {
-        this.mDetailResult = result;
+    public Go4LunchAdapter(List<PlaceDetailsResult> mDetailResult) {
+        this.mDetailResult = mDetailResult;
     }
 
 
