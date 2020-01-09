@@ -12,7 +12,7 @@ public class PlaceDetail {
     @SerializedName("html_attributions")
     private List<Object> mHtmlAttributions;
     @SerializedName("result")
-    private Result mResult;
+    private PlaceDetailsResult mResult;
     @SerializedName("status")
     private String mStatus;
 
@@ -24,11 +24,11 @@ public class PlaceDetail {
         mHtmlAttributions = htmlAttributions;
     }
 
-    public Result getResult() {
+    public PlaceDetailsResult getResult() {
         return mResult;
     }
 
-    public void setResult(Result result) {
+    public void setResult(PlaceDetailsResult result) {
         mResult = result;
     }
 

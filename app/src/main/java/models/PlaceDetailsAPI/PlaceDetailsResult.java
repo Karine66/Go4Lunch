@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 
 
 @SuppressWarnings("unused")
-public class Result {
+public class PlaceDetailsResult {
 
     @SerializedName("name")
     private String mName;

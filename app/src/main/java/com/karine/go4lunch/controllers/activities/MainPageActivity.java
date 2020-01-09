@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -40,16 +41,21 @@ public class MainPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_page);
         ButterKnife.bind(this);
 
+
+
         //For change title Action Bar
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setTitle("I'm Hungry");
 
         bottomNavigationView.setOnNavigationItemSelectedListener(navlistener);
+        //For connect MapFragment with activity
         getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_frame_layout,
                 new MapFragment()).commit();
 
     }
+
+
         @Override
     public boolean onCreateOptionsMenu (Menu menu){
         //2 inflate the menu and add it to the toolbar
@@ -78,6 +84,7 @@ public class MainPageActivity extends AppCompatActivity {
                             selectedFragment = new ChatFragment();
                             break;
                     }
+                    assert selectedFragment != null;
                     getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_frame_layout,
                             selectedFragment).commit();
                     return true;

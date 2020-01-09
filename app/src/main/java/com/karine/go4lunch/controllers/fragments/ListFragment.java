@@ -1,17 +1,13 @@
 package com.karine.go4lunch.controllers.fragments;
 
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,14 +17,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
 import com.karine.go4lunch.R;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,10 +29,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
-import models.NearbySearchAPI.GoogleApi;
-import models.NearbySearchAPI.ResultSearch;
 import models.PlaceDetailsAPI.PlaceDetail;
-import models.PlaceDetailsAPI.Result;
+import models.PlaceDetailsAPI.PlaceDetailsResult;
 import views.Go4LunchAdapter;
 
 
@@ -57,7 +47,7 @@ public class ListFragment extends Fragment implements LocationListener {
     private LocationManager locationManager;
     private Object provider;
     private Go4LunchAdapter adapter;
-    public List<PlaceDetail> resultDetail = new ArrayList<>();
+    public List<PlaceDetailsResult> resultDetail;
     @BindView(R.id.fragment_list_RV)
     RecyclerView mRecyclerView;
 
@@ -164,14 +154,14 @@ public class ListFragment extends Fragment implements LocationListener {
                 .subscribeWith(new DisposableSingleObserver<List<PlaceDetail>>() {
 
                     @Override
-                    public void onSuccess(List<PlaceDetail> placeDetails) {
+                    public void onSuccess(List<PlaceDetail> resultDetail) {
 
-                        resultDetail.addAll(placeDetails);
+//                        resultDetail.addAll(placeDetails);
                         //update RV after getting results
-                        updateUI(resultDetail);
+                       updateUI(resultDetail);
 
 
-                   Log.d("TestResultDetail", String.valueOf(resultDetail.size()));
+                   Log.d("TestPlaceDetail", String.valueOf(resultDetail.size()));
 
                     }
 
@@ -187,9 +177,10 @@ public class ListFragment extends Fragment implements LocationListener {
         }
 
         //Update UI
-    private void updateUI(List<PlaceDetail> placeDetails) {
-       // placeDetails.clear();
-        placeDetails.addAll(resultDetail);
+    private void updateUI(List<PlaceDetail> resultDetail) {
+       // resultDetail.clear();
+//       resultDetail.addAll(placeDetails);
+        Log.d("TestUI", resultDetail.toString());
         adapter.notifyDataSetChanged();
     }
 }

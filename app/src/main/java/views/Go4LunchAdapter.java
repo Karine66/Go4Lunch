@@ -11,19 +11,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.karine.go4lunch.R;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import models.PlaceDetailsAPI.PlaceDetail;
-import models.PlaceDetailsAPI.Result;
+import models.PlaceDetailsAPI.PlaceDetailsResult;
 
 public class Go4LunchAdapter extends RecyclerView.Adapter<Go4LunchViewHolder> {
 
+
     private List<PlaceDetail> placeDetails;
-    private Result mResult;
-    private List<PlaceDetail> resultDetail;
+    private List<PlaceDetailsResult> mDetailResult;
     //Constructor
-    public Go4LunchAdapter(List<PlaceDetail> resultDetail) {
-        this.resultDetail = resultDetail;
+    public Go4LunchAdapter(List<PlaceDetailsResult> result) {
+        this.mDetailResult = result;
     }
 
 
@@ -38,11 +37,11 @@ public class Go4LunchAdapter extends RecyclerView.Adapter<Go4LunchViewHolder> {
     //Update view holer with place details
     @Override
     public void onBindViewHolder(@NonNull Go4LunchViewHolder viewHolder, int position) {
-    viewHolder.updateWithDetails(this.resultDetail.get(position));
+    viewHolder.updateWithDetails(this.mDetailResult.get(position));
     }
     //return the total count of items in the list
     @Override
     public int getItemCount() {
-        return this.resultDetail.size();
+        return this.mDetailResult.size();
     }
 }
