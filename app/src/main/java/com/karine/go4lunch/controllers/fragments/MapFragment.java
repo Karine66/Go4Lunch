@@ -229,7 +229,11 @@ public class MapFragment extends Fragment implements LocationListener {
                                                        res.getGeometry().getLocation().getLng()
                                                         );
                             marker = mMap.addMarker(new MarkerOptions().position(latLng)
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.restaurant_markerv2)));
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.restaurant_markerv2))
+                                    .title(res.getName())
+                                    .snippet(res.getVicinity()));
+
+
 
 
                         }
