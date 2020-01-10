@@ -228,7 +228,8 @@ public class MapFragment extends Fragment implements LocationListener {
                             LatLng latLng = new LatLng(res.getGeometry().getLocation().getLat(),
                                                        res.getGeometry().getLocation().getLng()
                                                         );
-                            marker = mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.restaurant_markerv2)));
+                            marker = mMap.addMarker(new MarkerOptions().position(latLng)
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.restaurant_markerv2)));
 
 
                         }
