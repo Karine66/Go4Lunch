@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.RequestManager;
 import com.karine.go4lunch.R;
 
 import java.util.List;
@@ -17,12 +18,13 @@ import models.PlaceDetailsAPI.PlaceDetailsResult;
 
 public class Go4LunchAdapter extends RecyclerView.Adapter<Go4LunchViewHolder> {
 
-
+    private RequestManager glide;
     private List<PlaceDetail> placeDetails;
 
     //Constructor
-    public Go4LunchAdapter(List<PlaceDetail> placeDetails) {
+    public Go4LunchAdapter(List<PlaceDetail> placeDetails, RequestManager glide) {
         this.placeDetails = placeDetails;
+        this.glide = glide;
     }
 
 
@@ -37,7 +39,7 @@ public class Go4LunchAdapter extends RecyclerView.Adapter<Go4LunchViewHolder> {
     //Update view holer with place details
     @Override
     public void onBindViewHolder(@NonNull Go4LunchViewHolder viewHolder, int position) {
-    viewHolder.updateWithDetails(this.placeDetails.get(position).getResult());
+    viewHolder.updateWithDetails(this.placeDetails.get(position).getResult(), this.glide);
     }
     //return the total count of items in the list
     @Override

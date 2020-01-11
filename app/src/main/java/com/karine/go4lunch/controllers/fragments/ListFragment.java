@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.GoogleMap;
 import com.karine.go4lunch.R;
 
@@ -85,8 +86,8 @@ public class ListFragment extends BaseFragment  {
     private void configureRecyclerView() {
         //reset List
         this.placeDetails = new ArrayList<>();
-        //create adapter passing the list of users
-        this.adapter = new Go4LunchAdapter(this.placeDetails);
+        //create adapter passing the list of restaurants
+        this.adapter = new Go4LunchAdapter(this.placeDetails, Glide.with(this));
         //Attach the adapter to the recyclerview to items
         this.mRecyclerView.setAdapter(adapter);
         //Set layout manager to position the items

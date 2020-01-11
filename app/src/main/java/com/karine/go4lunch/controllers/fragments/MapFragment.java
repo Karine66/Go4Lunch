@@ -101,6 +101,7 @@ public class MapFragment extends BaseFragment implements LocationListener {
 //        checkPermissions();
         loadMap();
 
+
     }
 
 //    private void checkPermissions() {
@@ -166,6 +167,8 @@ public class MapFragment extends BaseFragment implements LocationListener {
 //        Log.d("LocationProject", "Provider Enabled");
 //    }
 //
+
+
 
 
     public void onLocationChanged(Location location) {
