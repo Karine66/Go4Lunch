@@ -1,6 +1,5 @@
 package com.karine.go4lunch.controllers.fragments;
 
-
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
@@ -37,7 +36,7 @@ import views.Go4LunchAdapter;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ListFragment extends Fragment implements LocationListener {
+public class ListFragment extends BaseFragment  {
 
     public Disposable mDisposable;
     private String mPosition;
@@ -85,9 +84,9 @@ public class ListFragment extends Fragment implements LocationListener {
     //Configure RecyclerView, Adapter, LayoutManager & glue it
     private void configureRecyclerView() {
         //reset List
-        this.mDetailResult = new ArrayList<>();
+        this.placeDetails = new ArrayList<>();
         //create adapter passing the list of users
-        this.adapter = new Go4LunchAdapter(this.mDetailResult);
+        this.adapter = new Go4LunchAdapter(this.placeDetails);
         //Attach the adapter to the recyclerview to items
         this.mRecyclerView.setAdapter(adapter);
         //Set layout manager to position the items
@@ -97,46 +96,46 @@ public class ListFragment extends Fragment implements LocationListener {
     @Override
     public void onResume() {
         super.onResume();
-        checkPermissions();
+
 //
 
     }
-    @SuppressWarnings("MissingPermission")
-    private void checkPermissions() {
-
-        locationManager = (LocationManager) Objects.requireNonNull(getContext()).getSystemService(Context.LOCATION_SERVICE);
-        assert locationManager != null;
-        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            locationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER, 15000, 10, this);
-            Log.e("GPSProvider", "testGPS");
-        } else if (locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER)) {
-            locationManager.requestLocationUpdates(
-                    LocationManager.PASSIVE_PROVIDER, 15000, 10, this);
-            Log.e("PassiveProvider", "testPassive");
-        } else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            locationManager.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER, 15000, 10, this);
-            Log.e("NetWorkProvider", "testNetwork");
-        }
-    }
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (locationManager != null) {
-            locationManager.removeUpdates(this);
-        }
-    }
-        public void onProviderDisabled(String provider) {
-        }
-
-        public void onProviderEnabled(String provider) {
-            Log.d("LocationProject", "Provider Enabled");
-        }
-
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
+//    @SuppressWarnings("MissingPermission")
+//    private void checkPermissions() {
+//
+//        locationManager = (LocationManager) Objects.requireNonNull(getContext()).getSystemService(Context.LOCATION_SERVICE);
+//        assert locationManager != null;
+//        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+//            locationManager.requestLocationUpdates(
+//                    LocationManager.GPS_PROVIDER, 15000, 10, this);
+//            Log.e("GPSProvider", "testGPS");
+//        } else if (locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER)) {
+//            locationManager.requestLocationUpdates(
+//                    LocationManager.PASSIVE_PROVIDER, 15000, 10, this);
+//            Log.e("PassiveProvider", "testPassive");
+//        } else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+//            locationManager.requestLocationUpdates(
+//                    LocationManager.NETWORK_PROVIDER, 15000, 10, this);
+//            Log.e("NetWorkProvider", "testNetwork");
+//        }
+//    }
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        if (locationManager != null) {
+//            locationManager.removeUpdates(this);
+//        }
+//    }
+//        public void onProviderDisabled(String provider) {
+//        }
+//
+//        public void onProviderEnabled(String provider) {
+//            Log.d("LocationProject", "Provider Enabled");
+//        }
+//
+//    public void onStatusChanged(String provider, int status, Bundle extras) {
+//
+//    }
 
         public void onLocationChanged(Location location){
             double mLatitude = location.getLatitude();
@@ -152,7 +151,7 @@ public class ListFragment extends Fragment implements LocationListener {
     private void executeHttpRequestWithRetrofit() {
 
 
-        this.mDisposable = Go4LunchStream.streamFetchRestaurantDetails(mPosition, 5000, "restaurant")
+        this.mDisposable = Go4LunchStream.streamFetchRestaurantDetails(mPosition, 2000, "restaurant")
                 .subscribeWith(new DisposableSingleObserver<List<PlaceDetail>>() {
 
                     @Override
@@ -180,9 +179,9 @@ public class ListFragment extends Fragment implements LocationListener {
 
         //Update UI
     private void updateUI(List<PlaceDetail> placeDetails) {
-    //    mDetailResult.clear();
-       // mDetailResult.addAll(placeDetails);
-        Log.d("TestUI", mDetailResult.toString());
+     this.placeDetails.clear();
+     this.placeDetails.addAll(placeDetails);
+        Log.d("TestUI", placeDetails.toString());
         adapter.notifyDataSetChanged();
     }
 }

@@ -42,7 +42,9 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
 
         this.mName.setText(result.getName());
         this.mAdress.setText(result.getVicinity());
-        this.mOpenHours.setText(result.getOpeningHours().getOpenNow().toString());
+       //this.mOpenHours.setText(result.getOpeningHours().getPeriods();
+
+
     }
 
 

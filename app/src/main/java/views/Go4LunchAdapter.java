@@ -19,10 +19,10 @@ public class Go4LunchAdapter extends RecyclerView.Adapter<Go4LunchViewHolder> {
 
 
     private List<PlaceDetail> placeDetails;
-    private List<PlaceDetailsResult> mDetailResult;
+
     //Constructor
-    public Go4LunchAdapter(List<PlaceDetailsResult> mDetailResult) {
-        this.mDetailResult = mDetailResult;
+    public Go4LunchAdapter(List<PlaceDetail> placeDetails) {
+        this.placeDetails = placeDetails;
     }
 
 
@@ -37,11 +37,11 @@ public class Go4LunchAdapter extends RecyclerView.Adapter<Go4LunchViewHolder> {
     //Update view holer with place details
     @Override
     public void onBindViewHolder(@NonNull Go4LunchViewHolder viewHolder, int position) {
-    viewHolder.updateWithDetails(this.mDetailResult.get(position));
+    viewHolder.updateWithDetails(this.placeDetails.get(position).getResult());
     }
     //return the total count of items in the list
     @Override
     public int getItemCount() {
-        return this.mDetailResult.size();
+        return this.placeDetails.size();
     }
 }

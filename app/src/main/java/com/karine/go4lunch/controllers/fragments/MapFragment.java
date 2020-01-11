@@ -51,7 +51,7 @@ import models.PlaceDetailsAPI.PlaceDetail;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MapFragment extends Fragment implements LocationListener {
+public class MapFragment extends BaseFragment implements LocationListener {
 
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;
@@ -76,9 +76,6 @@ public class MapFragment extends Fragment implements LocationListener {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         ButterKnife.bind(this, view);
 
-
-
-
         return view;
 
     }
@@ -92,7 +89,7 @@ public class MapFragment extends Fragment implements LocationListener {
 
     }
 
-    @Override
+  @Override
     public void onDestroy() {
         super.onDestroy();
         this.disposeWhenDestroy();
@@ -101,53 +98,53 @@ public class MapFragment extends Fragment implements LocationListener {
     @Override
     public void onResume() {
         super.onResume();
-        checkPermissions();
+//        checkPermissions();
         loadMap();
 
     }
 
-    private void checkPermissions() {
-        if (ActivityCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions((Activity) getContext(), new String[]{
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-            }, PERMS_CALL_ID);
-            return;
-        }
-        locationManager = (LocationManager) Objects.requireNonNull(getContext()).getSystemService(Context.LOCATION_SERVICE);
-        assert locationManager != null;
-        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            locationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER, 15000, 10, this);
-            Log.e("GPSProvider", "testGPS");
-        } else if (locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER)) {
-            locationManager.requestLocationUpdates(
-                    LocationManager.PASSIVE_PROVIDER, 15000, 10, this);
-            Log.e("PassiveProvider", "testPassive");
-        } else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            locationManager.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER, 15000, 10, this);
-            Log.e("NetWorkProvider", "testNetwork");
-        }
-    }
+//    private void checkPermissions() {
+//        if (ActivityCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+//                ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions((Activity) getContext(), new String[]{
+//                    Manifest.permission.ACCESS_FINE_LOCATION,
+//                    Manifest.permission.ACCESS_COARSE_LOCATION
+//            }, PERMS_CALL_ID);
+//            return;
+//        }
+//        locationManager = (LocationManager) Objects.requireNonNull(getContext()).getSystemService(Context.LOCATION_SERVICE);
+//        assert locationManager != null;
+//        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+//            locationManager.requestLocationUpdates(
+//                    LocationManager.GPS_PROVIDER, 15000, 10, this);
+//            Log.e("GPSProvider", "testGPS");
+//        } else if (locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER)) {
+//            locationManager.requestLocationUpdates(
+//                    LocationManager.PASSIVE_PROVIDER, 15000, 10, this);
+//            Log.e("PassiveProvider", "testPassive");
+//        } else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+//            locationManager.requestLocationUpdates(
+//                    LocationManager.NETWORK_PROVIDER, 15000, 10, this);
+//            Log.e("NetWorkProvider", "testNetwork");
+//        }
+//    }
+//
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        if (requestCode == PERMS_CALL_ID) {
+//            checkPermissions();
+//        }
+//    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMS_CALL_ID) {
-            checkPermissions();
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (locationManager != null) {
-            locationManager.removeUpdates(this);
-        }
-
-    }
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        if (locationManager != null) {
+//            locationManager.removeUpdates(this);
+//        }
+//
+//    }
 
     private void loadMap() {
         mapFragment.getMapAsync(new OnMapReadyCallback() {
@@ -157,17 +154,18 @@ public class MapFragment extends Fragment implements LocationListener {
                 googleMap.moveCamera(CameraUpdateFactory.zoomBy(15));
                 googleMap.setMyLocationEnabled(true);
 
+
             }
         });
     }
 
-    public void onProviderDisabled(String provider) {
-    }
-
-    public void onProviderEnabled(String provider) {
-        Log.d("LocationProject", "Provider Enabled");
-    }
-
+//    public void onProviderDisabled(String provider) {
+//    }
+//
+//    public void onProviderEnabled(String provider) {
+//        Log.d("LocationProject", "Provider Enabled");
+//    }
+//
 
 
     public void onLocationChanged(Location location) {
@@ -186,28 +184,15 @@ public class MapFragment extends Fragment implements LocationListener {
 
 
 
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
+//    public void onStatusChanged(String provider, int status, Bundle extras) {
+//
+//    }
 
 //    /**
 //     * HTTP request RX Java for restaurants
 //     */
     private void executeHttpRequestWithRetrofit() {
-//        this.mDisposable = Go4LunchStream.streamFetchRestaurantDetails(loc, 5000, "restaurant")
-//             .subscribeWith(new DisposableSingleObserver<List<PlaceDetail>>() {
-//
-//                 @Override
-//                 public void onSuccess(List<PlaceDetail> placeDetails) {
-//                     Log.d("TestDetails", String.valueOf(placeDetails.size()));
-//                 }
-//
-//                 @Override
-//                 public void onError(Throwable e) {
-//                     Log.e("TestDetail", Log.getStackTraceString(e));
-//
-//                 }
-//             });
+
         this.mDisposable = Go4LunchStream.streamFetchRestaurants(mPosition, 5000, "restaurant")
                 .subscribeWith(new DisposableObserver<GoogleApi>() {
 
@@ -216,7 +201,7 @@ public class MapFragment extends Fragment implements LocationListener {
 
                     @Override
                     public void onNext(GoogleApi mResultSearches) {
-                        Log.d("TestonNextMap", mResultSearches.toString());
+
                        resultSearchList.addAll(mResultSearches.getResults());
                        Log.d("TestonNextSize", String.valueOf(resultSearchList.size()));
                     }
@@ -232,15 +217,9 @@ public class MapFragment extends Fragment implements LocationListener {
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.restaurant_markerv2))
                                     .title(res.getName())
                                     .snippet(res.getVicinity()));
-
-
-
+                                    marker.showInfoWindow();
 
                         }
-
-                        Log.d("TestOnComleteMap", String.valueOf(resultSearchList.size()));
-
-
                     }
 
                     @Override

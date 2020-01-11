@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragmentList"
+    android:background="#EBE4E4"
     tools:context=".controllers.fragments.ListFragment">
 
     <androidx.recyclerview.widget.RecyclerView

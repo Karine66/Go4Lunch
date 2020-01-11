@@ -18,6 +18,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.karine.go4lunch.R;
+import com.karine.go4lunch.controllers.fragments.BaseFragment;
 import com.karine.go4lunch.controllers.fragments.ChatFragment;
 import com.karine.go4lunch.controllers.fragments.ListFragment;
 import com.karine.go4lunch.controllers.fragments.MapFragment;
