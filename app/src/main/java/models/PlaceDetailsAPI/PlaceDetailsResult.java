@@ -19,6 +19,12 @@ public class PlaceDetailsResult {
     private Double mRating;
     @SerializedName("vicinity")
     private String mVicinity;
+    @SerializedName("formatted_phone_number")
+    private String mFormattedPhoneNumber;
+    @SerializedName("geometry")
+    private Geometry mGeometry;
+    @SerializedName("website")
+    private String mWebsite;
 
     public String getName() {
         return mName;
@@ -60,4 +66,30 @@ public class PlaceDetailsResult {
         mVicinity = vicinity;
     }
 
+    public String getFormattedPhoneNumber() {
+        return mFormattedPhoneNumber;
+    }
+
+    public void setFormattedPhoneNumber(String formattedPhoneNumber) {
+        mFormattedPhoneNumber = formattedPhoneNumber;
+    }
+
+    public Geometry getGeometry() {
+        return mGeometry;
+    }
+
+    public void setGeometry(Geometry geometry) {
+        mGeometry = geometry;
+    }
+
+    public String getWebsite() {
+        return mWebsite;
+    }
+
+    public void setWebsite(String website) {
+        mWebsite = website;
+    }
+
 }
+
+

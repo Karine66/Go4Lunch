@@ -55,7 +55,7 @@ public class MapFragment extends BaseFragment implements LocationListener {
 
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;
-    private LocationManager locationManager;
+    public LocationManager locationManager;
     private static final int PERMS_CALL_ID = 200;
     private Location location;
     private Disposable mDisposable;

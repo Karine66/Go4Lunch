@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 
 @SuppressWarnings("unused")
-public class Location {
+public class Northeast {
 
     @SerializedName("lat")
     private Double mLat;

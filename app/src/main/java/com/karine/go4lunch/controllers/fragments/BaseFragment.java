@@ -35,7 +35,7 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseFragment extends Fragment implements LocationListener {
 
-    private LocationManager locationManager;
+    public LocationManager locationManager;
     private static final int PERMS_CALL_ID = 200;
     private GoogleMap mMap;
     private String mPosition;

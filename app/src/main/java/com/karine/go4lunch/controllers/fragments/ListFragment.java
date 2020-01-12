@@ -44,7 +44,7 @@ public class ListFragment extends BaseFragment  {
     public List<PlaceDetail> placeDetails;
     private GoogleMap mMap;
     private Location location;
-    private LocationManager locationManager;
+    public LocationManager locationManager;
     private Object provider;
 
     private Go4LunchAdapter adapter;
