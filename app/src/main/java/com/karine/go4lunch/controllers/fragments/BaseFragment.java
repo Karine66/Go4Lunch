@@ -118,14 +118,10 @@ public abstract class BaseFragment extends Fragment implements LocationListener 
         }
     }
 
-
-
-
     @Override
     public void onResume() {
         super.onResume();
         checkPermissions();
-
 
     }
 
