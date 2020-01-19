@@ -61,7 +61,8 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
     private List<PlaceDetail> placeDetails;
     private Context context;
     private Location location;
-
+    private String resto;
+    private float[] distanceResults = new float[3];
 
 
     public Go4LunchViewHolder(View itemView) {
@@ -74,8 +75,9 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
 
 
     //For update details restaurants
-    public void updateWithDetails(PlaceDetailsResult result, RequestManager glide) {
+    public void updateWithDetails(PlaceDetailsResult result, RequestManager glide, String mPosition) {
 
+        mPosition = "";
 
         this.mName.setText(result.getName());
         this.mAdress.setText(result.getVicinity());
@@ -89,37 +91,20 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         } else {
             mPhoto.setImageResource(R.drawable.no_picture);
         }
+        //for restaurant distance
+        restaurantDistance(mPosition, result.getGeometry().getLocation());
+        String distance = Integer.toString(Math.round(distanceResults[0]));
+        Log.d("TestDistance", distance);
 
-//
-//        float distance;
-//        float restoResult[] = new float[10];
-//        double mLatitude = location.getLatitude();
-//        double mLongitude = location.getLongitude();
-//        double restoLat = result.getGeometry().getLocation().getLat();
-//        double restoLong = result.getGeometry().getLocation().getLng();
-//        Location.distanceBetween(mLatitude, mLongitude, restoLat, restoLong, restoResult);
-//        distance = restoResult[0];
-//        String dist = Math.round(distance) + "m";
-//        Log.d("TestDistance", dist);
-
-        Location mPosition = new Location("GPS_PROVIDER");
-        double longitude = 0;
-        double latitude = 0;
-
-        mPosition.setLatitude(latitude);
-        mPosition.setLongitude(longitude);
-
-        Log.d("TestmPosition", String.valueOf(mPosition));
-        Location resto = new Location("GPS_PROVIDER");
-
-        resto.setLatitude(result.getGeometry().getLocation().getLat());
-        resto.setLongitude(result.getGeometry().getLocation().getLng());
-
-        float distance = mPosition.distanceTo(resto);
-
-        Log.d("TestDistance", String.valueOf(distance));
     }
-
+    private void restaurantDistance(String startLocation, models.PlaceDetailsAPI.Location endLocation) {
+        String[] separatedStart = startLocation.split(",");
+        double startLatitude = Double.parseDouble(separatedStart[0]);
+        double startLongitude = Double.parseDouble(separatedStart[1]);
+        double endLatitude = endLocation.getLat();
+        double endLongitude = endLocation.getLng();
+        android.location.Location.distanceBetween(startLatitude, startLongitude, endLatitude, endLongitude, distanceResults);
+    }
     }
 
 

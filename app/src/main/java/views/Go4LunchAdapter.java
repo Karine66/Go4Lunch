@@ -13,18 +13,23 @@ import com.karine.go4lunch.R;
 
 import java.util.List;
 
+import models.PlaceDetailsAPI.Location;
 import models.PlaceDetailsAPI.PlaceDetail;
 import models.PlaceDetailsAPI.PlaceDetailsResult;
 
 public class Go4LunchAdapter extends RecyclerView.Adapter<Go4LunchViewHolder> {
 
+    private String mPosition;
     private RequestManager glide;
     private List<PlaceDetail> placeDetails;
 
+
+
     //Constructor
-    public Go4LunchAdapter(List<PlaceDetail> placeDetails, RequestManager glide) {
+    public Go4LunchAdapter(List<PlaceDetail> placeDetails, RequestManager glide, String mPosition) {
         this.placeDetails = placeDetails;
         this.glide = glide;
+        this.mPosition = mPosition;
     }
 
 
@@ -39,11 +44,12 @@ public class Go4LunchAdapter extends RecyclerView.Adapter<Go4LunchViewHolder> {
     //Update view holer with place details
     @Override
     public void onBindViewHolder(@NonNull Go4LunchViewHolder viewHolder, int position) {
-    viewHolder.updateWithDetails(this.placeDetails.get(position).getResult(), this.glide);
+    viewHolder.updateWithDetails(this.placeDetails.get(position).getResult(), this.glide, this.mPosition);
     }
     //return the total count of items in the list
     @Override
     public int getItemCount() {
         return this.placeDetails.size();
     }
+
 }

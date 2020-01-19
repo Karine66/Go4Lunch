@@ -16,19 +16,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
-import com.karine.go4lunch.R;
-
 import java.util.Objects;
 
-import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
