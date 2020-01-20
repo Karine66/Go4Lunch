@@ -7,6 +7,7 @@ import android.location.LocationManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 
@@ -14,10 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.FusedLocationProviderApi;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.maps.model.LatLng;
 import com.karine.go4lunch.BuildConfig;
 import com.karine.go4lunch.R;
 
@@ -25,9 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
 import models.NearbySearchAPI.ResultSearch;
 import models.PlaceDetailsAPI.PlaceDetail;
 import models.PlaceDetailsAPI.PlaceDetailsResult;
@@ -48,16 +45,17 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
     TextView mOpenHours;
     @BindView(R.id.list_photo)
     ImageView mPhoto;
+    @BindView(R.id.list_rating)
+    RatingBar mRatingBar;
 
     private List<PlaceDetailsResult> result;
     String GOOGLE_MAP_API_KEY = BuildConfig.GOOGLE_MAP_API_KEY;
-    LocationResult locationResult;
+
     LocationManager locationManager;
     private String mPosition;
     public boolean openNow;
     public List<ResultSearch> resultSearchList;
-    private LatLng mLatitude;
-    private LatLng mLongitude;
+
     private List<PlaceDetail> placeDetails;
     private Context context;
     private Location location;
@@ -78,9 +76,12 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
     public void updateWithDetails(PlaceDetailsResult result, RequestManager glide, String mPosition) {
 
         mPosition = "";
-
+        //restaurant name
         this.mName.setText(result.getName());
+        //restaurant adres
         this.mAdress.setText(result.getVicinity());
+        //restaurant rating
+        restaurantRating(result);
 
         // this.mOpenHours.setText(result.getOpeningHours().getOpenNow().toString());
 
@@ -91,21 +92,65 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         } else {
             mPhoto.setImageResource(R.drawable.no_picture);
         }
-        //for restaurant distance
-        restaurantDistance(mPosition, result.getGeometry().getLocation());
-        String distance = Integer.toString(Math.round(distanceResults[0]));
-        Log.d("TestDistance", distance);
+//        //for restaurant distance
+//        restaurantDistance(mPosition, result.getGeometry().getLocation());
+//        String distance = Integer.toString(Math.round(distanceResults[0]));
+//        Log.d("TestDistance", distance);
+//
+//
+//    }
+//
+//    //For calculate restaurant Distance
+//    private void restaurantDistance(String startLocation, models.PlaceDetailsAPI.Location endLocation) {
+//        String[] separatedStart = startLocation.split(",");
+//        double startLatitude = Double.parseDouble(separatedStart[0]);
+//        double startLongitude = Double.parseDouble(separatedStart[1]);
+//        double endLatitude = endLocation.getLat();
+//        double endLongitude = endLocation.getLng();
+//        android.location.Location.distanceBetween(startLatitude, startLongitude, endLatitude, endLongitude, distanceResults);
+   }
+    //For restaurant Rating
+    private void restaurantRating(PlaceDetailsResult result) {
+        if (result.getRating() != 0) {
+            double restaurantRating = result.getRating();
+            double rating = (restaurantRating / 5)*3;
+            this.mRatingBar.setRating((float) rating);
+            this.mRatingBar.setVisibility(View.VISIBLE);
+        } else if (result.getRating()==0 && result.getRating()==null){
+            this.mRatingBar.setVisibility(View.GONE);
+        }
+    }
 
-    }
-    private void restaurantDistance(String startLocation, models.PlaceDetailsAPI.Location endLocation) {
-        String[] separatedStart = startLocation.split(",");
-        double startLatitude = Double.parseDouble(separatedStart[0]);
-        double startLongitude = Double.parseDouble(separatedStart[1]);
-        double endLatitude = endLocation.getLat();
-        double endLongitude = endLocation.getLng();
-        android.location.Location.distanceBetween(startLatitude, startLongitude, endLatitude, endLongitude, distanceResults);
-    }
-    }
+//
+//        float distance;
+//        float restoResult[] = new float[10];
+//        double mLatitude = location.getLatitude();
+//        double mLongitude = location.getLongitude();
+//        double restoLat = result.getGeometry().getLocation().getLat();
+//        double restoLong = result.getGeometry().getLocation().getLng();
+//        Location.distanceBetween(mLatitude, mLongitude, restoLat, restoLong, restoResult);
+//        distance = restoResult[0];
+//        String dist = Math.round(distance) + "m";
+//        Log.d("TestDistance", dist);
+
+//        Location mPosition = new Location("GPS_PROVIDER");
+//        double longitude = 0;
+//        double latitude = 0;
+//
+//        mPosition.setLatitude(latitude);
+//        mPosition.setLongitude(longitude);
+//
+//        Log.d("TestmPosition", String.valueOf(mPosition));
+//        Location resto = new Location("GPS_PROVIDER");
+//
+//        resto.setLatitude(result.getGeometry().getLocation().getLat());
+//        resto.setLongitude(result.getGeometry().getLocation().getLng());
+//
+//        float distance = mPosition.distanceTo(resto);
+//
+//        Log.d("TestDistance", String.valueOf(distance));
+   }
+
 
 
 
