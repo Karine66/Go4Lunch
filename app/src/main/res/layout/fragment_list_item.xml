@@ -63,14 +63,15 @@
 
         <androidx.appcompat.widget.AppCompatRatingBar
             android:id="@+id/list_rating"
+            style="?android:attr/ratingBarStyleSmall"
+            android:theme="@style/RatingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?android:attr/ratingBarStyleSmall"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="240dp"
+            android:layout_marginStart="227dp"
             android:layout_marginTop="60dp"
-            android:numStars="3"
             android:layout_toEndOf="@+id/list_openhours"
+            android:numStars="3"
             android:text="" />
 
         <ImageView

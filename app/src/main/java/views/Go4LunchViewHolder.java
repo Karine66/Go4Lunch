@@ -48,19 +48,14 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.list_rating)
     RatingBar mRatingBar;
 
-    private List<PlaceDetailsResult> result;
+
     String GOOGLE_MAP_API_KEY = BuildConfig.GOOGLE_MAP_API_KEY;
-
-    LocationManager locationManager;
+    private List<PlaceDetailsResult> result;
     private String mPosition;
-    public boolean openNow;
-    public List<ResultSearch> resultSearchList;
-
-    private List<PlaceDetail> placeDetails;
     private Context context;
     private Location location;
     private String resto;
-    private float[] distanceResults = new float[3];
+
 
 
     public Go4LunchViewHolder(View itemView) {
@@ -73,7 +68,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
 
 
     //For update details restaurants
-    public void updateWithDetails(PlaceDetailsResult result, RequestManager glide, String mPosition) {
+    public void updateWithDetails(PlaceDetailsResult result, RequestManager glide,String mPosition) {
 
         mPosition = "";
         //restaurant name
@@ -111,12 +106,13 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
    }
     //For restaurant Rating
     private void restaurantRating(PlaceDetailsResult result) {
-        if (result.getRating() != 0) {
+        if (result.getRating() != null) {
             double restaurantRating = result.getRating();
             double rating = (restaurantRating / 5)*3;
             this.mRatingBar.setRating((float) rating);
             this.mRatingBar.setVisibility(View.VISIBLE);
-        } else if (result.getRating()==0 && result.getRating()==null){
+
+        } else {
             this.mRatingBar.setVisibility(View.GONE);
         }
     }
