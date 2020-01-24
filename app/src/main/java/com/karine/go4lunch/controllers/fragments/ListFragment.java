@@ -113,6 +113,7 @@ public class ListFragment extends BaseFragment  {
             double mLongitude = location.getLongitude();
                 mPosition = mLatitude + "," + mLongitude;
                 Log.d("TestListPosition", mPosition);
+                adapter.setPosition(mPosition);
                 executeHttpRequestWithRetrofit();
             }
 //        }

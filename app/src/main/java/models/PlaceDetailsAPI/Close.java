@@ -28,5 +28,8 @@ public class Close {
     public void setTime(String time) {
         mTime = time;
     }
-
+    @Override
+    public String toString() {
+        return String.format("%s %s", mDay, mTime);
+    }
 }

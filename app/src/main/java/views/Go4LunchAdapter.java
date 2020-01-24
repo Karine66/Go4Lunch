@@ -19,6 +19,10 @@ import models.PlaceDetailsAPI.PlaceDetailsResult;
 
 public class Go4LunchAdapter extends RecyclerView.Adapter<Go4LunchViewHolder> {
 
+    public void setPosition(String position) {
+        mPosition = position;
+    }
+
     private String mPosition;
     private RequestManager glide;
     private List<PlaceDetail> placeDetails;

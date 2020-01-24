@@ -73,7 +73,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
     //For update details restaurants
     public void updateWithDetails(PlaceDetailsResult result, RequestManager glide, String mPosition) {
 
-        mPosition = "";
+
         //restaurant name
         this.mName.setText(result.getName());
         //restaurant adres
@@ -82,9 +82,14 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         restaurantRating(result);
         //restaurant distance
         restaurantDistance(mPosition, result.getGeometry().getLocation());
-        String distance = Integer.toString(Math.round(distanceResults[0]));
+        String distance = Integer.toString(Math.round(distanceResults[0])) + "m";
+        this.mDistance.setText(distance);
         Log.d("TestDistance", distance);
+        //Restaurant opening
+        if(result.getOpeningHours()!=null)
+         //   this.mOpenHours.setText(result.getOpeningHours().toString());
 
+        Log.d("TestHours", result.getOpeningHours().toString());
         //for add photos with Glide
         if (result.getPhotos() != null && !result.getPhotos().isEmpty()) {
             glide.load("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=400&photoreference=" + result.getPhotos().get(0).getPhotoReference() + "&key=" + GOOGLE_MAP_API_KEY)

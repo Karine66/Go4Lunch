@@ -9,53 +9,55 @@ import java.io.Serializable;
 
 import java.time.LocalTime;
 
+import java.util.Arrays;
 import java.util.List;
 
 
-public class OpeningHours {
+//public class OpeningHours {
+//
+//    @SerializedName("open_now")
+//    private Boolean mOpenNow;
+//    @SerializedName("periods")
+//    private List<Period> mPeriods;
+//    @SerializedName("weekday_text")
+//    private List<String> mWeekdayText;
+//
+//    public Boolean getOpenNow() {
+//        return mOpenNow;
+//    }
+//
+//    public void setOpenNow(Boolean openNow) {
+//        mOpenNow = openNow;
+//    }
+//
+//    public List<Period> getPeriods() {
+//        return mPeriods;
+//    }
+//
+//    public void setPeriods(List<Period> periods) {
+//        mPeriods = periods;
+//    }
+//
+//    public List<String> getWeekdayText() {
+//        return mWeekdayText;
+//    }
+//
+//    public void setWeekdayText(List<String> weekdayText) {
+//        mWeekdayText = weekdayText;
+//    }
 
+public class OpeningHours implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    /**
+     * Whether the place is open at the current time.
+     *
+     * <p>Note: this field will be null if it isn't present in the response.
+     */
     @SerializedName("open_now")
-    private Boolean mOpenNow;
-    @SerializedName("periods")
-    private List<Period> mPeriods;
-    @SerializedName("weekday_text")
-    private List<String> mWeekdayText;
+    public Boolean openNow;
 
-    public Boolean getOpenNow() {
-        return mOpenNow;
-    }
-
-    public void setOpenNow(Boolean openNow) {
-        mOpenNow = openNow;
-    }
-
-    public List<Period> getPeriods() {
-        return mPeriods;
-    }
-
-    public void setPeriods(List<Period> periods) {
-        mPeriods = periods;
-    }
-
-    public List<String> getWeekdayText() {
-        return mWeekdayText;
-    }
-
-    public void setWeekdayText(List<String> weekdayText) {
-        mWeekdayText = weekdayText;
-    }
-
-//public class OpeningHours implements Serializable {
-//
-//    private static final long serialVersionUID = 1L;
-//    /**
-//     * Whether the place is open at the current time.
-//     *
-//     * <p>Note: this field will be null if it isn't present in the response.
-//     */
-//    public Boolean openNow;
-//
-//    /** The opening hours for a Place for a single day. */
+    /** The opening hours for a Place for a single day. */
 //    public static class Period implements Serializable {
 //
 //        private static final long serialVersionUID = 1L;
@@ -113,34 +115,36 @@ public class OpeningHours {
 //            return String.format("%s - %s", open, close);
 //        }
 //    }
-//
-//    /** Opening periods covering seven days, starting from Sunday, in chronological order. */
-//    public Period[] periods;
-//
-//    /**
-//     * The formatted opening hours for each day of the week, as an array of seven strings; for
-//     * example, {@code "Monday: 8:30 am – 5:30 pm"}.
-//     */
-//    public String[] weekdayText;
-//
-//    /**
-//     * Indicates that the place has permanently shut down.
-//     *
-//     * <p>Note: this field will be null if it isn't present in the response.
-//     */
-//    public Boolean permanentlyClosed;
-//
-//    @Override
-//    public String toString() {
-//        StringBuilder sb = new StringBuilder("[OpeningHours:");
-//        if (permanentlyClosed != null && permanentlyClosed) {
-//            sb.append(" permanentlyClosed");
-//        }
-//        if (openNow != null && openNow) {
-//            sb.append(" openNow");
-//        }
-//        sb.append(" ").append(Arrays.toString(periods));
-//        Log.d("Hours", sb.toString());
-//        return sb.toString();
-//    }
+
+    /** Opening periods covering seven days, starting from Sunday, in chronological order. */
+    @SerializedName("periods")
+   public Period[] periods;
+
+    /**
+     * The formatted opening hours for each day of the week, as an array of seven strings; for
+     * example, {@code "Monday: 8:30 am – 5:30 pm"}.
+     */
+    @SerializedName("weekday_text")
+    public String[] weekdayText;
+
+    /**
+     * Indicates that the place has permanently shut down.
+     *
+     * <p>Note: this field will be null if it isn't present in the response.
+     */
+    public Boolean permanentlyClosed;
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("[OpeningHours:");
+        if (permanentlyClosed != null && permanentlyClosed) {
+            sb.append(" permanentlyClosed");
+        }
+        if (openNow != null && openNow) {
+            sb.append(" openNow");
+        }
+        sb.append(" ").append(Arrays.toString(periods));
+        Log.d("Hours", sb.toString());
+        return sb.toString();
+    }
 }
