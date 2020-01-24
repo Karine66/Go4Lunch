@@ -15,7 +15,7 @@ import retrofit2.http.Query;
 
 public class Go4LunchStream {
 
-    public static String fields = "opening_hours,photo,rating,vicinity,name";
+    public static String fields = "opening_hours,photo,rating,vicinity,name,geometry";
 
     //Create stream google restaurants
     public static Observable<GoogleApi> streamFetchRestaurants(String location, int radius, String type) {

@@ -19,6 +19,7 @@ import com.karine.go4lunch.BuildConfig;
 import com.karine.go4lunch.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,12 +27,12 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import models.NearbySearchAPI.ResultSearch;
+import models.PlaceDetailsAPI.OpeningHours;
 import models.PlaceDetailsAPI.PlaceDetail;
 import models.PlaceDetailsAPI.PlaceDetailsResult;
 
 
 public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
-
 
 
     private float longitude;
@@ -47,15 +48,18 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
     ImageView mPhoto;
     @BindView(R.id.list_rating)
     RatingBar mRatingBar;
+    @BindView(R.id.list_distance)
+    TextView mDistance;
 
 
     String GOOGLE_MAP_API_KEY = BuildConfig.GOOGLE_MAP_API_KEY;
+    private static final long serialVersionUID = 1L;
     private List<PlaceDetailsResult> result;
     private String mPosition;
     private Context context;
     private Location location;
     private String resto;
-
+    private float[] distanceResults = new float[3];
 
 
     public Go4LunchViewHolder(View itemView) {
@@ -66,9 +70,8 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
     }
 
 
-
     //For update details restaurants
-    public void updateWithDetails(PlaceDetailsResult result, RequestManager glide,String mPosition) {
+    public void updateWithDetails(PlaceDetailsResult result, RequestManager glide, String mPosition) {
 
         mPosition = "";
         //restaurant name
@@ -77,8 +80,10 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         this.mAdress.setText(result.getVicinity());
         //restaurant rating
         restaurantRating(result);
-
-        // this.mOpenHours.setText(result.getOpeningHours().getOpenNow().toString());
+        //restaurant distance
+        restaurantDistance(mPosition, result.getGeometry().getLocation());
+        String distance = Integer.toString(Math.round(distanceResults[0]));
+        Log.d("TestDistance", distance);
 
         //for add photos with Glide
         if (result.getPhotos() != null && !result.getPhotos().isEmpty()) {
@@ -87,24 +92,24 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         } else {
             mPhoto.setImageResource(R.drawable.no_picture);
         }
-//        //for restaurant distance
-//        restaurantDistance(mPosition, result.getGeometry().getLocation());
-//        String distance = Integer.toString(Math.round(distanceResults[0]));
-//        Log.d("TestDistance", distance);
-//
-//
-//    }
-//
-//    //For calculate restaurant Distance
-//    private void restaurantDistance(String startLocation, models.PlaceDetailsAPI.Location endLocation) {
-//        String[] separatedStart = startLocation.split(",");
-//        double startLatitude = Double.parseDouble(separatedStart[0]);
-//        double startLongitude = Double.parseDouble(separatedStart[1]);
-//        double endLatitude = endLocation.getLat();
-//        double endLongitude = endLocation.getLng();
-//        android.location.Location.distanceBetween(startLatitude, startLongitude, endLatitude, endLongitude, distanceResults);
+        //for restaurant distance
+
+
+
+    }
+
+    //For calculate restaurant Distance
+    private void restaurantDistance(String startLocation, models.PlaceDetailsAPI.Location endLocation) {
+        String[] separatedStart = startLocation.split(",");
+        double startLatitude = Double.parseDouble(separatedStart[0]);
+        double startLongitude = Double.parseDouble(separatedStart[1]);
+        double endLatitude = endLocation.getLat();
+        double endLongitude = endLocation.getLng();
+        android.location.Location.distanceBetween(startLatitude, startLongitude, endLatitude, endLongitude, distanceResults);
    }
-    //For restaurant Rating
+
+
+       //For restaurant Rating
     private void restaurantRating(PlaceDetailsResult result) {
         if (result.getRating() != null) {
             double restaurantRating = result.getRating();

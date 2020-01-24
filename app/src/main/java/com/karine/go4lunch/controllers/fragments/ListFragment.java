@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Utils.Go4LunchStream;
+import Utils.ItemClickSupport;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
@@ -95,6 +96,17 @@ public class ListFragment extends BaseFragment  {
 
     }
 
+    //Configure item click on RecyclerView
+    private void configureOnClickRecyclerView() {
+        ItemClickSupport.addTo(mRecyclerView, R.layout.fragment_list_item)
+                .setOnItemClickListener((new ItemClickSupport.OnItemClickListener() {
+                    @Override
+                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+
+                    }
+                }));
+    }
+
 
     public void onLocationChanged(Location location){
             double mLatitude = location.getLatitude();
@@ -140,6 +152,7 @@ public class ListFragment extends BaseFragment  {
     private void updateUI(List<PlaceDetail> placeDetails) {
      this.placeDetails.clear();
      this.placeDetails.addAll(placeDetails);
+
         Log.d("TestUI", placeDetails.toString());
         adapter.notifyDataSetChanged();
     }

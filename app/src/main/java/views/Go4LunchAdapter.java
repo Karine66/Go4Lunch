@@ -52,4 +52,5 @@ public class Go4LunchAdapter extends RecyclerView.Adapter<Go4LunchViewHolder> {
         return this.placeDetails.size();
     }
 
+
 }
