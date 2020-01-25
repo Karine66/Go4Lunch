@@ -20,7 +20,9 @@ import android.util.Log;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+
 import java.util.Objects;
+
 
 
 /**
@@ -34,6 +36,7 @@ public abstract class BaseFragment extends Fragment implements LocationListener 
     private String mPosition;
 
 
+
     public BaseFragment() {
         // Required empty public constructor
     }
@@ -42,6 +45,7 @@ public abstract class BaseFragment extends Fragment implements LocationListener 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
 

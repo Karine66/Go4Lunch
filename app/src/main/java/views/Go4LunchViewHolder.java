@@ -1,9 +1,10 @@
 package views;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.location.Address;
+import android.graphics.Color;
 import android.location.Location;
-import android.location.LocationManager;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,6 +12,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.RequestManager;
@@ -18,17 +20,17 @@ import com.bumptech.glide.request.RequestOptions;
 import com.karine.go4lunch.BuildConfig;
 import com.karine.go4lunch.R;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import models.NearbySearchAPI.ResultSearch;
-import models.PlaceDetailsAPI.OpeningHours;
-import models.PlaceDetailsAPI.PlaceDetail;
 import models.PlaceDetailsAPI.PlaceDetailsResult;
 
 
@@ -66,17 +68,20 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
 
         ButterKnife.bind(this, itemView);
-
+//        getTodayDate();
+//        getCurrentTime();
+        currentDateHour();
     }
 
 
     //For update details restaurants
+    @SuppressLint("SetTextI18n")
     public void updateWithDetails(PlaceDetailsResult result, RequestManager glide, String mPosition) {
 
 
         //restaurant name
         this.mName.setText(result.getName());
-        //restaurant adres
+        //restaurant adress
         this.mAdress.setText(result.getVicinity());
         //restaurant rating
         restaurantRating(result);
@@ -85,11 +90,23 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         String distance = Integer.toString(Math.round(distanceResults[0])) + "m";
         this.mDistance.setText(distance);
         Log.d("TestDistance", distance);
-        //Restaurant opening
-        if(result.getOpeningHours()!=null)
-         //   this.mOpenHours.setText(result.getOpeningHours().toString());
 
-        Log.d("TestHours", result.getOpeningHours().toString());
+        if (result.getOpeningHours() != null) {
+            if (result.getOpeningHours().getOpenNow().toString().equals("false")) {
+                this.mOpenHours.setText("Closed");
+                this.mOpenHours.setTextColor(Color.RED);
+            } else if (result.getOpeningHours().getOpenNow().toString().equals("true")) {
+                this.mOpenHours.setText("Open");
+                this.mOpenHours.setTextColor(Color.BLUE);
+            } else if (result.getOpeningHours().getOpenNow().toString().equals("")){
+                this.mOpenHours.setText("Opening Hours not available");
+                this.mOpenHours.setTextColor(Color.BLACK);
+            }
+        }
+
+
+
+//        Log.d("TestHours", result.getOpeningHours().toString());
         //for add photos with Glide
         if (result.getPhotos() != null && !result.getPhotos().isEmpty()) {
             glide.load("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=400&photoreference=" + result.getPhotos().get(0).getPhotoReference() + "&key=" + GOOGLE_MAP_API_KEY)
@@ -97,11 +114,9 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         } else {
             mPhoto.setImageResource(R.drawable.no_picture);
         }
-        //for restaurant distance
-
-
-
     }
+
+
 
     //For calculate restaurant Distance
     private void restaurantDistance(String startLocation, models.PlaceDetailsAPI.Location endLocation) {
@@ -112,8 +127,6 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         double endLongitude = endLocation.getLng();
         android.location.Location.distanceBetween(startLatitude, startLongitude, endLatitude, endLongitude, distanceResults);
    }
-
-
        //For restaurant Rating
     private void restaurantRating(PlaceDetailsResult result) {
         if (result.getRating() != null) {
@@ -127,35 +140,35 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-//
-//        float distance;
-//        float restoResult[] = new float[10];
-//        double mLatitude = location.getLatitude();
-//        double mLongitude = location.getLongitude();
-//        double restoLat = result.getGeometry().getLocation().getLat();
-//        double restoLong = result.getGeometry().getLocation().getLng();
-//        Location.distanceBetween(mLatitude, mLongitude, restoLat, restoLong, restoResult);
-//        distance = restoResult[0];
-//        String dist = Math.round(distance) + "m";
-//        Log.d("TestDistance", dist);
 
-//        Location mPosition = new Location("GPS_PROVIDER");
-//        double longitude = 0;
-//        double latitude = 0;
+//    private String getTodayDate(){
+//        Calendar c = Calendar.getInstance();
+//        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+//        Log.d("TestTodayDate", df.format(c.getTime()));
+//        return df.format(c.getTime());
+//    }
+//    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+//    public String getCurrentTime() {
 //
-//        mPosition.setLatitude(latitude);
-//        mPosition.setLongitude(longitude);
+//        SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm", Locale.forLanguageTag("h:mm a"));
+//     //   SimpleDateFormat hourFormatUS = new SimpleDateFormat("h:mm a");
+//        hourFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+//     //   hourFormatUS.setTimeZone(TimeZone.getTimeZone("UTC"));
+//        Date today = Calendar.getInstance().getTime();
+//        Log.d("TestHours", hourFormat.format(today));
+//        return hourFormat.format(today);
 //
-//        Log.d("TestmPosition", String.valueOf(mPosition));
-//        Location resto = new Location("GPS_PROVIDER");
-//
-//        resto.setLatitude(result.getGeometry().getLocation().getLat());
-//        resto.setLongitude(result.getGeometry().getLocation().getLng());
-//
-//        float distance = mPosition.distanceTo(resto);
-//
-//        Log.d("TestDistance", String.valueOf(distance));
-   }
+//    }
+    public void currentDateHour() {
+    Calendar cal = Calendar.getInstance();
+    Date currentLocalTime = cal.getTime();
+
+    @SuppressLint("SimpleDateFormat")
+    DateFormat date = new SimpleDateFormat("dd-MM-yyy HH:mm z");
+
+    String localTime = date.format(currentLocalTime);
+    Log.d("TestDateHour", localTime);
+   }}
 
 
 

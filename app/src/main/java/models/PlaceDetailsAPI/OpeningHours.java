@@ -57,6 +57,10 @@ public class OpeningHours implements Serializable {
     @SerializedName("open_now")
     public Boolean openNow;
 
+    public Boolean getOpenNow() {
+      return openNow;
+    }
+
     /** The opening hours for a Place for a single day. */
 //    public static class Period implements Serializable {
 //
