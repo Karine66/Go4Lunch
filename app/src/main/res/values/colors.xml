@@ -5,5 +5,6 @@
     <color name="colorAccent">#263238</color>
     <!--App base-->
     <color name="colorAccentDark">#E64A19</color>
+    <color name="colorOpen">#4CAF50</color>
 </resources>
 

@@ -12,7 +12,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.RequiresApi;
+import androidx.annotation.Size;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.RequestManager;
@@ -23,14 +25,17 @@ import com.karine.go4lunch.R;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import models.PlaceDetailsAPI.Period;
 import models.PlaceDetailsAPI.PlaceDetailsResult;
 
 
@@ -62,6 +67,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
     private Location location;
     private String resto;
     private float[] distanceResults = new float[3];
+    private Period periods;
 
 
     public Go4LunchViewHolder(View itemView) {
@@ -71,6 +77,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
 //        getTodayDate();
 //        getCurrentTime();
         currentDateHour();
+
     }
 
 
@@ -91,16 +98,20 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         this.mDistance.setText(distance);
         Log.d("TestDistance", distance);
 
+        //for retrieve opening hours (open or closed)
         if (result.getOpeningHours() != null) {
             if (result.getOpeningHours().getOpenNow().toString().equals("false")) {
                 this.mOpenHours.setText("Closed");
                 this.mOpenHours.setTextColor(Color.RED);
             } else if (result.getOpeningHours().getOpenNow().toString().equals("true")) {
                 this.mOpenHours.setText("Open");
-                this.mOpenHours.setTextColor(Color.BLUE);
-            } else if (result.getOpeningHours().getOpenNow().toString().equals("")){
+                this.mOpenHours.setTextColor(itemView.getContext().getResources().getColor(R.color.colorOpen));
+            } else if (result.getOpeningHours() == null){
                 this.mOpenHours.setText("Opening Hours not available");
                 this.mOpenHours.setTextColor(Color.BLACK);
+            }else if (result.getOpeningHours().getPermanentlyClosed().toString().equals("true")){
+                this.mOpenHours.setText("Permanently Closed");
+                this.mOpenHours.setTextColor(Color.RED);
             }
         }
 
@@ -131,7 +142,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
     private void restaurantRating(PlaceDetailsResult result) {
         if (result.getRating() != null) {
             double restaurantRating = result.getRating();
-            double rating = (restaurantRating / 5)*3;
+            double rating = (restaurantRating / 5) * 3;
             this.mRatingBar.setRating((float) rating);
             this.mRatingBar.setVisibility(View.VISIBLE);
 
@@ -139,6 +150,19 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
             this.mRatingBar.setVisibility(View.GONE);
         }
     }
+//        private void getHoursInfo(PlaceDetailsResult result) {
+//        Calendar calendar = Calendar.getInstance();
+//            int[] days = {0, 1, 2, 3, 4, 5, 6};
+//
+//           // for(int i=0; i<result.getOpeningHours().getPeriods().length;i++) {
+//            for(Period p : result.getOpeningHours().getPeriods()) {
+//                if(p.getClose().getDay() == calendar.get(Calendar.DAY_OF_WEEK) -1){
+//                    if()
+//                    Log.d("Testhoursinfo", "open until" + p.getClose().getTime());
+//                }
+//            }
+//        }
+
 
 
 //    private String getTodayDate(){

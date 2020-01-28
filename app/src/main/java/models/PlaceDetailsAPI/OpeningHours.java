@@ -88,7 +88,7 @@ public class OpeningHours implements Serializable {
 //                private DayOfWeek(String name) {
 //                    this.name = name;
 //                }
-//
+////
 //                private final String name;
 //
 //                public String getName() {
@@ -123,6 +123,10 @@ public class OpeningHours implements Serializable {
     /** Opening periods covering seven days, starting from Sunday, in chronological order. */
     @SerializedName("periods")
    public Period[] periods;
+    public Period[] getPeriods() {
+        return periods;
+    }
+
 
     /**
      * The formatted opening hours for each day of the week, as an array of seven strings; for
@@ -137,6 +141,9 @@ public class OpeningHours implements Serializable {
      * <p>Note: this field will be null if it isn't present in the response.
      */
     public Boolean permanentlyClosed;
+    public Boolean getPermanentlyClosed() {
+        return permanentlyClosed;
+    }
 
     @Override
     public String toString() {
