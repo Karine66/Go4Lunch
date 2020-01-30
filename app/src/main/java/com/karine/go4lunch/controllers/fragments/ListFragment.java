@@ -22,6 +22,7 @@ import com.karine.go4lunch.controllers.activities.RestaurantActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -48,9 +49,9 @@ public class ListFragment extends BaseFragment implements Serializable {
     private Location location;
     public LocationManager locationManager;
     private Object provider;
-
     private Go4LunchAdapter adapter;
-    public List<PlaceDetailsResult> mDetailResult;
+   private List<PlaceDetailsResult> result;
+
 
     @BindView(R.id.fragment_list_RV)
     RecyclerView mRecyclerView;
@@ -107,14 +108,13 @@ public class ListFragment extends BaseFragment implements Serializable {
                 .setOnItemClickListener((new ItemClickSupport.OnItemClickListener() {
 
 
-
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
 
-                    ListFragment lf = new ListFragment();
-                   Intent intent = new Intent(getActivity(), RestaurantActivity.class);
+                        PlaceDetailsResult placeDetailsResult = result.get(position);
+                        Intent intent = new Intent(getActivity(), RestaurantActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable("lf", lf);
+                        bundle.putSerializable("placeDetailsResult", placeDetailsResult);
                         intent.putExtras(bundle);
                         startActivity(intent);
 

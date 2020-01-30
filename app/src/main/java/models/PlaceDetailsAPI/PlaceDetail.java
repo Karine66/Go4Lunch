@@ -1,13 +1,14 @@
 
 package models.PlaceDetailsAPI;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
 
 @SuppressWarnings("unused")
-public class PlaceDetail {
+public class PlaceDetail implements Serializable {
 
     @SerializedName("html_attributions")
     private List<Object> mHtmlAttributions;

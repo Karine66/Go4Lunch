@@ -79,7 +79,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         getTodayDate();
         getCurrentTime();
     //    currentDateHour();
-        getHoursInfo((PlaceDetailsResult) result);
+//        getHoursInfo((PlaceDetailsResult) result);
 
     }
 
@@ -114,7 +114,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
             } else if (result.getOpeningHours() == null){
                 this.mOpenHours.setText("Opening Hours not available");
                 this.mOpenHours.setTextColor(Color.BLACK);
-            }else if (result.getOpeningHours().getPermanentlyClosed().toString().equals("true")){
+            }else if (result.getOpeningHours().getPermanentlyClosed()){
                 this.mOpenHours.setText("Permanently Closed");
                 this.mOpenHours.setTextColor(Color.RED);
             }
@@ -155,20 +155,19 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
             this.mRatingBar.setVisibility(View.GONE);
         }
     }
-        private void getHoursInfo(PlaceDetailsResult result) {
-        Calendar calendar = Calendar.getInstance();
-            int[] days = {0, 1, 2, 3, 4, 5, 6};
-            getCurrentTime();
-           // for(int i=0; i<result.getOpeningHours().getPeriods().length;i++) {
-            for(Period p : result.getOpeningHours().getPeriods()) {
-                if(p.getClose().getDay() == calendar.get(Calendar.DAY_OF_WEEK) -1){
-                    if(result.getOpeningHours().getOpenNow().toString().equals("true")){
-                        Log.d("close", "close until" + p.getClose().getTime());
-                    }
-
-                }
-            }
-        }
+//        private void getHoursInfo(PlaceDetailsResult result) {
+//        Calendar calendar = Calendar.getInstance();
+//            int[] days = {0, 1, 2, 3, 4, 5, 6};
+//            getCurrentTime();
+//           // for(int i=0; i<result.getOpeningHours().getPeriods().length;i++) {
+//            for(Period p : result.getOpeningHours().getPeriods()) {
+//                    if(result.getOpeningHours().getOpenNow().toString().equals("true")){
+//                        Log.d("close", "close until" + p.getClose().getTime());
+//                    }
+//
+//                }
+//            }
+//        }
 
 
 

@@ -18,6 +18,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import models.PlaceDetailsAPI.PlaceDetail;
+import models.PlaceDetailsAPI.PlaceDetailsResult;
 
 public class RestaurantActivity extends AppCompatActivity implements Serializable {
 
@@ -26,7 +27,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     @BindView(R.id.resto_name)
     TextView mRestoName;
 
-    private ListFragment lf;
+    private PlaceDetailsResult placeDetailsResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,18 +35,14 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         setContentView(R.layout.activity_restaurant);
         ButterKnife.bind(this);
 
-//        Bundle extras = getIntent().getExtras();
-//        if (extras != null) {
-//            lf = (ListFragment) getIntent().getSerializableExtra("lf");
-//            assert lf != null;
-//            Log.d("Resto", lf.toString());
-//        }
+
             Intent intent = this.getIntent();
             Bundle bundle = intent.getExtras();
         assert bundle != null;
-        ListFragment lf = (ListFragment) bundle.getSerializable("lf");
-        assert lf != null;
-        Log.d("Resto", lf.toString());
+        PlaceDetailsResult placeDetailsResult = (PlaceDetailsResult) bundle.getSerializable("placeDetailsResult");
+
+        assert placeDetailsResult != null;
+        Log.d("Resto", "resto name"+ placeDetailsResult.getName());
 
     }
 
