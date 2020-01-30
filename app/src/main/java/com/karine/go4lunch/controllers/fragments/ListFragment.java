@@ -1,5 +1,6 @@
 package com.karine.go4lunch.controllers.fragments;
 
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -17,9 +18,12 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.GoogleMap;
 import com.karine.go4lunch.R;
+import com.karine.go4lunch.controllers.activities.RestaurantActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import Utils.Go4LunchStream;
 import Utils.ItemClickSupport;
@@ -35,7 +39,7 @@ import views.Go4LunchAdapter;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ListFragment extends BaseFragment  {
+public class ListFragment extends BaseFragment implements Serializable {
 
     public Disposable mDisposable;
     private String mPosition;
@@ -64,6 +68,7 @@ public class ListFragment extends BaseFragment  {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         ButterKnife.bind(this, view);
         this.configureRecyclerView();
+        this.configureOnClickRecyclerView();
         return view;
     }
 
@@ -100,8 +105,19 @@ public class ListFragment extends BaseFragment  {
     private void configureOnClickRecyclerView() {
         ItemClickSupport.addTo(mRecyclerView, R.layout.fragment_list_item)
                 .setOnItemClickListener((new ItemClickSupport.OnItemClickListener() {
+
+
+
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+
+                    ListFragment lf = new ListFragment();
+                   Intent intent = new Intent(getActivity(), RestaurantActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("lf", lf);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+
 
                     }
                 }));

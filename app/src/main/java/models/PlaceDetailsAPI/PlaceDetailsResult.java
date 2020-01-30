@@ -25,6 +25,16 @@ public class PlaceDetailsResult {
     private Geometry mGeometry;
     @SerializedName("website")
     private String mWebsite;
+    @SerializedName("id")
+    private String mId;
+
+    public String getId() {
+        return mId;
+    }
+
+    public void setId(String id) {
+        mId = id;
+    }
 
     public String getName() {
         return mName;

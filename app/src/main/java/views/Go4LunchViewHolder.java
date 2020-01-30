@@ -31,6 +31,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.ResourceBundle;
 import java.util.TimeZone;
 
 import butterknife.BindView;
@@ -68,15 +69,17 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
     private String resto;
     private float[] distanceResults = new float[3];
     private Period periods;
+    private String localTime;
 
 
     public Go4LunchViewHolder(View itemView) {
         super(itemView);
 
         ButterKnife.bind(this, itemView);
-//        getTodayDate();
-//        getCurrentTime();
-        currentDateHour();
+        getTodayDate();
+        getCurrentTime();
+    //    currentDateHour();
+        getHoursInfo((PlaceDetailsResult) result);
 
     }
 
@@ -99,12 +102,14 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         Log.d("TestDistance", distance);
 
         //for retrieve opening hours (open or closed)
+       // String openingHour = Arrays.toString(result.getOpeningHours().getWeekdayText());
         if (result.getOpeningHours() != null) {
             if (result.getOpeningHours().getOpenNow().toString().equals("false")) {
                 this.mOpenHours.setText("Closed");
                 this.mOpenHours.setTextColor(Color.RED);
             } else if (result.getOpeningHours().getOpenNow().toString().equals("true")) {
                 this.mOpenHours.setText("Open");
+               // this.mOpenHours.setText("Open" + " "+ openingHour);
                 this.mOpenHours.setTextColor(itemView.getContext().getResources().getColor(R.color.colorOpen));
             } else if (result.getOpeningHours() == null){
                 this.mOpenHours.setText("Opening Hours not available");
@@ -150,49 +155,53 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
             this.mRatingBar.setVisibility(View.GONE);
         }
     }
-//        private void getHoursInfo(PlaceDetailsResult result) {
-//        Calendar calendar = Calendar.getInstance();
-//            int[] days = {0, 1, 2, 3, 4, 5, 6};
+        private void getHoursInfo(PlaceDetailsResult result) {
+        Calendar calendar = Calendar.getInstance();
+            int[] days = {0, 1, 2, 3, 4, 5, 6};
+            getCurrentTime();
+           // for(int i=0; i<result.getOpeningHours().getPeriods().length;i++) {
+            for(Period p : result.getOpeningHours().getPeriods()) {
+                if(p.getClose().getDay() == calendar.get(Calendar.DAY_OF_WEEK) -1){
+                    if(result.getOpeningHours().getOpenNow().toString().equals("true")){
+                        Log.d("close", "close until" + p.getClose().getTime());
+                    }
+
+                }
+            }
+        }
+
+
+
+    private void getTodayDate(){
+        Calendar cal = Calendar.getInstance();
+        Date currentDate = cal.getTime();
+        @SuppressLint("SimpleDateFormat")
+        DateFormat date = new SimpleDateFormat("dd-MM-yyy z");
+        String dayDate = date.format(currentDate);
+        Log.d("TestDate", dayDate);
+    }
+
+    public void getCurrentTime() {
+        Calendar calendar = Calendar.getInstance();
+        Date currentLocalTime = calendar.getTime();
+        @SuppressLint("SimpleDateFormat")
+        DateFormat date = new SimpleDateFormat("HH:mm z");
+        String localTime = date.format(currentLocalTime);
+        Log.d("TestHour", localTime);
+
+
+    }
+//    public void currentDateHour() {
+//    Calendar cal = Calendar.getInstance();
+//    Date currentLocalTime = cal.getTime();
 //
-//           // for(int i=0; i<result.getOpeningHours().getPeriods().length;i++) {
-//            for(Period p : result.getOpeningHours().getPeriods()) {
-//                if(p.getClose().getDay() == calendar.get(Calendar.DAY_OF_WEEK) -1){
-//                    if()
-//                    Log.d("Testhoursinfo", "open until" + p.getClose().getTime());
-//                }
-//            }
-//        }
-
-
-
-//    private String getTodayDate(){
-//        Calendar c = Calendar.getInstance();
-//        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-//        Log.d("TestTodayDate", df.format(c.getTime()));
-//        return df.format(c.getTime());
-//    }
-//    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-//    public String getCurrentTime() {
+//    @SuppressLint("SimpleDateFormat")
+//    DateFormat date = new SimpleDateFormat("dd-MM-yyy HH:mm z");
 //
-//        SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm", Locale.forLanguageTag("h:mm a"));
-//     //   SimpleDateFormat hourFormatUS = new SimpleDateFormat("h:mm a");
-//        hourFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-//     //   hourFormatUS.setTimeZone(TimeZone.getTimeZone("UTC"));
-//        Date today = Calendar.getInstance().getTime();
-//        Log.d("TestHours", hourFormat.format(today));
-//        return hourFormat.format(today);
-//
-//    }
-    public void currentDateHour() {
-    Calendar cal = Calendar.getInstance();
-    Date currentLocalTime = cal.getTime();
-
-    @SuppressLint("SimpleDateFormat")
-    DateFormat date = new SimpleDateFormat("dd-MM-yyy HH:mm z");
-
-    String localTime = date.format(currentLocalTime);
-    Log.d("TestDateHour", localTime);
-   }}
+//    String localTime = date.format(currentLocalTime);
+//    Log.d("TestDateHour", localTime);
+//   }
+}
 
 
 

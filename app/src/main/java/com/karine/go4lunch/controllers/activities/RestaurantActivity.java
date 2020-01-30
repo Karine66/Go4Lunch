@@ -2,15 +2,56 @@ package com.karine.go4lunch.controllers.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.karine.go4lunch.R;
+import com.karine.go4lunch.controllers.fragments.ListFragment;
 
-public class RestaurantActivity extends AppCompatActivity {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import models.PlaceDetailsAPI.PlaceDetail;
+
+public class RestaurantActivity extends AppCompatActivity implements Serializable {
+
+    @BindView(R.id.resto_photo)
+    ImageView mRestoPhoto;
+    @BindView(R.id.resto_name)
+    TextView mRestoName;
+
+    private ListFragment lf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant);
+        ButterKnife.bind(this);
+
+//        Bundle extras = getIntent().getExtras();
+//        if (extras != null) {
+//            lf = (ListFragment) getIntent().getSerializableExtra("lf");
+//            assert lf != null;
+//            Log.d("Resto", lf.toString());
+//        }
+            Intent intent = this.getIntent();
+            Bundle bundle = intent.getExtras();
+        assert bundle != null;
+        ListFragment lf = (ListFragment) bundle.getSerializable("lf");
+        assert lf != null;
+        Log.d("Resto", lf.toString());
+
     }
+
+//    private void updateUI() {
+//
+//        mRestoName.setText();
+//
+//    }
 }

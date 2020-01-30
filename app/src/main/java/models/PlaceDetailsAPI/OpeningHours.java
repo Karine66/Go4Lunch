@@ -134,7 +134,9 @@ public class OpeningHours implements Serializable {
      */
     @SerializedName("weekday_text")
     public String[] weekdayText;
-
+    public String []getWeekdayText() {
+        return weekdayText;
+    }
     /**
      * Indicates that the place has permanently shut down.
      *

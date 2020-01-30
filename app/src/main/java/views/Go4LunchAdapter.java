@@ -1,6 +1,8 @@
 package views;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +45,7 @@ public class Go4LunchAdapter extends RecyclerView.Adapter<Go4LunchViewHolder> {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.fragment_list_item, parent, false);
+
         return new Go4LunchViewHolder(view);
     }
     //Update view holer with place details
@@ -50,6 +53,11 @@ public class Go4LunchAdapter extends RecyclerView.Adapter<Go4LunchViewHolder> {
     public void onBindViewHolder(@NonNull Go4LunchViewHolder viewHolder, int position) {
     viewHolder.updateWithDetails(this.placeDetails.get(position).getResult(), this.glide, this.mPosition);
     }
+
+    public PlaceDetail getPlaceDetails(int position) {
+        return this.placeDetails.get(position);
+    }
+
     //return the total count of items in the list
     @Override
     public int getItemCount() {
