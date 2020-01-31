@@ -51,9 +51,9 @@ public class Go4LunchAdapter extends RecyclerView.Adapter<Go4LunchViewHolder> {
     viewHolder.updateWithDetails(this.placeDetails.get(position).getResult(), this.glide, this.mPosition);
     }
 
-//    public PlaceDetail getPlaceDetails(int position) {
-//        return this.placeDetails.get(position);
-//    }
+    public PlaceDetail getPlaceDetails(int position) {
+        return this.placeDetails.get(position);
+    }
 
     //return the total count of items in the list
     @Override

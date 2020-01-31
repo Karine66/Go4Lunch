@@ -1,6 +1,9 @@
 
 package models.PlaceDetailsAPI;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -8,7 +11,7 @@ import com.google.gson.annotations.SerializedName;
 
 
 @SuppressWarnings("unused")
-public class PlaceDetailsResult implements Serializable {
+public class PlaceDetailsResult implements Serializable, Parcelable {
 
     @SerializedName("name")
     private String mName;
@@ -26,16 +29,31 @@ public class PlaceDetailsResult implements Serializable {
     private Geometry mGeometry;
     @SerializedName("website")
     private String mWebsite;
-    @SerializedName("id")
-    private String mId;
 
-    public String getId() {
-        return mId;
+
+    protected PlaceDetailsResult(Parcel in) {
+        mName = in.readString();
+        if (in.readByte() == 0) {
+            mRating = null;
+        } else {
+            mRating = in.readDouble();
+        }
+        mVicinity = in.readString();
+        mFormattedPhoneNumber = in.readString();
+        mWebsite = in.readString();
     }
 
-    public void setId(String id) {
-        mId = id;
-    }
+    public static final Creator<PlaceDetailsResult> CREATOR = new Creator<PlaceDetailsResult>() {
+        @Override
+        public PlaceDetailsResult createFromParcel(Parcel in) {
+            return new PlaceDetailsResult(in);
+        }
+
+        @Override
+        public PlaceDetailsResult[] newArray(int size) {
+            return new PlaceDetailsResult[size];
+        }
+    };
 
     public String getName() {
         return mName;
@@ -101,6 +119,24 @@ public class PlaceDetailsResult implements Serializable {
         mWebsite = website;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(mName);
+        if (mRating == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeDouble(mRating);
+        }
+        parcel.writeString(mVicinity);
+        parcel.writeString(mFormattedPhoneNumber);
+        parcel.writeString(mWebsite);
+    }
 }
 
 

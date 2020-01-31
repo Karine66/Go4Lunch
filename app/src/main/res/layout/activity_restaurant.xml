@@ -5,84 +5,92 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".controllers.activities.RestaurantActivity">
 
     <ImageView
         android:id="@+id/resto_photo"
         android:layout_width="match_parent"
-        android:layout_height="250dp"/>
+        android:layout_height="200dp"
+        android:contentDescription="photo_resto" />
 
    <com.google.android.material.floatingactionbutton.FloatingActionButton
        android:id="@+id/floating_ok_btn"
        android:layout_height="wrap_content"
        android:layout_width="wrap_content"
        android:layout_marginStart="300dp"
-       android:layout_marginTop="220dp"
+       android:layout_marginTop="170dp"
         android:backgroundTint="#69F0AE"
        android:src="@drawable/baseline_done_white_24"
         app:fabSize="auto" />
 
     <FrameLayout
-        android:layout_marginTop="250dp"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="200dp"
         android:background="@color/colorPrimary">
 
         <TextView
             android:id="@+id/resto_name"
-            android:layout_marginTop="7dp"
-            android:layout_marginStart="5dp"
             android:layout_width="220dp"
             android:layout_height="wrap_content"
-            android:text="name" />
+            android:textColor="#ffff"
+            android:textStyle="bold|italic"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="7dp"
+            android:text="" />
 
         <TextView
             android:id="@+id/resto_address"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="27dp"
+            android:textColor="#ffff"
+            android:textStyle="bold|italic"
             android:layout_marginStart="5dp"
-            android:text="address"/>
+            android:layout_marginTop="27dp"
+            android:text="" />
     </FrameLayout>
 
+    <FrameLayout
+        android:layout_marginTop="270dp"
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
     <TextView
         android:id="@+id/call_image"
         android:layout_width="65dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="350dp"
+        android:layout_marginLeft="30dp"
+        android:layout_gravity="start|center_vertical"
         android:drawableTop="@drawable/round_call_black_48dp"
         android:drawableTint="@color/colorPrimaryDark"
         android:text="CALL"
         android:textAlignment="center"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:ignore="RtlHardcoded" />
 
-    <TextView
-        android:id="@+id/star_image"
-        android:layout_width="65dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="178dp"
-        android:layout_marginTop="350dp"
-        android:drawableTop="@drawable/round_star_black_48dp"
-        android:drawableTint="@color/colorPrimaryDark"
-        android:text="LIKE"
-        android:textAlignment="center"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/star_image"
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_vertical"
+            android:drawableTop="@drawable/round_star_black_48dp"
+            android:drawableTint="@color/colorPrimaryDark"
+            android:text="LIKE"
+            android:textAlignment="center"
+            android:textStyle="bold" />
 
-    <TextView
+        <TextView
         android:id="@+id/web_image"
         android:layout_width="65dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="300dp"
-        android:layout_marginTop="350dp"
+        android:layout_gravity="end|center_vertical"
+        android:layout_marginEnd="30dp"
         android:drawableTop="@drawable/round_public_black_48dp"
         android:drawableTint="@color/colorPrimaryDark"
         android:text="WEBSITE"
         android:textAlignment="center"
         android:textStyle="bold" />
 
-
+    </FrameLayout>
 
 </RelativeLayout>

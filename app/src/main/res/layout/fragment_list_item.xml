@@ -22,21 +22,21 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
-            android:textColor="#050505"
             android:text=""
+            android:textColor="#050505"
             android:textStyle="bold|italic" />
 
         <TextView
             android:id="@+id/list_distance"
             android:layout_width="45dp"
             android:layout_height="wrap_content"
-           android:textColor="#1A237E"
-            android:textStyle="italic|bold"
             android:layout_alignParentStart="true"
             android:layout_marginStart="234dp"
             android:layout_marginTop="5dp"
             android:layout_toEndOf="@+id/list_name"
-            android:text="" />
+            android:text=""
+            android:textColor="#1A237E"
+            android:textStyle="italic|bold" />
 
         <TextView
             android:id="@+id/list_adress"
@@ -60,15 +60,14 @@
             android:id="@+id/list_openhours"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="70dp"
             android:layout_marginStart="5dp"
-            android:textStyle="italic|bold"
-            android:text="" />
+            android:layout_marginTop="70dp"
+            android:text=""
+            android:textStyle="italic|bold" />
 
         <androidx.appcompat.widget.AppCompatRatingBar
             android:id="@+id/list_rating"
             style="?android:attr/ratingBarStyleSmall"
-            android:theme="@style/RatingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -76,7 +75,8 @@
             android:layout_marginTop="60dp"
             android:layout_toEndOf="@+id/list_openhours"
             android:numStars="3"
-            android:text="" />
+            android:text=""
+            android:theme="@style/RatingBar" />
 
         <ImageView
             android:id="@+id/list_photo"

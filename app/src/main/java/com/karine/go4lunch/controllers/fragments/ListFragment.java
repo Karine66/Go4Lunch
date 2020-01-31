@@ -111,7 +111,7 @@ public class ListFragment extends BaseFragment implements Serializable {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
 
-                        PlaceDetailsResult placeDetailsResult = result.get(position);
+                        PlaceDetailsResult placeDetailsResult = placeDetails.get(position).getResult();
                         Intent intent = new Intent(getActivity(), RestaurantActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("placeDetailsResult", placeDetailsResult);
