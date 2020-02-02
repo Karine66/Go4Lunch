@@ -1,5 +1,6 @@
 package com.karine.go4lunch.controllers.activities;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -48,6 +49,12 @@ public class WebViewActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //For Hide Action Bar
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.hide();
+
     }
 
     /**

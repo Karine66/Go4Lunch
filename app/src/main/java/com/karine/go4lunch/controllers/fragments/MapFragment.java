@@ -1,6 +1,7 @@
 package com.karine.go4lunch.controllers.fragments;
 
 
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,10 +25,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.karine.go4lunch.R;
+import com.karine.go4lunch.controllers.activities.RestaurantActivity;
+import com.karine.go4lunch.controllers.activities.WebViewActivity;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import Utils.Go4LunchStream;
 import butterknife.ButterKnife;
@@ -34,6 +40,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 import models.NearbySearchAPI.GoogleApi;
 import models.NearbySearchAPI.ResultSearch;
+import models.PlaceDetailsAPI.PlaceDetailsResult;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,6 +55,8 @@ public class MapFragment extends BaseFragment implements LocationListener {
     private List <ResultSearch> resultSearch;
     private Marker marker;
     private String TAG_LIST_FRAGMENT;
+    private PlaceDetailsResult placeDetailsResult;
+
 
 
     public MapFragment() {
@@ -63,14 +72,18 @@ public class MapFragment extends BaseFragment implements LocationListener {
 
         return view;
 
+
+
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle saveInstanceState) {
         super.onActivityCreated(saveInstanceState);
-
         mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.map);
+
+
     }
+
 
   @Override
     public void onDestroy() {
@@ -141,6 +154,7 @@ public class MapFragment extends BaseFragment implements LocationListener {
                                     .title(res.getName())
                                     .snippet(res.getVicinity()));
                                     marker.showInfoWindow();
+                                    infoWindowBtn();
 
                         }
                     }
@@ -151,13 +165,28 @@ public class MapFragment extends BaseFragment implements LocationListener {
                     }
                 });
     }
-////updte UI with restaurants list
-//    public void updateUI(List <ResultSearch> results) {
-//
-//       results.clear();
-//        results.addAll(results);
-//
-//    }
+
+
+
+
+
+    private void infoWindowBtn() {
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+
+                Intent intent = new Intent(getContext(), RestaurantActivity.class);
+                startActivity(intent);
+
+            }
+
+
+        });
+    }
+
+
 
     /**
      * Dispose subscription

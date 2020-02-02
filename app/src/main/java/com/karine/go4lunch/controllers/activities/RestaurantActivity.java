@@ -88,11 +88,11 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         mRestoAddress.setText(placeDetailsResult.getVicinity());
         //For  restaurant telephone number
         String formattedPhoneNumber = placeDetailsResult.getFormattedPhoneNumber();
-        Log.d("phoneNumber", formattedPhoneNumber);
+//        Log.d("phoneNumber", formattedPhoneNumber);
         callBtn(formattedPhoneNumber);
 
         String url = placeDetailsResult.getWebsite();
-        Log.d("website", url);
+//        Log.d("website", url);
         webBtn(url);
 
     }
@@ -112,7 +112,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
 
         if (ContextCompat.checkSelfPermission(RestaurantActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(RestaurantActivity.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
-        } else if (formattedPhoneNumber != null) {
+        } else if (formattedPhoneNumber != null && !formattedPhoneNumber.isEmpty()) {
             Intent intent = new Intent(Intent.ACTION_DIAL);
             intent.setData(Uri.parse("tel:" + formattedPhoneNumber));
             startActivity(intent);
@@ -145,7 +145,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     }
 
     public void makeWebView(String url) {
-        if(url!=null) {
+        if(url!=null && !url.isEmpty()) {
             Intent intent = new Intent(RestaurantActivity.this, WebViewActivity.class);
             intent.putExtra("website", url);
             startActivity(intent);
