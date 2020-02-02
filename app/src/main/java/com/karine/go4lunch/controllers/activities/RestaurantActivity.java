@@ -1,10 +1,5 @@
 package com.karine.go4lunch.controllers.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,6 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.karine.go4lunch.BuildConfig;
@@ -26,11 +26,11 @@ import java.io.Serializable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import models.PlaceDetailsAPI.PlaceDetailsResult;
 
 public class RestaurantActivity extends AppCompatActivity implements Serializable {
 
+    private static final int REQUEST_CALL = 100;
     @BindView(R.id.resto_photo)
     ImageView mRestoPhoto;
     @BindView(R.id.resto_name)
@@ -39,8 +39,6 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     TextView mRestoAddress;
     @BindView(R.id.call_btn)
     Button mCallBtn;
-
-    private static final int REQUEST_CALL = 100;
     String GOOGLE_MAP_API_KEY = BuildConfig.GOOGLE_MAP_API_KEY;
     private PlaceDetailsResult placeDetailsResult;
     private RequestManager glide;
@@ -53,6 +51,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         ButterKnife.bind(this);
 
         this.retrieveData();
+
     }
 
     //For retrieve data to ListFragment
@@ -87,14 +86,14 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         Log.d("phoneNumber", formattedPhoneNumber);
         callBtn(formattedPhoneNumber);
     }
+
     //For click call button
     public void callBtn(String formattedPhoneNumber) {
         mCallBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                    makePhoneCall(formattedPhoneNumber);
-                }
+                makePhoneCall(formattedPhoneNumber);
+            }
         });
     }
 
@@ -104,12 +103,16 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         if (ContextCompat.checkSelfPermission(RestaurantActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(RestaurantActivity.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
         } else if (formattedPhoneNumber != null) {
-            String dial = "tel:" + formattedPhoneNumber;
-            startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:" + formattedPhoneNumber));
+            startActivity(intent);
+//            String dial = "tel:" + formattedPhoneNumber;
+//            startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
         } else {
             Toast.makeText(RestaurantActivity.this, "No Phone Available", Toast.LENGTH_SHORT).show();
         }
     }
+
     //For permissions
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
