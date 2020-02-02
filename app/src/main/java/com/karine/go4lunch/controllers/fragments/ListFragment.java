@@ -117,8 +117,6 @@ public class ListFragment extends BaseFragment implements Serializable {
                         bundle.putSerializable("placeDetailsResult", placeDetailsResult);
                         intent.putExtras(bundle);
                         startActivity(intent);
-
-
                     }
                 }));
     }

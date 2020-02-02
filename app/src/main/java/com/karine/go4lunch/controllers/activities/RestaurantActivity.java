@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,10 +40,14 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     TextView mRestoAddress;
     @BindView(R.id.call_btn)
     Button mCallBtn;
+    @BindView(R.id.web_btn)
+    Button mWebBtn;
+
     String GOOGLE_MAP_API_KEY = BuildConfig.GOOGLE_MAP_API_KEY;
     private PlaceDetailsResult placeDetailsResult;
     private RequestManager glide;
     private String formattedPhoneNumber;
+    private String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +90,11 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         String formattedPhoneNumber = placeDetailsResult.getFormattedPhoneNumber();
         Log.d("phoneNumber", formattedPhoneNumber);
         callBtn(formattedPhoneNumber);
+
+        String url = placeDetailsResult.getWebsite();
+        Log.d("website", url);
+        webBtn(url);
+
     }
 
     //For click call button
@@ -106,8 +116,6 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
             Intent intent = new Intent(Intent.ACTION_DIAL);
             intent.setData(Uri.parse("tel:" + formattedPhoneNumber));
             startActivity(intent);
-//            String dial = "tel:" + formattedPhoneNumber;
-//            startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
         } else {
             Toast.makeText(RestaurantActivity.this, "No Phone Available", Toast.LENGTH_SHORT).show();
         }
@@ -118,10 +126,33 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CALL) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                //makePhoneCall(formattedPhoneNumber);
+                makePhoneCall(formattedPhoneNumber);
             } else {
                 Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
             }
         }
     }
+
+
+    //For click website button
+    public void webBtn(String url) {
+        mWebBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                makeWebView(url);
+            }
+        });
+    }
+
+    public void makeWebView(String url) {
+        if(url!=null) {
+            Intent intent = new Intent(RestaurantActivity.this, WebViewActivity.class);
+            intent.putExtra("website", url);
+            startActivity(intent);
+        }else{
+            Toast.makeText(this, "No Website",Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
 }
