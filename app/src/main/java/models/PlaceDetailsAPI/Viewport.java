@@ -3,9 +3,11 @@ package models.PlaceDetailsAPI;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 
 @SuppressWarnings("unused")
-public class Viewport {
+public class Viewport implements Serializable {
 
     @SerializedName("northeast")
     private Northeast mNortheast;

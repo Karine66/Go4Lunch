@@ -4,9 +4,11 @@ package models.PlaceDetailsAPI;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 
 @SuppressWarnings("unused")
-public class Period {
+public class Period implements Serializable {
 
     @SerializedName("close")
     private Close mClose;

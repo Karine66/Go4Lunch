@@ -1,13 +1,14 @@
 
 package models.PlaceDetailsAPI;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
 
 @SuppressWarnings("unused")
-public class Photo {
+public class Photo implements Serializable {
 
     @SerializedName("height")
     private Long mHeight;

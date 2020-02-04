@@ -3,9 +3,11 @@ package models.PlaceDetailsAPI;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 
 @SuppressWarnings("unused")
-public class Open {
+public class Open implements Serializable {
 
     @SerializedName("day")
     private Long mDay;

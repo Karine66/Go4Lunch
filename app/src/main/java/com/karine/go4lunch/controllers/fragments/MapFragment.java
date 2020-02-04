@@ -45,7 +45,7 @@ import models.PlaceDetailsAPI.PlaceDetailsResult;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MapFragment extends BaseFragment implements LocationListener {
+public class MapFragment extends BaseFragment implements LocationListener, Serializable {
 
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;
@@ -53,7 +53,7 @@ public class MapFragment extends BaseFragment implements LocationListener {
     private Disposable mDisposable;
     private String mPosition;
     private List <ResultSearch> resultSearch;
-    private Marker marker;
+    private Marker positionMarker;
     private String TAG_LIST_FRAGMENT;
     private PlaceDetailsResult placeDetailsResult;
 
@@ -120,14 +120,14 @@ public class MapFragment extends BaseFragment implements LocationListener {
             mMap.moveCamera(CameraUpdateFactory.newLatLng(googleLocation));
             mPosition = mLatitude + "," + mLongitude;
             Log.d("TestLatLng", mPosition);
-            executeHttpRequestWithRetrofit();
+            executeHttpRequestWithRetrofit(placeDetailsResult);
         }
     }
 
 //    /**
 //     * HTTP request RX Java for restaurants
 //     */
-    private void executeHttpRequestWithRetrofit() {
+    private void executeHttpRequestWithRetrofit(PlaceDetailsResult placeDetailsResult) {
 
         this.mDisposable = Go4LunchStream.streamFetchRestaurants(mPosition, 5000, "restaurant")
                 .subscribeWith(new DisposableObserver<GoogleApi>() {
@@ -138,24 +138,23 @@ public class MapFragment extends BaseFragment implements LocationListener {
                     @Override
                     public void onNext(GoogleApi mResultSearches) {
 
-                       resultSearchList.addAll(mResultSearches.getResults());
-                       Log.d("TestonNextSize", String.valueOf(resultSearchList.size()));
+                        resultSearchList.addAll(mResultSearches.getResults());
+                        Log.d("TestonNextSize", String.valueOf(resultSearchList.size()));
                     }
 
                     @Override
                     public void onComplete() {
 
-                        for (ResultSearch res : resultSearchList){
+                        for (ResultSearch res : resultSearchList) {
                             LatLng latLng = new LatLng(res.getGeometry().getLocation().getLat(),
-                                                       res.getGeometry().getLocation().getLng()
-                                                        );
-                            marker = mMap.addMarker(new MarkerOptions().position(latLng)
+                                    res.getGeometry().getLocation().getLng()
+                            );
+                            positionMarker = mMap.addMarker(new MarkerOptions().position(latLng)
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.restaurant_markerv2))
                                     .title(res.getName())
                                     .snippet(res.getVicinity()));
-                                    marker.showInfoWindow();
-                                    infoWindowBtn();
-
+                                    positionMarker.showInfoWindow();
+                                    positionMarker.setTag(placeDetailsResult);
                         }
                     }
 
@@ -164,30 +163,23 @@ public class MapFragment extends BaseFragment implements LocationListener {
                         Log.e("onErrorRestaurantsMap", Log.getStackTraceString(e));
                     }
                 });
-    }
 
-
-
-
-
-    private void infoWindowBtn() {
 
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-
             @Override
+
             public void onInfoWindowClick(Marker marker) {
-
-                Intent intent = new Intent(getContext(), RestaurantActivity.class);
-                startActivity(intent);
-
+                if (marker.equals(positionMarker.getTag())) {
+                    Intent intent = new Intent(getContext(), RestaurantActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("placeDetailsResult", positionMarker.getTag().toString());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
             }
 
-
+            }
         });
     }
-
-
-
     /**
      * Dispose subscription
      */

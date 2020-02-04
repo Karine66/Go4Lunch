@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.karine.go4lunch.BuildConfig;
@@ -48,13 +49,13 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     private RequestManager glide;
     private String formattedPhoneNumber;
     private String url;
+    private RequestManager mGlide;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant);
         ButterKnife.bind(this);
-
         this.retrieveData();
 
     }
@@ -65,9 +66,9 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         Bundle bundle = intent.getExtras();
         assertNotNull(bundle);
         PlaceDetailsResult placeDetailsResult = (PlaceDetailsResult) bundle.getSerializable("placeDetailsResult");
-        assertNotNull(bundle);
-        Log.d("RestoActivity", placeDetailsResult.getName());
-        updateUI(placeDetailsResult, glide);
+//        Log.d("RestoActivity", placeDetailsResult.getName());
+        assert placeDetailsResult != null;
+        updateUI(placeDetailsResult, mGlide);
 
     }
     //For AssertNotNull
@@ -80,15 +81,14 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
 
 
     private void updateUI(PlaceDetailsResult placeDetailsResult, RequestManager glide) {
-
-
+        mGlide = glide;
+        
         //for add photos with Glide
-        if (placeDetailsResult.getPhotos() != null && !placeDetailsResult.getPhotos().isEmpty()) {
-            glide.load("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=400&photoreference=" + placeDetailsResult.getPhotos().get(0).getPhotoReference() + "&key=" + GOOGLE_MAP_API_KEY)
-                    .apply(RequestOptions.centerCropTransform()).into(mRestoPhoto);
-        } else {
-            mRestoPhoto.setImageResource(R.drawable.no_picture);
-        }
+        Glide.with(this)
+       .load("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=400&photoreference=" + placeDetailsResult.getPhotos().get(0).getPhotoReference() + "&key=" + GOOGLE_MAP_API_KEY)
+                    .apply(RequestOptions.centerCropTransform())
+                    .into(mRestoPhoto);
+
         //For Restaurant Name
         mRestoName.setText(placeDetailsResult.getName());
         //For Restaurant address

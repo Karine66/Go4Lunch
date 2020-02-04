@@ -11,7 +11,7 @@ import com.google.gson.annotations.SerializedName;
 
 
 @SuppressWarnings("unused")
-public class PlaceDetailsResult implements Serializable, Parcelable {
+public class PlaceDetailsResult implements Serializable {
 
     @SerializedName("name")
     private String mName;
@@ -31,29 +31,7 @@ public class PlaceDetailsResult implements Serializable, Parcelable {
     private String mWebsite;
 
 
-    protected PlaceDetailsResult(Parcel in) {
-        mName = in.readString();
-        if (in.readByte() == 0) {
-            mRating = null;
-        } else {
-            mRating = in.readDouble();
-        }
-        mVicinity = in.readString();
-        mFormattedPhoneNumber = in.readString();
-        mWebsite = in.readString();
-    }
 
-    public static final Creator<PlaceDetailsResult> CREATOR = new Creator<PlaceDetailsResult>() {
-        @Override
-        public PlaceDetailsResult createFromParcel(Parcel in) {
-            return new PlaceDetailsResult(in);
-        }
-
-        @Override
-        public PlaceDetailsResult[] newArray(int size) {
-            return new PlaceDetailsResult[size];
-        }
-    };
 
     public String getName() {
         return mName;
@@ -119,24 +97,7 @@ public class PlaceDetailsResult implements Serializable, Parcelable {
         mWebsite = website;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(mName);
-        if (mRating == null) {
-            parcel.writeByte((byte) 0);
-        } else {
-            parcel.writeByte((byte) 1);
-            parcel.writeDouble(mRating);
-        }
-        parcel.writeString(mVicinity);
-        parcel.writeString(mFormattedPhoneNumber);
-        parcel.writeString(mWebsite);
-    }
 }
 
 

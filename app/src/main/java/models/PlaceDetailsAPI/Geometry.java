@@ -4,9 +4,11 @@ package models.PlaceDetailsAPI;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 
 @SuppressWarnings("unused")
-public class Geometry {
+public class Geometry implements Serializable {
 
     @SerializedName("location")
     private Location mLocation;
