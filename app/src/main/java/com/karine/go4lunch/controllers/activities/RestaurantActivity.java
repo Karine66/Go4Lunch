@@ -63,14 +63,21 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     private void retrieveData() {
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
-        assert bundle != null;
+        assertNotNull(bundle);
         PlaceDetailsResult placeDetailsResult = (PlaceDetailsResult) bundle.getSerializable("placeDetailsResult");
-
-        assert placeDetailsResult != null;
+        assertNotNull(bundle);
         Log.d("RestoActivity", placeDetailsResult.getName());
         updateUI(placeDetailsResult, glide);
 
     }
+    //For AssertNotNull
+    public static <T> T assertNotNull(T bundle) {
+        if(bundle == null)
+            throw new AssertionError("Object cannot be null");
+            return bundle;
+        }
+
+
 
     private void updateUI(PlaceDetailsResult placeDetailsResult, RequestManager glide) {
 
@@ -115,6 +122,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         } else if (formattedPhoneNumber != null && !formattedPhoneNumber.isEmpty()) {
             Intent intent = new Intent(Intent.ACTION_DIAL);
             intent.setData(Uri.parse("tel:" + formattedPhoneNumber));
+            Log.d("PhoneNumber", formattedPhoneNumber);
             startActivity(intent);
         } else {
             Toast.makeText(RestaurantActivity.this, "No Phone Available", Toast.LENGTH_SHORT).show();
@@ -148,6 +156,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         if(url!=null && !url.isEmpty()) {
             Intent intent = new Intent(RestaurantActivity.this, WebViewActivity.class);
             intent.putExtra("website", url);
+             Log.d("Website", url);
             startActivity(intent);
         }else{
             Toast.makeText(this, "No Website",Toast.LENGTH_SHORT).show();
