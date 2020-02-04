@@ -82,7 +82,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
 
     private void updateUI(PlaceDetailsResult placeDetailsResult, RequestManager glide) {
         mGlide = glide;
-        
+
         //for add photos with Glide
         Glide.with(this)
        .load("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=400&photoreference=" + placeDetailsResult.getPhotos().get(0).getPhotoReference() + "&key=" + GOOGLE_MAP_API_KEY)

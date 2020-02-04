@@ -70,6 +70,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
     private float[] distanceResults = new float[3];
     private Period periods;
     private String localTime;
+    private boolean permanentalyClosed;
 
 
     public Go4LunchViewHolder(View itemView) {
@@ -109,17 +110,20 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
                 this.mOpenHours.setTextColor(Color.RED);
             } else if (result.getOpeningHours().getOpenNow().toString().equals("true")) {
                 this.mOpenHours.setText("Open");
-               // this.mOpenHours.setText("Open" + " "+ openingHour);
+                // this.mOpenHours.setText("Open" + " "+ openingHour);
                 this.mOpenHours.setTextColor(itemView.getContext().getResources().getColor(R.color.colorOpen));
-            } else if (result.getOpeningHours() == null){
-                this.mOpenHours.setText("Opening Hours not available");
-                this.mOpenHours.setTextColor(Color.BLACK);
-            }else if (result.getOpeningHours().getPermanentlyClosed()){
-                this.mOpenHours.setText("Permanently Closed");
-                this.mOpenHours.setTextColor(Color.RED);
             }
         }
+               if (result.getOpeningHours() == null){
+                this.mOpenHours.setText("Opening Hours not available");
+                this.mOpenHours.setTextColor(Color.BLACK);
+            }
+//               if (result.getOpeningHours().getPermanentlyClosed().toString().equals("true") ){
+//                this.mOpenHours.setText("Permanently Closed");
+//                this.mOpenHours.setTextColor(Color.RED);
+//            }
 
+     //   getHoursInfo(result);
 
 
 //        Log.d("TestHours", result.getOpeningHours().toString());
@@ -155,19 +159,27 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
             this.mRatingBar.setVisibility(View.GONE);
         }
     }
-//        private void getHoursInfo(PlaceDetailsResult result) {
-//        Calendar calendar = Calendar.getInstance();
-//            int[] days = {0, 1, 2, 3, 4, 5, 6};
-//            getCurrentTime();
-//           // for(int i=0; i<result.getOpeningHours().getPeriods().length;i++) {
-//            for(Period p : result.getOpeningHours().getPeriods()) {
-//                    if(result.getOpeningHours().getOpenNow().toString().equals("true")){
-//                        Log.d("close", "close until" + p.getClose().getTime());
-//                    }
-//
-//                }
-//            }
-//        }
+        private void getHoursInfo(PlaceDetailsResult result) {
+        int[] days = {0, 1, 2, 3, 4, 5, 6};
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        String currentHourString = Integer.toString(hour)+Integer.toString(minute);
+        int currentHour = Integer.parseInt(currentHourString);
+
+
+            for(int i=0; i<result.getOpeningHours().getPeriods().size();i++) {
+      //      for(Period p : result.getOpeningHours().getPeriods().size()) {
+               if(result.getOpeningHours().getPeriods().get(i).getOpen().getDay() == days [day]){
+                   String closeHour = result.getOpeningHours().getPeriods().get(i).getClose().getTime();
+                   Log.d("closeHour", closeHour);
+               }
+                    }
+
+                }
+
+
 
 
 

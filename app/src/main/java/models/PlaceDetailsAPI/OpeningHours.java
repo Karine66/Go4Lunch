@@ -122,10 +122,17 @@ public class OpeningHours implements Serializable {
 
     /** Opening periods covering seven days, starting from Sunday, in chronological order. */
     @SerializedName("periods")
-   public Period[] periods;
-    public Period[] getPeriods() {
-        return periods;
+    private List<Period> mPeriods;
+    public List<Period> getPeriods() {
+        return mPeriods;
     }
+    public void setPeriods(List<Period> periods) {
+        mPeriods = periods;
+    }
+//   public Period[] periods;
+//    public Period[] getPeriods() {
+//        return periods;
+//    }
 
 
     /**
@@ -147,17 +154,17 @@ public class OpeningHours implements Serializable {
         return permanentlyClosed;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("[OpeningHours:");
-        if (permanentlyClosed != null && permanentlyClosed) {
-            sb.append(" permanentlyClosed");
-        }
-        if (openNow != null && openNow) {
-            sb.append(" openNow");
-        }
-        sb.append(" ").append(Arrays.toString(periods));
-        Log.d("Hours", sb.toString());
-        return sb.toString();
-    }
+//    @Override
+//    public String toString() {
+//        StringBuilder sb = new StringBuilder("[OpeningHours:");
+//        if (permanentlyClosed != null && permanentlyClosed) {
+//            sb.append(" permanentlyClosed");
+//        }
+//        if (openNow != null && openNow) {
+//            sb.append(" openNow");
+//        }
+//        sb.append(" ").append(Arrays.toString(periods));
+//        Log.d("Hours", sb.toString());
+//        return sb.toString();
+//    }
 }

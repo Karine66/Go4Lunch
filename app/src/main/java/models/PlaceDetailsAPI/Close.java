@@ -2,6 +2,8 @@
 package models.PlaceDetailsAPI;
 
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -30,6 +32,7 @@ public class Close implements Serializable {
     public void setTime(String time) {
         mTime = time;
     }
+    @NonNull
     @Override
     public String toString() {
         return String.format("%s %s", mDay, mTime);
