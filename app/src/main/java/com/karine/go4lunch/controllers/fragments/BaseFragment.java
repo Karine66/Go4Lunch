@@ -121,5 +121,4 @@ public abstract class BaseFragment extends Fragment implements LocationListener 
         checkPermissions();
 
     }
-
 }

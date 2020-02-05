@@ -22,9 +22,7 @@ import com.karine.go4lunch.controllers.activities.RestaurantActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import Utils.Go4LunchStream;
 import Utils.ItemClickSupport;

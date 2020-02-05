@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,13 +25,10 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.karine.go4lunch.R;
 import com.karine.go4lunch.controllers.activities.RestaurantActivity;
-import com.karine.go4lunch.controllers.activities.WebViewActivity;
-
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import Utils.Go4LunchStream;
 import butterknife.ButterKnife;
@@ -56,6 +52,7 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
     private Marker positionMarker;
     private String TAG_LIST_FRAGMENT;
     private PlaceDetailsResult placeDetailsResult;
+
 
 
 
@@ -120,14 +117,14 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
             mMap.moveCamera(CameraUpdateFactory.newLatLng(googleLocation));
             mPosition = mLatitude + "," + mLongitude;
             Log.d("TestLatLng", mPosition);
-            executeHttpRequestWithRetrofit(placeDetailsResult);
+            executeHttpRequestWithRetrofit();
         }
     }
 
 //    /**
 //     * HTTP request RX Java for restaurants
 //     */
-    private void executeHttpRequestWithRetrofit(PlaceDetailsResult placeDetailsResult) {
+    private void executeHttpRequestWithRetrofit() {
 
         this.mDisposable = Go4LunchStream.streamFetchRestaurants(mPosition, 5000, "restaurant")
                 .subscribeWith(new DisposableObserver<GoogleApi>() {
@@ -154,7 +151,8 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
                                     .title(res.getName())
                                     .snippet(res.getVicinity()));
                                     positionMarker.showInfoWindow();
-                                    positionMarker.setTag(placeDetailsResult);
+                                    positionMarker.setTag(res);
+
                         }
                     }
 
@@ -169,14 +167,13 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
             @Override
 
             public void onInfoWindowClick(Marker marker) {
-                if (marker.equals(positionMarker.getTag())) {
+
+                    PlaceDetailsResult positionMarkerTag = (PlaceDetailsResult) positionMarker.getTag();
                     Intent intent = new Intent(getContext(), RestaurantActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("placeDetailsResult", positionMarker.getTag().toString());
+                    bundle.putSerializable("placeDetailsResult", positionMarkerTag);
                     intent.putExtras(bundle);
                     startActivity(intent);
-            }
-
             }
         });
     }

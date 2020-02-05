@@ -4,17 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.location.Location;
-import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-
-import androidx.annotation.ColorInt;
-import androidx.annotation.RequiresApi;
-import androidx.annotation.Size;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.RequestManager;
@@ -25,14 +20,9 @@ import com.karine.go4lunch.R;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.ResourceBundle;
-import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -178,10 +168,6 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
                     }
 
                 }
-
-
-
-
 
     private void getTodayDate(){
         Calendar cal = Calendar.getInstance();
