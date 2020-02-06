@@ -83,10 +83,14 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         mGlide = glide;
 
         //for add photos with Glide
-        Glide.with(this)
-       .load("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=400&photoreference=" + placeDetailsResult.getPhotos().get(0).getPhotoReference() + "&key=" + GOOGLE_MAP_API_KEY)
+        if (placeDetailsResult.getPhotos() != null && !placeDetailsResult.getPhotos().isEmpty()) {
+            Glide.with(this)
+                    .load("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=400&photoreference=" + placeDetailsResult.getPhotos().get(0).getPhotoReference() + "&key=" + GOOGLE_MAP_API_KEY)
                     .apply(RequestOptions.centerCropTransform())
                     .into(mRestoPhoto);
+        } else {
+            mRestoPhoto.setImageResource(R.drawable.no_picture);
+        }
 
         //For Restaurant Name
         mRestoName.setText(placeDetailsResult.getName());

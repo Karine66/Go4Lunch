@@ -31,7 +31,7 @@ import java.util.Objects;
 public abstract class BaseFragment extends Fragment implements LocationListener {
 
     public LocationManager locationManager;
-    private static final int PERMS_CALL_ID = 200;
+    protected static final int PERMS_CALL_ID = 200;
     private GoogleMap mMap;
     private String mPosition;
 

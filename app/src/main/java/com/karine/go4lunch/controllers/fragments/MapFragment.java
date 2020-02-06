@@ -1,12 +1,16 @@
 package com.karine.go4lunch.controllers.fragments;
 
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -29,6 +33,7 @@ import com.karine.go4lunch.controllers.activities.RestaurantActivity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import Utils.Go4LunchStream;
 import butterknife.ButterKnife;
@@ -103,6 +108,14 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
             public void onMapReady(GoogleMap googleMap) {
                 mMap = googleMap;
                 googleMap.moveCamera(CameraUpdateFactory.zoomBy(15));
+                if (ActivityCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                        ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions((Activity) getContext(), new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION
+                    }, PERMS_CALL_ID);
+                    return;
+                }
                 googleMap.setMyLocationEnabled(true);
             }
         });
