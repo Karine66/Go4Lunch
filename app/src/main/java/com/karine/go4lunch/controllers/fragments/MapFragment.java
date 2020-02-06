@@ -39,8 +39,10 @@ import Utils.Go4LunchStream;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
+import io.reactivex.observers.DisposableSingleObserver;
 import models.NearbySearchAPI.GoogleApi;
 import models.NearbySearchAPI.ResultSearch;
+import models.PlaceDetailsAPI.PlaceDetail;
 import models.PlaceDetailsAPI.PlaceDetailsResult;
 
 /**
@@ -53,11 +55,9 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
     private Location location;
     private Disposable mDisposable;
     private String mPosition;
-    private List <ResultSearch> resultSearch;
+    private List<ResultSearch> resultSearch;
     private Marker positionMarker;
     private String TAG_LIST_FRAGMENT;
-    private PlaceDetailsResult placeDetailsResult;
-
 
 
 
@@ -75,7 +75,6 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
         return view;
 
 
-
     }
 
     @Override
@@ -87,7 +86,7 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
     }
 
 
-  @Override
+    @Override
     public void onDestroy() {
         super.onDestroy();
         this.disposeWhenDestroy();
@@ -120,6 +119,7 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
             }
         });
     }
+
     public void onLocationChanged(Location location) {
         double mLatitude = location.getLatitude();
         double mLongitude = location.getLongitude();
@@ -137,43 +137,78 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
 //    /**
 //     * HTTP request RX Java for restaurants
 //     */
+
     private void executeHttpRequestWithRetrofit() {
 
-        this.mDisposable = Go4LunchStream.streamFetchRestaurants(mPosition, 5000, "restaurant")
-                .subscribeWith(new DisposableObserver<GoogleApi>() {
+        this.mDisposable = Go4LunchStream.streamFetchRestaurantDetails(mPosition, 2000, "restaurant")
+                .subscribeWith(new DisposableSingleObserver<List<PlaceDetail>>() {
 
-
-                    private List<ResultSearch> resultSearchList = new ArrayList<>();
-
-                    @Override
-                    public void onNext(GoogleApi mResultSearches) {
-
-                        resultSearchList.addAll(mResultSearches.getResults());
-                        Log.d("TestonNextSize", String.valueOf(resultSearchList.size()));
-                    }
+                    private List<PlaceDetailsResult> placeDetailsResults = new ArrayList<>();
 
                     @Override
-                    public void onComplete() {
+                    public void onSuccess(List<PlaceDetail> placeDetails) {
 
-                        for (ResultSearch res : resultSearchList) {
-                            LatLng latLng = new LatLng(res.getGeometry().getLocation().getLat(),
-                                    res.getGeometry().getLocation().getLng()
+                        for (PlaceDetailsResult detailResult : placeDetailsResults) {
+                            LatLng latLng = new LatLng(detailResult.getGeometry().getLocation().getLat(),
+                                    detailResult.getGeometry().getLocation().getLng()
                             );
                             positionMarker = mMap.addMarker(new MarkerOptions().position(latLng)
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.restaurant_markerv2))
-                                    .title(res.getName())
-                                    .snippet(res.getVicinity()));
-                                    positionMarker.showInfoWindow();
-                                    positionMarker.setTag(res);
+                                    .title(detailResult.getName())
+                                    .snippet(detailResult.getVicinity()));
+                            positionMarker.showInfoWindow();
+                            positionMarker.setTag(placeDetailsResults);
+                            Log.d("detailResultMap", String.valueOf(placeDetailsResults));
 
                         }
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("onErrorRestaurantsMap", Log.getStackTraceString(e));
+                        Log.e("TestDetail", Log.getStackTraceString(e));
+
                     }
+
                 });
+
+//    private void executeHttpRequestWithRetrofit() {
+//
+//        this.mDisposable = Go4LunchStream.streamFetchRestaurants(mPosition, 5000, "restaurant")
+//                .subscribeWith(new DisposableObserver<GoogleApi>() {
+//
+//
+//                    private List<ResultSearch> resultSearchList = new ArrayList<>();
+//
+//                    @Override
+//                    public void onNext(GoogleApi mResultSearches) {
+//
+//                        resultSearchList.addAll(mResultSearches.getResults());
+//                        Log.d("TestonNextSize", String.valueOf(resultSearchList.size()));
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//
+//                        for (ResultSearch res : resultSearchList) {
+//                            LatLng latLng = new LatLng(res.getGeometry().getLocation().getLat(),
+//                                    res.getGeometry().getLocation().getLng()
+//                            );
+//                            positionMarker = mMap.addMarker(new MarkerOptions().position(latLng)
+//                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.restaurant_markerv2))
+//                                    .title(res.getName())
+//                                    .snippet(res.getVicinity()));
+//                                    positionMarker.showInfoWindow();
+//                                    positionMarker.setTag(res);
+//
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        Log.e("onErrorRestaurantsMap", Log.getStackTraceString(e));
+//                    }
+//                });
 
 
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
@@ -181,15 +216,16 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
 
             public void onInfoWindowClick(Marker marker) {
 
-                    PlaceDetailsResult positionMarkerTag = (PlaceDetailsResult) positionMarker.getTag();
-                    Intent intent = new Intent(getContext(), RestaurantActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("placeDetailsResult", positionMarkerTag);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
+                PlaceDetailsResult positionMarkerTag = (PlaceDetailsResult) positionMarker.getTag();
+                Intent intent = new Intent(getContext(), RestaurantActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("placeDetailsResult", positionMarkerTag);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
     }
+
     /**
      * Dispose subscription
      */
