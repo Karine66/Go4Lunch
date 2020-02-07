@@ -32,6 +32,7 @@ import com.karine.go4lunch.controllers.activities.RestaurantActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -143,25 +144,23 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
         this.mDisposable = Go4LunchStream.streamFetchRestaurantDetails(mPosition, 2000, "restaurant")
                 .subscribeWith(new DisposableSingleObserver<List<PlaceDetail>>() {
 
-                    private List<PlaceDetailsResult> placeDetailsResults = new ArrayList<>();
+
 
                     @Override
                     public void onSuccess(List<PlaceDetail> placeDetails) {
 
-                        for (PlaceDetailsResult detailResult : placeDetailsResults) {
-                            LatLng latLng = new LatLng(detailResult.getGeometry().getLocation().getLat(),
-                                    detailResult.getGeometry().getLocation().getLng()
+                        for (PlaceDetail detail : placeDetails) {
+                            LatLng latLng = new LatLng(detail.getResult().getGeometry().getLocation().getLat(),
+                                    detail.getResult().getGeometry().getLocation().getLng()
                             );
                             positionMarker = mMap.addMarker(new MarkerOptions().position(latLng)
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.restaurant_markerv2))
-                                    .title(detailResult.getName())
-                                    .snippet(detailResult.getVicinity()));
+                                    .title(detail.getResult().getName())
+                                    .snippet(detail.getResult().getVicinity()));
                             positionMarker.showInfoWindow();
-                            positionMarker.setTag(placeDetailsResults);
-                            Log.d("detailResultMap", String.valueOf(placeDetailsResults));
-
+                            positionMarker.setTag(placeDetails);
+                            Log.d("detailResultMap", String.valueOf(placeDetails));
                         }
-
                     }
 
                     @Override
@@ -216,10 +215,11 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
 
             public void onInfoWindowClick(Marker marker) {
 
-                PlaceDetailsResult positionMarkerTag = (PlaceDetailsResult) positionMarker.getTag();
+                PlaceDetailsResult positionMarkerList = new PlaceDetailsResult();
+                positionMarkerList = (PlaceDetailsResult) positionMarker.getTag();
                 Intent intent = new Intent(getContext(), RestaurantActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("placeDetailsResult", positionMarkerTag);
+                bundle.putSerializable("placeDetailsResult", positionMarkerList);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
