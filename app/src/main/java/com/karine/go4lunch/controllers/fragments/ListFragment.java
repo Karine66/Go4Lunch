@@ -81,7 +81,6 @@ public class ListFragment extends BaseFragment implements Serializable {
         super.onDestroy();
         this.disposeWhenDestroy();
     }
-    //Configuration RV
     //Configure RecyclerView, Adapter, LayoutManager & glue it
     private void configureRecyclerView() {
         //reset List
