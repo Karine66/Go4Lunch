@@ -141,10 +141,8 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
 
     private void executeHttpRequestWithRetrofit() {
 
-        this.mDisposable = Go4LunchStream.streamFetchRestaurantDetails(mPosition, 2000, "restaurant")
+        this.mDisposable = Go4LunchStream.streamFetchRestaurantDetails(mPosition, 3000, "restaurant")
                 .subscribeWith(new DisposableSingleObserver<List<PlaceDetail>>() {
-
-
 
                     @Override
                     public void onSuccess(List<PlaceDetail> placeDetails) {
@@ -158,8 +156,9 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
                                     .title(detail.getResult().getName())
                                     .snippet(detail.getResult().getVicinity()));
                             positionMarker.showInfoWindow();
-                            positionMarker.setTag(placeDetails);
-                            Log.d("detailResultMap", String.valueOf(placeDetails));
+                            PlaceDetailsResult placeDetailsResult = detail.getResult();
+                            positionMarker.setTag(placeDetailsResult);
+                            Log.d("detailResultMap", String.valueOf(placeDetailsResult));
                         }
                     }
 
@@ -171,52 +170,12 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
 
                 });
 
-//    private void executeHttpRequestWithRetrofit() {
-//
-//        this.mDisposable = Go4LunchStream.streamFetchRestaurants(mPosition, 5000, "restaurant")
-//                .subscribeWith(new DisposableObserver<GoogleApi>() {
-//
-//
-//                    private List<ResultSearch> resultSearchList = new ArrayList<>();
-//
-//                    @Override
-//                    public void onNext(GoogleApi mResultSearches) {
-//
-//                        resultSearchList.addAll(mResultSearches.getResults());
-//                        Log.d("TestonNextSize", String.valueOf(resultSearchList.size()));
-//                    }
-//
-//                    @Override
-//                    public void onComplete() {
-//
-//                        for (ResultSearch res : resultSearchList) {
-//                            LatLng latLng = new LatLng(res.getGeometry().getLocation().getLat(),
-//                                    res.getGeometry().getLocation().getLng()
-//                            );
-//                            positionMarker = mMap.addMarker(new MarkerOptions().position(latLng)
-//                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.restaurant_markerv2))
-//                                    .title(res.getName())
-//                                    .snippet(res.getVicinity()));
-//                                    positionMarker.showInfoWindow();
-//                                    positionMarker.setTag(res);
-//
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        Log.e("onErrorRestaurantsMap", Log.getStackTraceString(e));
-//                    }
-//                });
-
-
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
 
             public void onInfoWindowClick(Marker marker) {
 
-                PlaceDetailsResult positionMarkerList = new PlaceDetailsResult();
-                positionMarkerList = (PlaceDetailsResult) positionMarker.getTag();
+                PlaceDetailsResult positionMarkerList = (PlaceDetailsResult) positionMarker.getTag();
                 Intent intent = new Intent(getContext(), RestaurantActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("placeDetailsResult", positionMarkerList);
