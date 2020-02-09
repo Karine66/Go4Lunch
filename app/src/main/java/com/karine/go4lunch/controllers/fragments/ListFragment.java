@@ -24,15 +24,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import Utils.Go4LunchStream;
-import Utils.ItemClickSupport;
+import com.karine.go4lunch.Utils.Go4LunchStream;
+import com.karine.go4lunch.Utils.ItemClickSupport;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
-import models.PlaceDetailsAPI.PlaceDetail;
-import models.PlaceDetailsAPI.PlaceDetailsResult;
-import views.Go4LunchAdapter;
+import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
+import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
+import com.karine.go4lunch.views.Go4LunchAdapter;
 
 
 /**

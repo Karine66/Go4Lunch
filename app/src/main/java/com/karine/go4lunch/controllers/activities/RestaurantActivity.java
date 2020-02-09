@@ -28,7 +28,7 @@ import java.io.Serializable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import models.PlaceDetailsAPI.PlaceDetailsResult;
+import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 
 public class RestaurantActivity extends AppCompatActivity implements Serializable {
 

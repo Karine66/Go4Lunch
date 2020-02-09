@@ -31,20 +31,17 @@ import com.karine.go4lunch.R;
 import com.karine.go4lunch.controllers.activities.RestaurantActivity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import Utils.Go4LunchStream;
+import com.karine.go4lunch.Utils.Go4LunchStream;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.observers.DisposableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
-import models.NearbySearchAPI.GoogleApi;
-import models.NearbySearchAPI.ResultSearch;
-import models.PlaceDetailsAPI.PlaceDetail;
-import models.PlaceDetailsAPI.PlaceDetailsResult;
+
+import com.karine.go4lunch.models.NearbySearchAPI.ResultSearch;
+import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
+import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 
 /**
  * A simple {@link Fragment} subclass.

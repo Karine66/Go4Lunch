@@ -7,17 +7,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.request.RequestOptions;
 
 
 import com.google.firebase.firestore.auth.User;
@@ -26,11 +22,11 @@ import com.karine.go4lunch.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import Utils.FirebaseUtils;
+import com.karine.go4lunch.Utils.FirebaseUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
-import views.WorkmatesAdapter;
+import com.karine.go4lunch.views.WorkmatesAdapter;
 
 
 /**

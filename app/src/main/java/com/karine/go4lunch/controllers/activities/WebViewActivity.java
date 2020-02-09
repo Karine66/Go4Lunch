@@ -4,9 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -18,7 +16,6 @@ import com.karine.go4lunch.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import models.PlaceDetailsAPI.PlaceDetailsResult;
 
 public class WebViewActivity extends AppCompatActivity {
 
