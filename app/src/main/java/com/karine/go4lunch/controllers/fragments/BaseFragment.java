@@ -9,21 +9,21 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.karine.go4lunch.R;
 
 import java.util.Objects;
-
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,7 +34,6 @@ public abstract class BaseFragment extends Fragment implements LocationListener 
     protected static final int PERMS_CALL_ID = 200;
     private GoogleMap mMap;
     private String mPosition;
-
 
 
     public BaseFragment() {
@@ -48,6 +47,9 @@ public abstract class BaseFragment extends Fragment implements LocationListener 
 
     }
 
+    /**
+     * For permissions to position access
+     */
 
     private void checkPermissions() {
         if (ActivityCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
@@ -91,6 +93,7 @@ public abstract class BaseFragment extends Fragment implements LocationListener 
         }
 
     }
+
     public void onProviderDisabled(String provider) {
     }
 
@@ -102,6 +105,12 @@ public abstract class BaseFragment extends Fragment implements LocationListener 
     public void onStatusChanged(String provider, int status, Bundle extras) {
 
     }
+
+    /**
+     * Retrieve User location
+     *
+     * @param location
+     */
     public void onLocationChanged(Location location) {
         double mLatitude = location.getLatitude();
         double mLongitude = location.getLongitude();
@@ -119,6 +128,19 @@ public abstract class BaseFragment extends Fragment implements LocationListener 
     public void onResume() {
         super.onResume();
         checkPermissions();
-
     }
+
+    // --------------------
+    // ERROR HANDLER
+    // --------------------
+
+    protected OnFailureListener onFailureListener(){
+        return new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getContext(), "Unknown Error", Toast.LENGTH_LONG).show();
+            }
+        };
+    }
+
 }

@@ -17,14 +17,20 @@ import android.widget.Toast;
 import com.firebase.ui.auth.AuthUI;;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
+import com.karine.go4lunch.API.UserHelper;
 import com.karine.go4lunch.R;
+import com.karine.go4lunch.Utils.FirebaseUtils;
+import com.karine.go4lunch.models.User;
 
 
 import java.util.Collections;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.karine.go4lunch.Utils.FirebaseUtils.onFailureListener;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -91,18 +97,31 @@ public class LoginActivity extends AppCompatActivity {
                 RC_SIGN_IN);
     }
 
+    //Http request that create user in firestore
+    private void createUserInFirestore() {
+        if(FirebaseUtils.getCurrentUser() != null) {
+            String urlPicture = (FirebaseUtils.getCurrentUser().getPhotoUrl() !=null) ?
+                    FirebaseUtils.getCurrentUser().getPhotoUrl().toString() : null;
+            String userName = FirebaseUtils.getCurrentUser().getDisplayName();
+            String uid = FirebaseUtils.getCurrentUser().getUid();
+
+            UserHelper.createUser(uid, userName, urlPicture).addOnFailureListener(onFailureListener());
+        }
+    }
+
     //method that handles response after signin Activity close
     private void handleResponseAfterSignIn(int requestCode, int resultCode, Intent data) {
         IdpResponse response = IdpResponse.fromResultIntent(data);
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == RESULT_OK) {//sucess
                 Toast.makeText(this,"Connection succeed", Toast.LENGTH_SHORT).show();
+                this.createUserInFirestore();
                 Intent loginIntent = new Intent(this, MainPageActivity.class);
                 startActivity(loginIntent);
             } else { //error
                 if (response == null) {
                     Toast.makeText(this,"Error authentication canceled", Toast.LENGTH_SHORT).show();
-                } else if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
+                } else if (Objects.requireNonNull(response.getError()).getErrorCode() == ErrorCodes.NO_NETWORK) {
                     Toast.makeText(this,"Error no internet", Toast.LENGTH_SHORT).show();
                 } else if (response.getError().getErrorCode() == ErrorCodes.UNKNOWN_ERROR) {
                     Toast.makeText(this,"Error unknown error", Toast.LENGTH_SHORT).show();

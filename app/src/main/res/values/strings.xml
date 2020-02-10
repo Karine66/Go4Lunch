@@ -17,6 +17,7 @@
     <!--For Facebook-->
     <string name="facebook_application_id" translatable="false">2179065909065296</string>
     <string name="facebook_login_protocol_scheme" translatable="false" tools:ignore="UnusedResources">fb2179065909065296</string>
+
     <string name="rechercher">Rechercher</string>
     <string name="info_no_username_found">username</string>
 

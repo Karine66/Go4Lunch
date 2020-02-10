@@ -13,12 +13,14 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 
 
-import com.google.firebase.firestore.auth.User;
+
 import com.karine.go4lunch.R;
 
 import java.util.List;
 
 import com.karine.go4lunch.Utils.FirebaseUtils;
+import com.karine.go4lunch.models.User;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
