@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,16 +17,21 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 
 
-import com.google.firebase.firestore.auth.User;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.karine.go4lunch.API.UserHelper;
 import com.karine.go4lunch.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.karine.go4lunch.Utils.FirebaseUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
+
+import com.karine.go4lunch.models.User;
 import com.karine.go4lunch.views.WorkmatesAdapter;
 
 
@@ -56,7 +62,6 @@ public class WorkMatesFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_work_mates, container, false);
         ButterKnife.bind(this, view);
         configureRecyclerView();
-        updateUI(userList);
         return view;
 
     }
@@ -90,13 +95,17 @@ public class WorkMatesFragment extends BaseFragment {
         if (this.mDisposable != null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
     }
 
-    //Update UI
-    private void updateUI(List<User> userList) {
-       // this.userList.clear();
-        if(FirebaseUtils.isCurrentUserLogged()) {
-            this.userList.addAll(userList);
-        }
-        Log.d("TestUIWorkmate", userList.toString());
-        adapter.notifyDataSetChanged();
-    }
+//    //Update UI
+//    private void updateUIWhenCreating() {
+//
+//        UserHelper.getUser(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//            @Override
+//            public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                User currentUser = documentSnapshot.toObject(User.class);
+//                assert currentUser != null;
+//                String userName = TextUtils.isEmpty(currentUser.getUsername()) ?
+//                        ("No username found") : currentUser.getUsername();
+//            }
+//        }));
+//    }
 }

@@ -11,8 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.RequestManager;
 
 
-import com.google.firebase.firestore.auth.User;
+
 import com.karine.go4lunch.R;
+import com.karine.go4lunch.models.User;
 
 import java.util.Collections;
 import java.util.List;
@@ -39,7 +40,7 @@ public class WorkmatesAdapter extends RecyclerView.Adapter<WorkmatesViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull WorkmatesViewHolder holder, int position) {
-    holder.updateUIWhenCreating(this.glide, Collections.singletonList(this.userList.get(position)));
+    holder.updateWithDetails(this.glide, Collections.singletonList(this.userList.get(position)));
     }
 
     @Override
