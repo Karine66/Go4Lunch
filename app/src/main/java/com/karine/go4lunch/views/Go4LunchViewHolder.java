@@ -197,7 +197,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         String localTime = date.format(currentLocalTime);
         String currentTime = dateFormat.format(currentLocalTime);
         Log.d("TestHour", localTime + currentTime);
-        
+
     }
 }
 

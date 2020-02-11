@@ -17,8 +17,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Query;
 import com.karine.go4lunch.API.UserHelper;
 import com.karine.go4lunch.R;
 
@@ -93,6 +95,14 @@ public class WorkMatesFragment extends BaseFragment {
 
     private void disposeWhenDestroy() {
         if (this.mDisposable != null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
+    }
+
+    // 6 - Create options for RecyclerView from a Query
+    private FirestoreRecyclerOptions<User> generateOptionsForAdapter(Query query){
+        return new FirestoreRecyclerOptions.Builder<User>()
+                .setQuery(query, User.class)
+                .setLifecycleOwner(this)
+                .build();
     }
 
 //    //Update UI
