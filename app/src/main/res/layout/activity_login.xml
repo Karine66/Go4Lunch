@@ -30,16 +30,18 @@
         android:paddingStart="6dp"
         android:paddingEnd="28dp"/>
 
-    <com.facebook.login.widget.LoginButton
+    <Button
         android:id="@+id/facebook_btn"
         android:layout_width="213dp"
-        android:layout_height="200dp"
+        android:layout_height="33dp"
         android:layout_gravity="center"
+        android:background="@color/com_facebook_button_background_color"
+        android:drawableStart="@drawable/fui_ic_facebook_white_22dp"
+        android:hint="Continue with Facebook"
         android:layout_marginBottom="130dp"
         android:onClick="onClickFacebookBtn"
-        android:paddingStart="20dp"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
+        android:paddingStart="6dp"
+       android:paddingEnd="28dp"
         android:textSize="12sp" />
 </LinearLayout>
 

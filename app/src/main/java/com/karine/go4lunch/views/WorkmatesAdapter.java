@@ -11,22 +11,30 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.RequestManager;
 
 
-
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.karine.go4lunch.R;
+import com.karine.go4lunch.controllers.fragments.WorkMatesFragment;
 import com.karine.go4lunch.models.User;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class WorkmatesAdapter extends RecyclerView.Adapter<WorkmatesViewHolder> {
+public class WorkmatesAdapter extends FirestoreRecyclerAdapter<User, WorkmatesViewHolder> {
+
+
 
     private List<User> userList;
     private RequestManager glide;
+    private User user;
+    private String username;
 
     //Constructor
-    public WorkmatesAdapter (List<User> userList, RequestManager glide) {
-        this.userList = userList;
+    public WorkmatesAdapter(FirestoreRecyclerOptions<User> options, RequestManager glide) {
+        super(options);
         this.glide = glide;
+
     }
 
     @NonNull
@@ -38,13 +46,21 @@ public class WorkmatesAdapter extends RecyclerView.Adapter<WorkmatesViewHolder> 
         return new WorkmatesViewHolder(view);
     }
 
+
     @Override
-    public void onBindViewHolder(@NonNull WorkmatesViewHolder holder, int position) {
-    holder.updateWithDetails(this.glide, Collections.singletonList(this.userList.get(position)));
+    protected void onBindViewHolder(@NonNull WorkmatesViewHolder workmatesViewHolder, int position, @NonNull User model) {
+        workmatesViewHolder.updateWithDetails(this.glide, model);
     }
 
     @Override
-    public int getItemCount() {
-        return this.userList.size();
+    public void onDataChanged() {
+        super.onDataChanged();
+
     }
 }
+
+//    @Override
+//    public int getItemCount() {
+//        return this.userList.addAll(username);
+//    }
+//}

@@ -35,7 +35,7 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }
-    public void updateWithDetails (RequestManager glide, List<User> userList) {
+    public void updateWithDetails (RequestManager glide, User user) {
 
         if(FirebaseUtils.getCurrentUser() != null) {
             //Get Picture Url from Firebase

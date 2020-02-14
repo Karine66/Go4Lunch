@@ -5,6 +5,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.karine.go4lunch.models.User;
 
 
@@ -69,6 +70,14 @@ public class UserHelper {
      */
     public static Task<Void> deleteUser(String uid) {
         return UserHelper.getUsersCollection().document(uid).delete();
+    }
+
+    public static Query getAllUsers(String username){
+        return UserHelper.getUsersCollection()
+                .document(username)
+                .collection(COLLECTION_NAME)
+                .orderBy("username")
+                .limit(50);
     }
 }
 

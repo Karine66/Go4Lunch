@@ -7,13 +7,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 
 
@@ -21,18 +18,17 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.karine.go4lunch.API.UserHelper;
 import com.karine.go4lunch.R;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-import com.karine.go4lunch.Utils.FirebaseUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 
+import com.karine.go4lunch.Utils.FirebaseUtils;
 import com.karine.go4lunch.models.User;
 import com.karine.go4lunch.views.WorkmatesAdapter;
 
@@ -51,6 +47,10 @@ public class WorkMatesFragment extends BaseFragment {
     private Disposable mDisposable;
     private WorkmatesAdapter adapter;
     private RequestManager glide;
+    private List<User> user;
+    private String username;
+    private List<User> modelUser;
+    private String currentUser;
 
     public WorkMatesFragment() {
         // Required empty public constructor
@@ -63,7 +63,8 @@ public class WorkMatesFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_work_mates, container, false);
         ButterKnife.bind(this, view);
-        configureRecyclerView();
+        configureRecyclerView(username);
+        getCurrentUserFromFirestore();
         return view;
 
     }
@@ -73,13 +74,29 @@ public class WorkMatesFragment extends BaseFragment {
         super.onDestroy();
         this.disposeWhenDestroy();
     }
+    //Get Current User From firestore
+    private void getCurrentUserFromFirestore() {
+        UserHelper.getAllUsers(username).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                modelUser = queryDocumentSnapshots.toObjects(User.class);
+            }
+        });
+    }
 
     //Configure RecyclerView, Adapter, LayoutManager & glue it
-    private void configureRecyclerView() {
+    private void configureRecyclerView(String username) {
         //reset List
-        this.userList = new ArrayList<>();
+       // this.userList = new ArrayList<>();
+        this.currentUser = username;
         //create adapter passing the list of restaurants
-        this.adapter = new WorkmatesAdapter(this.userList, Glide.with(this));
+        this.adapter = new WorkmatesAdapter(generateOptionsForAdapter(UserHelper.getAllUsers(this.currentUser)), this.glide);
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                mRecyclerViewMates.smoothScrollToPosition(adapter.getItemCount());
+            }
+        });
         //Attach the adapter to the recyclerview to items
         this.mRecyclerViewMates.setAdapter(adapter);
         //Set layout manager to position the items
@@ -97,7 +114,7 @@ public class WorkMatesFragment extends BaseFragment {
         if (this.mDisposable != null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
     }
 
-    // 6 - Create options for RecyclerView from a Query
+    // Create options for RecyclerView from a Query
     private FirestoreRecyclerOptions<User> generateOptionsForAdapter(Query query){
         return new FirestoreRecyclerOptions.Builder<User>()
                 .setQuery(query, User.class)
