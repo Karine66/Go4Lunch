@@ -72,12 +72,13 @@ public class UserHelper {
         return UserHelper.getUsersCollection().document(uid).delete();
     }
 
-    public static Query getAllUsers(String username){
+    public static Query getAllUsers(){
         return UserHelper.getUsersCollection()
-                .document(username)
+                .document()
                 .collection(COLLECTION_NAME)
-                .orderBy("username")
-                .limit(50);
+
+                //.orderBy("username")
+               .limit(50);
     }
 }
 

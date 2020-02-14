@@ -1,6 +1,7 @@
 package com.karine.go4lunch.views;
 
 import android.content.Context;
+import android.net.sip.SipSession;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import com.bumptech.glide.RequestManager;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.util.Listener;
+import com.karine.go4lunch.API.UserHelper;
 import com.karine.go4lunch.R;
 import com.karine.go4lunch.controllers.fragments.WorkMatesFragment;
 import com.karine.go4lunch.models.User;
@@ -29,13 +32,19 @@ public class WorkmatesAdapter extends FirestoreRecyclerAdapter<User, WorkmatesVi
     private RequestManager glide;
     private User user;
     private String username;
+    private User modelUser;
+
+
 
     //Constructor
     public WorkmatesAdapter(FirestoreRecyclerOptions<User> options, RequestManager glide) {
         super(options);
         this.glide = glide;
 
+
     }
+
+
 
     @NonNull
     @Override
@@ -47,9 +56,10 @@ public class WorkmatesAdapter extends FirestoreRecyclerAdapter<User, WorkmatesVi
     }
 
 
+
     @Override
-    protected void onBindViewHolder(@NonNull WorkmatesViewHolder workmatesViewHolder, int position, @NonNull User model) {
-        workmatesViewHolder.updateWithDetails(this.glide, model);
+    protected void onBindViewHolder(@NonNull WorkmatesViewHolder workmatesViewHolder, int i, @NonNull User user) {
+        workmatesViewHolder.updateWithDetails(this.glide, this.user);
     }
 
     @Override
@@ -57,10 +67,10 @@ public class WorkmatesAdapter extends FirestoreRecyclerAdapter<User, WorkmatesVi
         super.onDataChanged();
 
     }
-}
+
 
 //    @Override
 //    public int getItemCount() {
-//        return this.userList.addAll(username);
+//        return this.user.size();
 //    }
-//}
+}

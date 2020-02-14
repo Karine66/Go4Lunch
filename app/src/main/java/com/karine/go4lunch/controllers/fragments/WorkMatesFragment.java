@@ -3,10 +3,12 @@ package com.karine.go4lunch.controllers.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +17,18 @@ import com.bumptech.glide.RequestManager;
 
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.karine.go4lunch.API.UserHelper;
 import com.karine.go4lunch.R;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,12 +51,12 @@ public class WorkMatesFragment extends BaseFragment {
 
     private List<User> userList;
     private Disposable mDisposable;
-    private WorkmatesAdapter adapter;
+    private WorkmatesAdapter workmatesAdapter;
     private RequestManager glide;
     private List<User> user;
     private String username;
-    private List<User> modelUser;
-    private String currentUser;
+    private User modelUser;
+    private String currentUserName;
 
     public WorkMatesFragment() {
         // Required empty public constructor
@@ -63,7 +69,7 @@ public class WorkMatesFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_work_mates, container, false);
         ButterKnife.bind(this, view);
-        configureRecyclerView(username);
+        configureRecyclerView();
         getCurrentUserFromFirestore();
         return view;
 
@@ -76,32 +82,35 @@ public class WorkMatesFragment extends BaseFragment {
     }
     //Get Current User From firestore
     private void getCurrentUserFromFirestore() {
-        UserHelper.getAllUsers(username).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        Objects.requireNonNull(UserHelper.getAllUsers().get()).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                modelUser = queryDocumentSnapshots.toObjects(User.class);
+            public void onComplete(@NonNull Task task) {
+                task.getResult();
+                user.addAll(userList);
+
             }
+//        }) {
+//            @Override
+//            public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                modelUser = documentSnapshot.toObject(User.class);
+//            }
         });
     }
 
     //Configure RecyclerView, Adapter, LayoutManager & glue it
-    private void configureRecyclerView(String username) {
+    private void configureRecyclerView() {
         //reset List
        // this.userList = new ArrayList<>();
-        this.currentUser = username;
+        this.userList = user;
         //create adapter passing the list of restaurants
-        this.adapter = new WorkmatesAdapter(generateOptionsForAdapter(UserHelper.getAllUsers(this.currentUser)), this.glide);
-        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override
-            public void onItemRangeInserted(int positionStart, int itemCount) {
-                mRecyclerViewMates.smoothScrollToPosition(adapter.getItemCount());
-            }
-        });
+        this.workmatesAdapter = new WorkmatesAdapter(generateOptionsForAdapter(UserHelper.getAllUsers()), this.glide);
         //Attach the adapter to the recyclerview to items
-        this.mRecyclerViewMates.setAdapter(adapter);
+        this.mRecyclerViewMates.setAdapter(workmatesAdapter);
         //Set layout manager to position the items
         this.mRecyclerViewMates.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
+
+
 
     @Override
     public void onResume() {
@@ -125,7 +134,7 @@ public class WorkMatesFragment extends BaseFragment {
 //    //Update UI
 //    private void updateUIWhenCreating() {
 //
-//        UserHelper.getUser(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//        UserHelper.getUser(Objects.requireNonNull(Objects.requireNonNull(UserHelper.getAllUsers(currentUser).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
 //            @Override
 //            public void onSuccess(DocumentSnapshot documentSnapshot) {
 //                User currentUser = documentSnapshot.toObject(User.class);
