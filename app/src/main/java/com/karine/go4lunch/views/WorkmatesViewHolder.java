@@ -13,10 +13,11 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 
 
-
+import com.karine.go4lunch.API.UserHelper;
 import com.karine.go4lunch.R;
 
 import java.util.List;
+import java.util.Objects;
 
 import com.karine.go4lunch.Utils.FirebaseUtils;
 import com.karine.go4lunch.models.User;
@@ -35,24 +36,24 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }
-    public void updateWithDetails(RequestManager glide, User user) {
-
-
-
-        if(FirebaseUtils.getCurrentUser() != null) {
-            //Get Picture Url from Firebase
-            if(FirebaseUtils.getCurrentUser().getPhotoUrl() != null) {
-                        glide.load(FirebaseUtils.getCurrentUser().getPhotoUrl())
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(mWorkmatesPhoto);
-            }
-
-            //Get Username from Firebase
-            String username = TextUtils.isEmpty(FirebaseUtils.getCurrentUser().getDisplayName()) ?
-                    ("no username found") :
-                    FirebaseUtils.getCurrentUser().getDisplayName();
-            mWorkmatesName.setText(username);
-            Log.d("workmatesName", username);
-        }
-    }
+    public void updateWithDetails(RequestManager glide, User users) {
+       UserHelper.getAllUsers();
+        //mWorkmatesName.setText(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getDisplayName());
+        mWorkmatesName.setText(UserHelper.getAllUsers().get().getResult().size());
+//        if(FirebaseUtils.getCurrentUser() != null) {
+//            //Get Picture Url from Firebase
+//            if(FirebaseUtils.getCurrentUser().getPhotoUrl() != null) {
+//                        glide.load(FirebaseUtils.getCurrentUser().getPhotoUrl())
+//                        .apply(RequestOptions.circleCropTransform())
+//                        .into(mWorkmatesPhoto);
+//            }
+//
+//            //Get Username from Firebase
+//            String username = TextUtils.isEmpty(FirebaseUtils.getCurrentUser().getDisplayName()) ?
+//                    ("no username found") :
+//                    FirebaseUtils.getCurrentUser().getDisplayName();
+//            mWorkmatesName.setText(username);
+//            Log.d("workmatesName", username);
+//        }
+   }
 }

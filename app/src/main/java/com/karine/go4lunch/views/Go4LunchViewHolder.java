@@ -4,12 +4,14 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.location.Location;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.RequestManager;
@@ -19,13 +21,20 @@ import com.karine.go4lunch.R;
 
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.adapter.rxjava2.Result;
+
 import com.karine.go4lunch.models.PlaceDetailsAPI.Period;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 
@@ -33,6 +42,8 @@ import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
 
 
+    private int hour;
+    private int minute;
     private float longitude;
     private float latitude;
     //Déclarations
@@ -65,6 +76,9 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
     private int timeDiff;
     private String currentTime;
     private int currentHour;
+    private SimpleDateFormat newCloseHour;
+    private String newHourString;
+    private int diff;
 
 
     public Go4LunchViewHolder(View itemView) {
@@ -73,6 +87,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
         getTodayDate();
         getCurrentTime();
+
     //    currentDateHour();
     //    getHoursInfo((PlaceDetailsResult) result);
 
@@ -117,7 +132,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
 //                this.mOpenHours.setTextColor(Color.RED);
 //            }
 
-//        getHoursInfo(result);
+       getHoursInfo(result);
 
 
 //        Log.d("TestHours", result.getOpeningHours().toString());
@@ -153,7 +168,9 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
             this.mRatingBar.setVisibility(View.GONE);
         }
     }
-        @SuppressLint("SetTextI18n")
+
+
+
         private void getHoursInfo(PlaceDetailsResult result) {
             int[] days = {0, 1, 2, 3, 4, 5, 6};
             Calendar calendar = Calendar.getInstance();
@@ -161,22 +178,38 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
             int hour = calendar.get(Calendar.HOUR_OF_DAY);
             int minute = calendar.get(Calendar.MINUTE);
             int currentHour = hour + minute;
+            String currentHourFormat = hour + ": "+ minute;
+
 
             if (result.getOpeningHours() != null && result.getOpeningHours().getPeriods() != null) {
                 for (Period p : result.getOpeningHours().getPeriods()) {
                     if (p.getOpen().getDay() == days[day]) {
                         String closeHour = p.getClose().getTime();
-                        Log.d("closeHour", closeHour);
-                        int timeDiff = currentHour - Integer.parseInt(closeHour);
-                        Log.d("timeDiff", String.valueOf(timeDiff));
+
+                        Log.d("closeHour", String.valueOf(closeHour));
+
+                        int diff = getCurrentTime().compareTo((convertStringToHours(closeHour)));
+
+                       Log.d("diff", String.valueOf(diff));
+                        Log.d("Open Until", "Open Until" + " " + (convertStringToHours(closeHour)));
+
                     }
-                    if (timeDiff == 1 || days[day] == p.getClose().getDay()) {
-                        // this.mOpenHours.setText("Closing Soon");
-                        Log.d("ClosingSoon", String.valueOf(timeDiff));
+
+                    if (diff==-1 || (days[day] == p.getClose().getDay())) {
+                        Log.d("Closing Soon", "closing soon");
+                        Log.d("DiffClosingSoon", String.valueOf(diff));
                     }
                 }
             }
         }
+
+    // convert string to hours
+    public String convertStringToHours(String hour){
+        String hour1 = hour.substring(0,2);
+        String hour2 = hour.substring(2,4);
+        return hour1 + ":" + hour2;
+    }
+
 
     private void getTodayDate(){
         Calendar cal = Calendar.getInstance();
@@ -187,18 +220,17 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         Log.d("TestDate", dayDate);
     }
 
-    private void getCurrentTime() {
+    private String getCurrentTime() {
         Calendar calendar = Calendar.getInstance();
         Date currentLocalTime = calendar.getTime();
         @SuppressLint("SimpleDateFormat")
         DateFormat date = new SimpleDateFormat("HH:mm");
         @SuppressLint("SimpleDateFormat")
-        DateFormat dateFormat = new SimpleDateFormat("HHmm");
         String localTime = date.format(currentLocalTime);
-        String currentTime = dateFormat.format(currentLocalTime);
-        Log.d("TestHour", localTime + currentTime);
-
+        Log.d("TestHour", localTime);
+        return localTime;
     }
+
 }
 
 //    public void currentDateHour() {

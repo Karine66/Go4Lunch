@@ -13,6 +13,7 @@ import com.bumptech.glide.RequestManager;
 
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.util.Listener;
 import com.karine.go4lunch.API.UserHelper;
@@ -32,14 +33,14 @@ public class WorkmatesAdapter extends FirestoreRecyclerAdapter<User, WorkmatesVi
     private RequestManager glide;
     private User user;
     private String username;
-    private User modelUser;
+    private User model;
 
 
 
     //Constructor
-    public WorkmatesAdapter(FirestoreRecyclerOptions<User> options, RequestManager glide) {
+    public WorkmatesAdapter(FirestoreRecyclerOptions<User> options) {
         super(options);
-        this.glide = glide;
+
 
 
     }
@@ -58,8 +59,8 @@ public class WorkmatesAdapter extends FirestoreRecyclerAdapter<User, WorkmatesVi
 
 
     @Override
-    protected void onBindViewHolder(@NonNull WorkmatesViewHolder workmatesViewHolder, int i, @NonNull User user) {
-        workmatesViewHolder.updateWithDetails(this.glide, this.user);
+    protected void onBindViewHolder(@NonNull WorkmatesViewHolder workmatesViewHolder, int position, @NonNull User model) {
+        workmatesViewHolder.updateWithDetails(this.glide, this.model);
     }
 
     @Override

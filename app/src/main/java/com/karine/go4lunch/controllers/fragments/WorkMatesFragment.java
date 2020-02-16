@@ -20,7 +20,9 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.karine.go4lunch.API.UserHelper;
@@ -57,7 +59,8 @@ public class WorkMatesFragment extends BaseFragment {
     private String username;
     private User modelUser;
     private String currentUserName;
-
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference users = db.collection("users");
     public WorkMatesFragment() {
         // Required empty public constructor
     }
@@ -69,10 +72,33 @@ public class WorkMatesFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_work_mates, container, false);
         ButterKnife.bind(this, view);
-        configureRecyclerView();
-        getCurrentUserFromFirestore();
+       // configureRecyclerView();
+//        getCurrentUserFromFirestore();
+        setUpRecyclerView();
         return view;
 
+    }
+
+    private void setUpRecyclerView() {
+        Query query = users.orderBy("username", Query.Direction.DESCENDING);
+
+        FirestoreRecyclerOptions<User> options = new FirestoreRecyclerOptions.Builder<User>()
+                .setQuery(query, User.class)
+                .build();
+        workmatesAdapter = new WorkmatesAdapter(options);
+        mRecyclerViewMates.setHasFixedSize(true);
+        mRecyclerViewMates.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerViewMates.setAdapter(workmatesAdapter);
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        workmatesAdapter.startListening();
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        workmatesAdapter.stopListening();
     }
 
     @Override
@@ -81,34 +107,34 @@ public class WorkMatesFragment extends BaseFragment {
         this.disposeWhenDestroy();
     }
     //Get Current User From firestore
-    private void getCurrentUserFromFirestore() {
-        Objects.requireNonNull(UserHelper.getAllUsers().get()).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task task) {
-                task.getResult();
-                user.addAll(userList);
-
-            }
+//    private void getCurrentUserFromFirestore() {
+//        Objects.requireNonNull(UserHelper.getAllUsers().get()).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task task) {
+////                task.getResult();
+//                user.addAll(userList);
+//
+//            }
 //        }) {
 //            @Override
 //            public void onSuccess(DocumentSnapshot documentSnapshot) {
 //                modelUser = documentSnapshot.toObject(User.class);
 //            }
-        });
-    }
+//        });
+//    }
 
     //Configure RecyclerView, Adapter, LayoutManager & glue it
-    private void configureRecyclerView() {
-        //reset List
-       // this.userList = new ArrayList<>();
-        this.userList = user;
-        //create adapter passing the list of restaurants
-        this.workmatesAdapter = new WorkmatesAdapter(generateOptionsForAdapter(UserHelper.getAllUsers()), this.glide);
-        //Attach the adapter to the recyclerview to items
-        this.mRecyclerViewMates.setAdapter(workmatesAdapter);
-        //Set layout manager to position the items
-        this.mRecyclerViewMates.setLayoutManager(new LinearLayoutManager(getActivity()));
-    }
+//    private void configureRecyclerView() {
+//        //reset List
+//       // this.userList = new ArrayList<>();
+//      //  this.userList = user;
+//        //create adapter passing the list of restaurants
+//        this.workmatesAdapter = new WorkmatesAdapter(generateOptionsForAdapter(UserHelper.getAllUsers()), this.glide);
+//        //Attach the adapter to the recyclerview to items
+//        this.mRecyclerViewMates.setAdapter(workmatesAdapter);
+//        //Set layout manager to position the items
+//        this.mRecyclerViewMates.setLayoutManager(new LinearLayoutManager(getActivity()));
+//    }
 
 
 
@@ -123,13 +149,13 @@ public class WorkMatesFragment extends BaseFragment {
         if (this.mDisposable != null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
     }
 
-    // Create options for RecyclerView from a Query
-    private FirestoreRecyclerOptions<User> generateOptionsForAdapter(Query query){
-        return new FirestoreRecyclerOptions.Builder<User>()
-                .setQuery(query, User.class)
-                .setLifecycleOwner(this)
-                .build();
-    }
+//    // Create options for RecyclerView from a Query
+//    private FirestoreRecyclerOptions<User> generateOptionsForAdapter(Query query){
+//        return new FirestoreRecyclerOptions.Builder<User>()
+//                .setQuery(query, User.class)
+//                .setLifecycleOwner(this)
+//                .build();
+//    }
 
 //    //Update UI
 //    private void updateUIWhenCreating() {
