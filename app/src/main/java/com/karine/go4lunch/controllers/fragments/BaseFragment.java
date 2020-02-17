@@ -21,6 +21,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.karine.go4lunch.R;
 
 import java.util.Objects;
@@ -34,6 +36,7 @@ public abstract class BaseFragment extends Fragment implements LocationListener 
     protected static final int PERMS_CALL_ID = 200;
     private GoogleMap mMap;
     private String mPosition;
+    private static Context context;
 
 
     public BaseFragment() {
@@ -130,15 +133,25 @@ public abstract class BaseFragment extends Fragment implements LocationListener 
         checkPermissions();
     }
 
+    @Nullable
+    public static FirebaseUser getCurrentUser() {
+        return FirebaseAuth.getInstance().getCurrentUser();
+    }
+
+    public static Boolean isCurrentUserLogged () {
+        return (getCurrentUser() != null);
+    }
+
     // --------------------
     // ERROR HANDLER
     // --------------------
 
-    protected OnFailureListener onFailureListener(){
+    public static OnFailureListener onFailureListener(){
         return new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getContext(), "Unknown Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Unknown Error", Toast.LENGTH_LONG).show();
+
             }
         };
     }

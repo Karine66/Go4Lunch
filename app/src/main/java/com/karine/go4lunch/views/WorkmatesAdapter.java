@@ -5,6 +5,7 @@ import android.net.sip.SipSession;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,9 +26,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import butterknife.BindView;
+
 public class WorkmatesAdapter extends FirestoreRecyclerAdapter<User, WorkmatesViewHolder> {
 
-
+    private FirestoreRecyclerOptions<User> mOptions;
+    private Context mContext;
+    @BindView(R.id.workmates_name)
+    TextView mWorkmatesName;
 
     private List<User> userList;
     private RequestManager glide;
@@ -42,8 +48,8 @@ public class WorkmatesAdapter extends FirestoreRecyclerAdapter<User, WorkmatesVi
         super(options);
 
 
-
     }
+
 
 
 
@@ -60,7 +66,7 @@ public class WorkmatesAdapter extends FirestoreRecyclerAdapter<User, WorkmatesVi
 
     @Override
     protected void onBindViewHolder(@NonNull WorkmatesViewHolder workmatesViewHolder, int position, @NonNull User model) {
-        workmatesViewHolder.updateWithDetails(this.glide, this.model);
+        workmatesViewHolder.updateWithDetails(model);
     }
 
     @Override

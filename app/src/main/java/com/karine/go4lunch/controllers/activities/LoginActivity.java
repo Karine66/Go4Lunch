@@ -2,19 +2,11 @@ package com.karine.go4lunch.controllers.activities;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -25,13 +17,8 @@ import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.karine.go4lunch.API.UserHelper;
 import com.karine.go4lunch.R;
-import com.karine.go4lunch.Utils.FirebaseUtils;
-import com.karine.go4lunch.models.User;
 
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
 
@@ -39,7 +26,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.karine.go4lunch.Utils.FirebaseUtils.onFailureListener;
+
+import static com.karine.go4lunch.controllers.fragments.BaseFragment.getCurrentUser;
+import static com.karine.go4lunch.controllers.fragments.BaseFragment.onFailureListener;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -49,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.google_btn)
     Button mGoogleBtn;
     @BindView(R.id.facebook_btn)
-    Button mFacebookBtn;
+    LoginButton mFacebookBtn;
 
     private static final int RC_SIGN_IN = 100;
 
@@ -119,11 +108,11 @@ public class LoginActivity extends AppCompatActivity {
 
     //Http request that create user in firestore
     private void createUserInFirestore() {
-        if(FirebaseUtils.getCurrentUser() != null) {
-            String urlPicture = (FirebaseUtils.getCurrentUser().getPhotoUrl() !=null) ?
-                    FirebaseUtils.getCurrentUser().getPhotoUrl().toString() : null;
-            String userName = FirebaseUtils.getCurrentUser().getDisplayName();
-            String uid = FirebaseUtils.getCurrentUser().getUid();
+        if(getCurrentUser() != null) {
+            String urlPicture = (getCurrentUser().getPhotoUrl() !=null) ?
+                    getCurrentUser().getPhotoUrl().toString() : null;
+            String userName = getCurrentUser().getDisplayName();
+            String uid = getCurrentUser().getUid();
 
             UserHelper.createUser(uid, userName, urlPicture).addOnFailureListener(onFailureListener());
         }
