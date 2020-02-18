@@ -188,7 +188,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
 
                         Log.d("closeHour", String.valueOf(closeHour));
 
-                        int diff = getCurrentTime().compareTo((convertStringToHours(closeHour)));
+                        diff = getCurrentTime().compareTo((convertStringToHours(closeHour)));
 
                        Log.d("diff", String.valueOf(diff));
                         Log.d("Open Until", "Open Until" + " " + (convertStringToHours(closeHour)));

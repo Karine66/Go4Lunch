@@ -7,16 +7,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-
+import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.request.RequestOptions;
 import com.karine.go4lunch.R;
-
 import com.karine.go4lunch.models.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
-
+    /**
+     * Déclarations
+     */
     @BindView(R.id.workmates_photo)
     ImageView mWorkmatesPhoto;
     @BindView(R.id.workmates_name)
@@ -27,25 +29,17 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-   public void updateWithDetails(User users) {
-
-//        //mWorkmatesName.setText(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getDisplayName());
-       mWorkmatesName.setText(users.getUsername());
-//        if(FirebaseUtils.getCurrentUser() != null) {
-//            //Get Picture Url from Firebase
-//            if(FirebaseUtils.getCurrentUser().getPhotoUrl() != null) {
-//                        glide.load(FirebaseUtils.getCurrentUser().getPhotoUrl())
-//                        .apply(RequestOptions.circleCropTransform())
-//                        .into(mWorkmatesPhoto);
-//            }
-//
-//            //Get Username from Firebase
-//            String username = TextUtils.isEmpty(FirebaseUtils.getCurrentUser().getDisplayName()) ?
-//                    ("no username found") :
-//                    FirebaseUtils.getCurrentUser().getDisplayName();
-//            mWorkmatesName.setText(username);
-//            Log.d("workmatesName", username);
-//        }
+    /**
+     * For update usernames and photos
+     *
+     * @param users
+     * @param glide
+     */
+    public void updateWithDetails(User users, RequestManager glide) {
+        //for retrieve name
+        mWorkmatesName.setText(users.getUsername());
+        //for retrieve user photo
+        glide.load(users.getUrlPicture()).apply(RequestOptions.circleCropTransform()).into(mWorkmatesPhoto);
     }
 }
 

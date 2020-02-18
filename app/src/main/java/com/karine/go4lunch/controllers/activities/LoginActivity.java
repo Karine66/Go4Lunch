@@ -18,7 +18,6 @@ import com.firebase.ui.auth.IdpResponse;
 import com.karine.go4lunch.API.UserHelper;
 import com.karine.go4lunch.R;
 
-
 import java.util.Collections;
 import java.util.Objects;
 
@@ -26,9 +25,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-
-import static com.karine.go4lunch.controllers.fragments.BaseFragment.getCurrentUser;
-import static com.karine.go4lunch.controllers.fragments.BaseFragment.onFailureListener;
+import static com.karine.go4lunch.Utils.FirebaseUtils.getCurrentUser;
+import static com.karine.go4lunch.Utils.FirebaseUtils.onFailureListener;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -53,19 +51,6 @@ public class LoginActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.hide();
-
-//        try {
-//            PackageInfo info = getPackageManager().getPackageInfo(
-//                    "com.karine.go4lunch",
-//                    PackageManager.GET_SIGNATURES);
-//            for (Signature signature : info.signatures) {
-//                MessageDigest md = MessageDigest.getInstance("SHA");
-//                md.update(signature.toByteArray());
-//                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-//            }
-//        } catch (PackageManager.NameNotFoundException | NoSuchAlgorithmException e) {
-//
-//        }
 
     }
 

@@ -133,27 +133,5 @@ public abstract class BaseFragment extends Fragment implements LocationListener 
         checkPermissions();
     }
 
-    @Nullable
-    public static FirebaseUser getCurrentUser() {
-        return FirebaseAuth.getInstance().getCurrentUser();
-    }
-
-    public static Boolean isCurrentUserLogged () {
-        return (getCurrentUser() != null);
-    }
-
-    // --------------------
-    // ERROR HANDLER
-    // --------------------
-
-    public static OnFailureListener onFailureListener(){
-        return new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(context, "Unknown Error", Toast.LENGTH_LONG).show();
-
-            }
-        };
-    }
 
 }

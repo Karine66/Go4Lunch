@@ -8,19 +8,19 @@
     android:elevation="4dp"
     android:orientation="horizontal"
     android:padding="20dp"
-    app:cardBackgroundColor="#BBDEFB"
+    app:cardBackgroundColor="#FFCDD2"
     app:cardCornerRadius="5dp">
 
     <RelativeLayout
         android:id="@+id/fragment_workmates_item"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="65dp"
         android:scaleType="centerCrop">
 
         <ImageView
         android:id="@+id/workmates_photo"
-        android:layout_width="80dp"
-        android:layout_height="70dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginStart="10dp"
         android:layout_centerVertical="true"
         android:contentDescription="workmatesPhoto" />
