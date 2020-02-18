@@ -1,11 +1,14 @@
 package com.karine.go4lunch.controllers.fragments;
 
 
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +21,8 @@ import com.google.firebase.firestore.Query;
 import com.karine.go4lunch.R;
 import com.karine.go4lunch.models.User;
 import com.karine.go4lunch.views.WorkmatesAdapter;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,6 +57,7 @@ public class WorkMatesFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_work_mates, container, false);
         ButterKnife.bind(this, view);
+
 
         setUpRecyclerView();
         return view;

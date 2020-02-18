@@ -32,9 +32,9 @@ public class UserHelper {
      * @param urlPicture
      * @return
      */
-    public static Task<Void> createUser(String uid, String username, String urlPicture) {
+    public static Task<Void> createUser(String uid, String username, String urlPicture, int placeId) {
         //Create user object
-        User userToCreate = new User(uid, username, urlPicture);
+        User userToCreate = new User(uid, username, urlPicture, placeId);
         //Add a new user Document in Firestore
         return UserHelper.getUsersCollection()
                 .document(uid) //Setting uID for Document
@@ -61,6 +61,9 @@ public class UserHelper {
     public static Task<Void> updateUsername(String username, String uid) {
         return UserHelper.getUsersCollection().document(uid).update("username", username);
     }
+    public static Task<Void> updatePlaceId(int placeId, String uid) {
+        return UserHelper.getUsersCollection().document(uid).update("placeId", placeId);
+    }
 
     /**
      * Delete
@@ -72,13 +75,5 @@ public class UserHelper {
         return UserHelper.getUsersCollection().document(uid).delete();
     }
 
-    public static Query getAllUsers(){
-        return UserHelper.getUsersCollection()
-                .document()
-                .collection(COLLECTION_NAME)
-
-                //.orderBy("username")
-               .limit(50);
-    }
 }
 

@@ -8,6 +8,7 @@ public class User {
         private String username;
         @Nullable
         private String urlPicture;
+        private int placeId;
 
         public User() { }
 
@@ -17,10 +18,11 @@ public class User {
      * @param username
      * @param urlPicture
      */
-    public User(String uid, String username, @Nullable String urlPicture) {
+    public User(String uid, String username, @Nullable String urlPicture, int placeId) {
             this.uid = uid;
             this.username = username;
             this.urlPicture = urlPicture;
+            this.placeId = placeId;
 
         }
 
@@ -31,6 +33,9 @@ public class User {
     public String getUid() { return uid; }
         public String getUsername() { return username; }
         public String getUrlPicture() { return urlPicture; }
+        public int getPlaceId(){
+        return placeId;
+        }
 
     /**
      * Setters
@@ -39,6 +44,8 @@ public class User {
         public void setUsername(String username) { this.username = username; }
         public void setUid(String uid) { this.uid = uid; }
         public void setUrlPicture(String urlPicture) { this.urlPicture = urlPicture; }
-
+        public void setPlaceId(int placeId) {
+            this.placeId = placeId;
+        }
     }
 

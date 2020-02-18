@@ -73,9 +73,9 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
     private String localTime;
     private boolean permanentalyClosed;
     private String closeHour;
-    private int timeDiff;
-    private String currentTime;
-    private int currentHour;
+
+
+
     private SimpleDateFormat newCloseHour;
     private String newHourString;
     private int diff;
@@ -87,10 +87,6 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
         getTodayDate();
         getCurrentTime();
-
-    //    currentDateHour();
-    //    getHoursInfo((PlaceDetailsResult) result);
-
     }
 
 
@@ -145,8 +141,6 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-
-
     //For calculate restaurant Distance
     private void restaurantDistance(String startLocation, com.karine.go4lunch.models.PlaceDetailsAPI.Location endLocation) {
         String[] separatedStart = startLocation.split(",");
@@ -169,40 +163,32 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-
-
-        private void getHoursInfo(PlaceDetailsResult result) {
+        private String getHoursInfo(PlaceDetailsResult result) {
             int[] days = {0, 1, 2, 3, 4, 5, 6};
             Calendar calendar = Calendar.getInstance();
             int day = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-            int hour = calendar.get(Calendar.HOUR_OF_DAY);
-            int minute = calendar.get(Calendar.MINUTE);
-            int currentHour = hour + minute;
-            String currentHourFormat = hour + ": "+ minute;
-
 
             if (result.getOpeningHours() != null && result.getOpeningHours().getPeriods() != null) {
                 for (Period p : result.getOpeningHours().getPeriods()) {
-                    if (p.getOpen().getDay() == days[day]) {
-                        String closeHour = p.getClose().getTime();
-
-                        Log.d("closeHour", String.valueOf(closeHour));
-
+                    String closeHour = p.getClose().getTime();
+                    Log.d("closeHour", String.valueOf(closeHour));
+                    if ((p.getOpen().getDay() == days[day]) && (getCurrentTime().compareTo((convertStringToHours(closeHour))) < 0)) {
+//                        String closeHour = p.getClose().getTime();
+//                        Log.d("closeHour", String.valueOf(closeHour));
                         diff = getCurrentTime().compareTo((convertStringToHours(closeHour)));
 
-                       Log.d("diff", String.valueOf(diff));
+                        Log.d("diff", String.valueOf(diff));
                         Log.d("Open Until", "Open Until" + " " + (convertStringToHours(closeHour)));
 
-                    }
-
-                    if (diff==-1 || (days[day] == p.getClose().getDay())) {
-                        Log.d("Closing Soon", "closing soon");
-                        Log.d("DiffClosingSoon", String.valueOf(diff));
+                        if (diff == -1 && (days[day] == p.getClose().getDay())) {
+                            Log.d("Closing Soon", "closing soon");
+                            Log.d("DiffClosingSoon", String.valueOf(diff));
+                        }
                     }
                 }
             }
+            return null;
         }
-
     // convert string to hours
     public String convertStringToHours(String hour){
         String hour1 = hour.substring(0,2);
@@ -232,17 +218,6 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
     }
 
 }
-
-//    public void currentDateHour() {
-//    Calendar cal = Calendar.getInstance();
-//    Date currentLocalTime = cal.getTime();
-//
-//    @SuppressLint("SimpleDateFormat")
-//    DateFormat date = new SimpleDateFormat("dd-MM-yyy HH:mm z");
-//
-//    String localTime = date.format(currentLocalTime);
-//    Log.d("TestDateHour", localTime);
-//   }
 
 
 
