@@ -18,12 +18,10 @@ public class User {
      * @param username
      * @param urlPicture
      */
-    public User(String uid, String username, @Nullable String urlPicture, int placeId) {
+    public User(String uid, String username, @Nullable String urlPicture) {
             this.uid = uid;
             this.username = username;
             this.urlPicture = urlPicture;
-            this.placeId = placeId;
-
         }
 
     /**

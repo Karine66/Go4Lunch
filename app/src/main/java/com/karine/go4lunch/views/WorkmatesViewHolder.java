@@ -40,7 +40,7 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
        mWorkmatesName.setText(users.getUsername());
        //for retrieve user photo
         if (users.getUrlPicture() != null && !users.getUrlPicture().isEmpty()) {
-            glide.load(users.getUrlPicture()).apply(RequestOptions.centerCropTransform()).into(mWorkmatesPhoto);
+            glide.load(users.getUrlPicture()).apply(RequestOptions.circleCropTransform()).into(mWorkmatesPhoto);
         } else {
             mWorkmatesPhoto.setImageResource(R.drawable.no_picture);
         }
