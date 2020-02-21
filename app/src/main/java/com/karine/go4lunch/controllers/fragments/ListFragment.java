@@ -133,17 +133,13 @@ public class ListFragment extends BaseFragment implements Serializable {
      */
     private void executeHttpRequestWithRetrofit() {
 
-
         this.mDisposable = Go4LunchStream.streamFetchRestaurantDetails(mPosition, 2000, "restaurant")
                 .subscribeWith(new DisposableSingleObserver<List<PlaceDetail>>() {
 
                     @Override
                     public void onSuccess(List<PlaceDetail> placeDetails) {
 
-//                        resultDetail.addAll(placeDetails);
-                        //update RV after getting results
                        updateUI(placeDetails);
-
 
                    Log.d("TestPlaceDetail", String.valueOf(placeDetails.size()));
 

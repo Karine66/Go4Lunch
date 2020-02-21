@@ -8,7 +8,7 @@ public class User {
         private String username;
         @Nullable
         private String urlPicture;
-        private int placeId;
+        private String placeId;
 
         public User() { }
 
@@ -31,7 +31,7 @@ public class User {
     public String getUid() { return uid; }
         public String getUsername() { return username; }
         public String getUrlPicture() { return urlPicture; }
-        public int getPlaceId(){
+        public String getPlaceId(){
         return placeId;
         }
 
@@ -42,7 +42,7 @@ public class User {
         public void setUsername(String username) { this.username = username; }
         public void setUid(String uid) { this.uid = uid; }
         public void setUrlPicture(String urlPicture) { this.urlPicture = urlPicture; }
-        public void setPlaceId(int placeId) {
+        public void setPlaceId(String placeId) {
             this.placeId = placeId;
         }
     }

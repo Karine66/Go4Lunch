@@ -26,6 +26,8 @@ public class PlaceDetailsResult implements Serializable {
     private Geometry mGeometry;
     @SerializedName("website")
     private String mWebsite;
+    @SerializedName("place_id")
+    private String mPlaceId;
 
 
 
@@ -94,6 +96,12 @@ public class PlaceDetailsResult implements Serializable {
         mWebsite = website;
     }
 
+    public String getPlaceId() {
+        return mPlaceId;
+    }
+    public void setPlaceId (String placeId) {
+        mPlaceId = placeId;
+    }
 
 }
 

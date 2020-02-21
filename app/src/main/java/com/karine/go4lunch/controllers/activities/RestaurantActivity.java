@@ -21,13 +21,18 @@ import androidx.core.content.ContextCompat;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.karine.go4lunch.BuildConfig;
 import com.karine.go4lunch.R;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import com.karine.go4lunch.Utils.FirebaseUtils;
+import com.karine.go4lunch.models.NearbySearchAPI.ResultSearch;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 
 public class RestaurantActivity extends AppCompatActivity implements Serializable {
@@ -43,13 +48,19 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     Button mCallBtn;
     @BindView(R.id.web_btn)
     Button mWebBtn;
+    @BindView(R.id.floating_ok_btn)
+    FloatingActionButton mFloatingBtn;
 
     String GOOGLE_MAP_API_KEY = BuildConfig.GOOGLE_MAP_API_KEY;
-    private PlaceDetailsResult placeDetailsResult;
+//    private PlaceDetailsResult placeDetailsResult;
     private RequestManager glide;
     private String formattedPhoneNumber;
     private String url;
     private RequestManager mGlide;
+    private String restoId;
+    private PlaceDetailsResult placeDetailsResult;
+    private ResultSearch search;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +68,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         setContentView(R.layout.activity_restaurant);
         ButterKnife.bind(this);
         this.retrieveData();
+        this.floatingBtn();
 
         //For Hide Action Bar
         ActionBar actionBar = getSupportActionBar();
@@ -68,22 +80,18 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     private void retrieveData() {
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
-        assertNotNull(bundle);
-        PlaceDetailsResult placeDetailsResult = (PlaceDetailsResult) bundle.getSerializable("placeDetailsResult");
-//        Log.d("RestoActivity", placeDetailsResult.getName());
-        assert placeDetailsResult != null;
-        updateUI(placeDetailsResult, mGlide);
 
-    }
-    //For AssertNotNull
-    public static <T> T assertNotNull(T bundle) {
-        if(bundle == null)
-            throw new AssertionError("Object cannot be null");
-            return bundle;
+        PlaceDetailsResult placeDetailsResult = null;
+        if (bundle != null) {
+            placeDetailsResult = (PlaceDetailsResult) bundle.getSerializable("placeDetailsResult");
+        }
+//        Log.d("RestoActivity", placeDetailsResult.getName());
+
+        if (placeDetailsResult != null) {
+            updateUI(placeDetailsResult, mGlide);
         }
 
-
-
+    }
     private void updateUI(PlaceDetailsResult placeDetailsResult, RequestManager glide) {
         mGlide = glide;
 
@@ -110,6 +118,24 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
 //        Log.d("website", url);
         webBtn(url);
 
+    }
+    //For Floating button
+    public void floatingBtn() {
+        mFloatingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                selectedRestaurant();
+
+            }
+        });
+    }
+
+    public void selectedRestaurant() {
+        String userId = Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid();
+        String restoId = placeDetailsResult.getPlaceId();
+       // String restoId  = search.getId();
+        Log.d("idFlotatingBtn", "flocatingBtn" + " " + userId + " " + restoId);
     }
 
     //For click call button
