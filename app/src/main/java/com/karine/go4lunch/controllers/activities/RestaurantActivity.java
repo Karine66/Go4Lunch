@@ -21,7 +21,10 @@ import androidx.core.content.ContextCompat;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.model.Place;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.karine.go4lunch.API.UserHelper;
 import com.karine.go4lunch.BuildConfig;
 import com.karine.go4lunch.R;
 
@@ -33,7 +36,9 @@ import butterknife.ButterKnife;
 
 import com.karine.go4lunch.Utils.FirebaseUtils;
 import com.karine.go4lunch.models.NearbySearchAPI.ResultSearch;
+import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
+import com.karine.go4lunch.models.User;
 
 public class RestaurantActivity extends AppCompatActivity implements Serializable {
 
@@ -60,6 +65,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     private String restoId;
     private PlaceDetailsResult placeDetailsResult;
     private ResultSearch search;
+
 
 
     @Override
@@ -122,21 +128,32 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     //For Floating button
     public void floatingBtn() {
         mFloatingBtn.setOnClickListener(new View.OnClickListener() {
+
+
+
             @Override
             public void onClick(View v) {
 
-                selectedRestaurant();
+                PlaceDetail placeDetail = new PlaceDetail();
+                selectedRestaurant(placeDetail);
+
+//                if (placeDetail != null) {
+//                    UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeDetail.getResult().getPlaceId());
+//                    Log.d("FloatingBtn", "id" + UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeDetail.getResult().getPlaceId()));
+//                }
 
             }
         });
     }
 
-    public void selectedRestaurant() {
-        String userId = Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid();
-        String restoId = placeDetailsResult.getPlaceId();
-       // String restoId  = search.getId();
-        Log.d("idFlotatingBtn", "flocatingBtn" + " " + userId + " " + restoId);
+    public void selectedRestaurant(PlaceDetail placeDetail) {
+
+
+        UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeDetail.getResult().getPlaceId());
+        Log.d("FloatingBtn", "id" + UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeDetail.getResult().getPlaceId()));
+
     }
+
 
     //For click call button
     public void callBtn(String formattedPhoneNumber) {
