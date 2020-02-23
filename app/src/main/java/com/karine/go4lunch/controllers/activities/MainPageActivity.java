@@ -24,6 +24,8 @@ import com.karine.go4lunch.controllers.fragments.ListFragment;
 import com.karine.go4lunch.controllers.fragments.MapFragment;
 import com.karine.go4lunch.controllers.fragments.WorkMatesFragment;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -42,12 +44,11 @@ public class MainPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_page);
         ButterKnife.bind(this);
 
-
-
         //For change title Action Bar
         ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
-        actionBar.setTitle("I'm Hungry");
+        if (actionBar != null) {
+            actionBar.setTitle("I'm Hungry");
+        }
 
         bottomNavigationView.setOnNavigationItemSelectedListener(navlistener);
         //For connect MapFragment with activity
@@ -71,23 +72,28 @@ public class MainPageActivity extends AppCompatActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                     Fragment selectedFragment = null;
 
+
                     switch (menuItem.getItemId()) {
                         case R.id.map_btn:
                             selectedFragment = new MapFragment();
+
                             break;
                         case R.id.list_btn:
                             selectedFragment = new ListFragment();
                             break;
                         case R.id.workmates_btn:
                             selectedFragment = new WorkMatesFragment();
+
                             break;
                         case R.id.chat_btn:
                             selectedFragment = new ChatFragment();
                             break;
                     }
-                    assert selectedFragment != null;
-                    getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_frame_layout,
-                            selectedFragment).commit();
+
+                    if (selectedFragment != null) {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_frame_layout,
+                                selectedFragment).commit();
+                    }
                     return true;
                 }
             };

@@ -26,7 +26,7 @@ public class Go4LunchStream {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public static Observable<PlaceDetail> streamFetchDetails(@Query("fields") String fields, @Query("place_id") String placeId) {
+    public static Observable<PlaceDetail> streamFetchDetails(@Query("fields") String fields, @Query("place_Id") String placeId) {
         Go4LunchService go4LunchService = Go4LunchRetrofitObject.retrofit.create(Go4LunchService.class);
         return go4LunchService.getDetails(fields, placeId)
                 .subscribeOn(Schedulers.io())

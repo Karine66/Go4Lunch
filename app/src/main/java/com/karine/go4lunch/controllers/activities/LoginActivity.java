@@ -49,8 +49,9 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         //For Hide Action Bar
         ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
-        actionBar.hide();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
 
     }
 

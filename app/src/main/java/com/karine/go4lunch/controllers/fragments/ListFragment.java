@@ -53,6 +53,7 @@ public class ListFragment extends BaseFragment implements Serializable {
 
     @BindView(R.id.fragment_list_RV)
     RecyclerView mRecyclerView;
+    private String  placeId;
 
 
     public ListFragment() {
@@ -74,7 +75,10 @@ public class ListFragment extends BaseFragment implements Serializable {
     @Override
     public void onActivityCreated(@Nullable Bundle saveInstanceState) {
         super.onActivityCreated(saveInstanceState);
-    }
+       //For title action bar for this fragment
+         getActionBar().setTitle("I'm Hungry");
+        }
+
 
     @Override
     public void onDestroy() {

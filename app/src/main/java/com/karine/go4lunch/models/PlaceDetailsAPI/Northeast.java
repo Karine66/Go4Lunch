@@ -1,7 +1,6 @@
 
 package com.karine.go4lunch.models.PlaceDetailsAPI;
 
-
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;

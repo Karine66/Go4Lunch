@@ -2,6 +2,7 @@ package com.karine.go4lunch.controllers.fragments;
 
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -70,6 +71,8 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         ButterKnife.bind(this, view);
 
+
+
         return view;
 
 
@@ -79,9 +82,11 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
     public void onActivityCreated(@Nullable Bundle saveInstanceState) {
         super.onActivityCreated(saveInstanceState);
         mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.map);
+        //For title for this fragment
+            getActionBar().setTitle("I'm Hungry");
+        }
 
 
-    }
 
 
     @Override

@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
@@ -24,6 +25,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.karine.go4lunch.R;
+import com.karine.go4lunch.controllers.activities.MainPageActivity;
 
 import java.util.Objects;
 
@@ -133,5 +135,13 @@ public abstract class BaseFragment extends Fragment implements LocationListener 
         checkPermissions();
     }
 
+//    /**
+//     * For change title fragments
+//     * @return
+//     */
+        public ActionBar getActionBar() {
+            return ((MainPageActivity) Objects.requireNonNull(getActivity())).getSupportActionBar();
+        }
+    }
 
-}
+

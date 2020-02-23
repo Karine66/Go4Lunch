@@ -115,7 +115,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
                 this.mOpenHours.setTextColor(Color.RED);
             } else if (result.getOpeningHours().getOpenNow().toString().equals("true")) {
                 this.mOpenHours.setText("Open");
-                // this.mOpenHours.setText("Open" + " "+ openingHour);
+
                 this.mOpenHours.setTextColor(itemView.getContext().getResources().getColor(R.color.colorOpen));
             }
         }
@@ -163,7 +163,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-        private String getHoursInfo(PlaceDetailsResult result) {
+        private void getHoursInfo(PlaceDetailsResult result) {
             int[] days = {0, 1, 2, 3, 4, 5, 6};
             Calendar calendar = Calendar.getInstance();
             int day = calendar.get(Calendar.DAY_OF_WEEK) - 1;
@@ -187,7 +187,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
                     }
                 }
             }
-            return null;
+
         }
     // convert string to hours
     public String convertStringToHours(String hour){

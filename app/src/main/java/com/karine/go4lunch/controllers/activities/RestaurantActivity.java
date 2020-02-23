@@ -33,8 +33,12 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 
 import com.karine.go4lunch.Utils.FirebaseUtils;
+import com.karine.go4lunch.Utils.Go4LunchService;
+import com.karine.go4lunch.Utils.Go4LunchStream;
 import com.karine.go4lunch.models.NearbySearchAPI.ResultSearch;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
@@ -65,7 +69,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     private String restoId;
     private PlaceDetailsResult placeDetailsResult;
     private ResultSearch search;
-
+    private Disposable mDisposable;
 
 
     @Override
@@ -78,8 +82,9 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
 
         //For Hide Action Bar
         ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
-        actionBar.hide();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
     }
 
     //For retrieve data to ListFragment
@@ -91,7 +96,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         if (bundle != null) {
             placeDetailsResult = (PlaceDetailsResult) bundle.getSerializable("placeDetailsResult");
         }
-//        Log.d("RestoActivity", placeDetailsResult.getName());
+
 
         if (placeDetailsResult != null) {
             updateUI(placeDetailsResult, mGlide);
@@ -123,7 +128,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         String url = placeDetailsResult.getWebsite();
 //        Log.d("website", url);
         webBtn(url);
-
+        String placeId = placeDetailsResult.getPlaceId();
     }
     //For Floating button
     public void floatingBtn() {
@@ -134,8 +139,8 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
             @Override
             public void onClick(View v) {
 
-                PlaceDetail placeDetail = new PlaceDetail();
-                selectedRestaurant(placeDetail);
+
+               selectedRestaurant(placeDetailsResult);
 
 //                if (placeDetail != null) {
 //                    UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeDetail.getResult().getPlaceId());
@@ -146,11 +151,11 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         });
     }
 
-    public void selectedRestaurant(PlaceDetail placeDetail) {
+    public void selectedRestaurant(PlaceDetailsResult placeDetailsResult) {
 
-
-        UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeDetail.getResult().getPlaceId());
-        Log.d("FloatingBtn", "id" + UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeDetail.getResult().getPlaceId()));
+       String placeId = placeDetailsResult.getPlaceId();
+        UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeId);
+        Log.d("FloatingBtn", "id" + UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeId));
 
     }
 
@@ -214,5 +219,6 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         }
 
     }
+
 
 }

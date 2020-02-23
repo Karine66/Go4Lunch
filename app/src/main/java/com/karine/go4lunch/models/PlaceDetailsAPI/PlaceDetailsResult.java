@@ -28,7 +28,10 @@ public class PlaceDetailsResult implements Serializable {
     private String mWebsite;
     @SerializedName("place_id")
     private String mPlaceId;
-
+    @SerializedName("id")
+    private String mId;
+    @SerializedName("reference")
+    private String mReference;
 
 
 
@@ -99,10 +102,26 @@ public class PlaceDetailsResult implements Serializable {
     public String getPlaceId() {
         return mPlaceId;
     }
+
     public void setPlaceId (String placeId) {
         mPlaceId = placeId;
     }
 
+    public String getId() {
+        return mId;
+    }
+
+    public void setId(String id) {
+        mId = id;
+    }
+
+    public String getReference() {
+        return mReference;
+    }
+
+    public void setReference(String reference) {
+        mReference = reference;
+    }
 }
 
 

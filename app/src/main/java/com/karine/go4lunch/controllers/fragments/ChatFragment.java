@@ -15,7 +15,7 @@ import com.karine.go4lunch.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ChatFragment extends Fragment {
+public class ChatFragment extends BaseFragment {
 
 
     public ChatFragment() {
@@ -29,5 +29,9 @@ public class ChatFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_chat, container, false);
     }
-
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getActionBar().setTitle("Chat with Workmates");
+    }
 }

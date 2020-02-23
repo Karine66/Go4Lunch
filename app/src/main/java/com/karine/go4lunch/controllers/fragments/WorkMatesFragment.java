@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +18,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.karine.go4lunch.R;
+import com.karine.go4lunch.controllers.activities.MainPageActivity;
 import com.karine.go4lunch.models.User;
 import com.karine.go4lunch.views.WorkmatesAdapter;
 
@@ -58,10 +58,20 @@ public class WorkMatesFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_work_mates, container, false);
         ButterKnife.bind(this, view);
 
-
         setUpRecyclerView();
         return view;
     }
+//
+//    /**
+//     * For change title action for only this fragment
+//     * @param savedInstanceState
+//     */
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getActionBar().setTitle("Available Workmates");
+    }
+
 
     /**
      * RecyclerView configuration
@@ -104,6 +114,7 @@ public class WorkMatesFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+
     }
 
     /**

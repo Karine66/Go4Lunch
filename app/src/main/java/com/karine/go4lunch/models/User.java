@@ -4,7 +4,8 @@ import androidx.annotation.Nullable;
 
 public class User {
 
-        private String uid;
+    private String reference;
+    private String uid;
         private String username;
         @Nullable
         private String urlPicture;
@@ -22,6 +23,7 @@ public class User {
             this.uid = uid;
             this.username = username;
             this.urlPicture = urlPicture;
+
         }
 
     /**
@@ -35,6 +37,7 @@ public class User {
         return placeId;
         }
 
+
     /**
      * Setters
      * @param username
@@ -45,5 +48,6 @@ public class User {
         public void setPlaceId(String placeId) {
             this.placeId = placeId;
         }
+
     }
 
