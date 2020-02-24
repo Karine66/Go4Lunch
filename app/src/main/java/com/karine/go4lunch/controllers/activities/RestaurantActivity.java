@@ -36,6 +36,7 @@ import io.reactivex.disposables.Disposable;
 import com.karine.go4lunch.Utils.FirebaseUtils;
 import com.karine.go4lunch.models.NearbySearchAPI.ResultSearch;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
+import com.karine.go4lunch.models.User;
 
 public class RestaurantActivity extends AppCompatActivity implements Serializable {
 
@@ -61,8 +62,6 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     private RequestManager mGlide;
     private String restoId;
     private PlaceDetailsResult placeDetailsResult;
-    private ResultSearch search;
-    private Disposable mDisposable;
 
 
     @Override
@@ -71,7 +70,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         setContentView(R.layout.activity_restaurant);
         ButterKnife.bind(this);
         this.retrieveData();
-//        this.floatingBtn();
+        this.floatingBtn();
 
         //For Hide Action Bar
         ActionBar actionBar = getSupportActionBar();
@@ -89,10 +88,9 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         if (bundle != null) {
             placeDetailsResult = (PlaceDetailsResult) bundle.getSerializable("placeDetailsResult");
         }
-
-
         if (placeDetailsResult != null) {
             updateUI(placeDetailsResult, mGlide);
+
         }
 
     }
@@ -121,39 +119,40 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         String url = placeDetailsResult.getWebsite();
 //        Log.d("website", url);
         webBtn(url);
-//        String placeId = placeDetailsResult.getPlaceId();
-//        Log.d("placeId", "placeId" + placeId);
-//        selectedRestaurant(placeId);
+
     }
-//    //For Floating button
-//    public void floatingBtn() {
-//        mFloatingBtn.setOnClickListener(new View.OnClickListener() {
-//
-//
-//            private String placeId;
-//
-//            @Override
-//            public void onClick(View v) {
+    //For Floating button
+    public void floatingBtn() {
+        mFloatingBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+               selectedRestaurant();
+
+                }
+        });
+    }
+
+    public void selectedRestaurant() {
+
+        Intent intent = this.getIntent();
+        Bundle bundle = intent.getExtras();
+
+        PlaceDetailsResult placeDetailsResult = null;
+        if (bundle != null) {
+            placeDetailsResult = (PlaceDetailsResult) bundle.getSerializable("placeDetailsResult");
+        }
+
+        if (placeDetailsResult != null) {
+            UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeDetailsResult.getPlaceId());
+        }
 
 
-//               selectedRestaurant(placeId);
+        Log.d("FloatingBtn", "id" + UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeDetailsResult.getPlaceId()));
+        }
 
-//                if (placeDetail != null) {
-//                    UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeDetail.getResult().getPlaceId());
-//                    Log.d("FloatingBtn", "id" + UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeDetail.getResult().getPlaceId()));
-//                }
 
-//            }
-//        });
-//    }
-
-//    public void selectedRestaurant(String placeId) {
-//
-//        placeId = placeDetailsResult.getPlaceId();
-//        UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeId);
-//        Log.d("FloatingBtn", "id" + UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeId));
-//
-//    }
 
 
     //For click call button

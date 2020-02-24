@@ -26,7 +26,7 @@ public class PlaceDetailsResult implements Serializable {
     private Geometry mGeometry;
     @SerializedName("website")
     private String mWebsite;
-    @SerializedName("place_id")
+    @SerializedName("place_Id")
     private String mPlaceId;
     @SerializedName("id")
     private String mId;
