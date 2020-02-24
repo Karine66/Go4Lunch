@@ -21,8 +21,6 @@ import androidx.core.content.ContextCompat;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.tasks.Task;
-import com.google.android.libraries.places.api.model.Place;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.karine.go4lunch.API.UserHelper;
 import com.karine.go4lunch.BuildConfig;
@@ -34,15 +32,10 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.observers.DisposableObserver;
 
 import com.karine.go4lunch.Utils.FirebaseUtils;
-import com.karine.go4lunch.Utils.Go4LunchService;
-import com.karine.go4lunch.Utils.Go4LunchStream;
 import com.karine.go4lunch.models.NearbySearchAPI.ResultSearch;
-import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
-import com.karine.go4lunch.models.User;
 
 public class RestaurantActivity extends AppCompatActivity implements Serializable {
 
@@ -78,7 +71,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         setContentView(R.layout.activity_restaurant);
         ButterKnife.bind(this);
         this.retrieveData();
-        this.floatingBtn();
+//        this.floatingBtn();
 
         //For Hide Action Bar
         ActionBar actionBar = getSupportActionBar();
@@ -128,36 +121,39 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         String url = placeDetailsResult.getWebsite();
 //        Log.d("website", url);
         webBtn(url);
-        String placeId = placeDetailsResult.getPlaceId();
+//        String placeId = placeDetailsResult.getPlaceId();
+//        Log.d("placeId", "placeId" + placeId);
+//        selectedRestaurant(placeId);
     }
-    //For Floating button
-    public void floatingBtn() {
-        mFloatingBtn.setOnClickListener(new View.OnClickListener() {
+//    //For Floating button
+//    public void floatingBtn() {
+//        mFloatingBtn.setOnClickListener(new View.OnClickListener() {
+//
+//
+//            private String placeId;
+//
+//            @Override
+//            public void onClick(View v) {
 
 
-
-            @Override
-            public void onClick(View v) {
-
-
-               selectedRestaurant(placeDetailsResult);
+//               selectedRestaurant(placeId);
 
 //                if (placeDetail != null) {
 //                    UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeDetail.getResult().getPlaceId());
 //                    Log.d("FloatingBtn", "id" + UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeDetail.getResult().getPlaceId()));
 //                }
 
-            }
-        });
-    }
+//            }
+//        });
+//    }
 
-    public void selectedRestaurant(PlaceDetailsResult placeDetailsResult) {
-
-       String placeId = placeDetailsResult.getPlaceId();
-        UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeId);
-        Log.d("FloatingBtn", "id" + UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeId));
-
-    }
+//    public void selectedRestaurant(String placeId) {
+//
+//        placeId = placeDetailsResult.getPlaceId();
+//        UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeId);
+//        Log.d("FloatingBtn", "id" + UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeId));
+//
+//    }
 
 
     //For click call button

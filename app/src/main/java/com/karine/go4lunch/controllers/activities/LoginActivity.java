@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.google_btn)
     Button mGoogleBtn;
     @BindView(R.id.facebook_btn)
-    LoginButton mFacebookBtn;
+    Button mFacebookBtn;
 
     private static final int RC_SIGN_IN = 100;
 
@@ -47,11 +47,11 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         ButterKnife.bind(this);
-        //For Hide Action Bar
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.hide();
-        }
+//        //For Hide Action Bar
+//        ActionBar actionBar = getSupportActionBar();
+//        if (actionBar != null) {
+//            actionBar.hide();
+//        }
 
     }
 

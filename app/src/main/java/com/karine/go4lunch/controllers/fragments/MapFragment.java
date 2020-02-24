@@ -83,7 +83,7 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
         super.onActivityCreated(saveInstanceState);
         mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.map);
         //For title for this fragment
-            getActionBar().setTitle("I'm Hungry");
+           getActionBar().setTitle("I'm Hungry");
         }
 
 
