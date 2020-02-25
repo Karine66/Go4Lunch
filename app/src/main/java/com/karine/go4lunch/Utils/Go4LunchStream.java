@@ -15,7 +15,7 @@ import retrofit2.http.Query;
 
 public class Go4LunchStream {
 
-    public static String fields = "opening_hours,photo,rating,vicinity,name,geometry,formatted_phone_number,website";
+//    public static String fields = "opening_hours,photo,rating,vicinity,name,geometry,formatted_phone_number,website";
 
     //Create stream google restaurants
     public static Observable<GoogleApi> streamFetchRestaurants(String location, int radius, String type) {
@@ -26,9 +26,9 @@ public class Go4LunchStream {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public static Observable<PlaceDetail> streamFetchDetails(@Query("fields") String fields, @Query("place_Id") String placeId) {
+    public static Observable<PlaceDetail> streamFetchDetails(String placeId) {
         Go4LunchService go4LunchService = Go4LunchRetrofitObject.retrofit.create(Go4LunchService.class);
-        return go4LunchService.getDetails(fields, placeId)
+        return go4LunchService.getDetails(placeId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
@@ -45,7 +45,7 @@ public class Go4LunchStream {
                 .flatMap(new Function<ResultSearch, Observable<PlaceDetail>>() {
                     @Override
                     public Observable<PlaceDetail> apply(ResultSearch resultSearch) throws Exception {
-                        return streamFetchDetails(fields, resultSearch.getPlaceId());
+                        return streamFetchDetails(resultSearch.getPlaceId());
                     }
                 })
                 .toList()

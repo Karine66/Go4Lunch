@@ -61,8 +61,8 @@ public class UserHelper {
     public static Task<Void> updateUsername(String username, String uid) {
         return UserHelper.getUsersCollection().document(uid).update("username", username);
     }
-    public static Task<Void> updatePlaceId(String placeId, String uid) {
-        return UserHelper.getUsersCollection().document(uid).update("place_Id", placeId);
+    public static Task<Void> updatePlaceId(String uid, String placeId) {
+        return UserHelper.getUsersCollection().document(uid).update("placeId", placeId);
     }
 
     /**

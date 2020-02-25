@@ -131,7 +131,7 @@ public class ListFragment extends BaseFragment implements Serializable {
                 adapter.setPosition(mPosition);
                 executeHttpRequestWithRetrofit();
             }
-//        }
+
     /**
      * HTTP request RX Java for restaurants
      */

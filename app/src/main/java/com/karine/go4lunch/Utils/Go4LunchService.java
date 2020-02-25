@@ -22,5 +22,5 @@ public interface Go4LunchService {
 
     //PlaceDetails API Request
     @GET("maps/api/place/details/json?key="+GOOGLE_MAP_API_KEY)
-    Observable<PlaceDetail> getDetails(@Query("fields") String fields, @Query("place_id") String placeId);
+    Observable<PlaceDetail> getDetails(@Query("place_id") String placeId);
 }

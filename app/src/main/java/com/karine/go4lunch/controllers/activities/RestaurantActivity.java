@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.UserHandle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -149,8 +150,11 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         }
 
 
-        Log.d("FloatingBtn", "id" + UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeDetailsResult.getPlaceId()));
+        if (placeDetailsResult != null) {
+            Log.d("FloatingBtn", "id" + UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeDetailsResult.getPlaceId()));
         }
+
+    }
 
 
 
