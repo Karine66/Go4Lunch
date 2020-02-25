@@ -34,10 +34,14 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
     TextView mWorkmatesName;
 
     private Disposable mDisposable;
+    private String placeId;
+
+    private PlaceDetail detail;
 
     public WorkmatesViewHolder(@NonNull View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+//        executeHttpRequestWithRetrofit();
     }
 
 
@@ -60,23 +64,23 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void executeHttpRequestWithRetrofit() {
-        this.mDisposable = NYTStreams.streamFetchMostPopular("viewed")
-                .subscribeWith(new DisposableObserver<MostPopular>() {
+        this.mDisposable = Go4LunchStream.streamFetchDetails(placeId)
+                .subscribeWith(new DisposableObserver<PlaceDetail>() {
                     @Override
-                    public void onNext(MostPopular section) {
-                        NYTResultsAPI nytResultsAPI = NYTResultsAPI.createResultsApiFromMostPopular(section);
-                        updateUI(nytResultsAPI);
+                    public void onNext(PlaceDetail placeDetail) {
+                        detail = placeDetail;
+                        Log.d("restoName", "name"+detail);
                     }
 
                     @Override
                     public void onComplete() {
-
-                        Log.d("ON_Complete", "Test onComplete");
+                        detail.getResult().getName();
+                        Log.d("ON_Complete", "Test onComplete"+ detail);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("onErrorMP", Log.getStackTraceString(e));
+                        Log.d("onErrorWorkmates", Log.getStackTraceString(e));
                     }
                 });
     }
