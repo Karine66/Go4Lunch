@@ -14,6 +14,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.karine.go4lunch.R;
+import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
 import com.karine.go4lunch.models.User;
 
 import butterknife.BindView;
@@ -25,6 +26,7 @@ public class WorkmatesAdapter extends FirestoreRecyclerAdapter<User, WorkmatesVi
 
     private RequestManager glide;
     private User model;
+
 
 
     /**

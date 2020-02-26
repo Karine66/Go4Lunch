@@ -14,8 +14,12 @@ import com.bumptech.glide.request.RequestOptions;
 import com.karine.go4lunch.R;
 import com.karine.go4lunch.Utils.Go4LunchStream;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
+import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 import com.karine.go4lunch.models.User;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -32,16 +36,19 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
     ImageView mWorkmatesPhoto;
     @BindView(R.id.workmates_name)
     TextView mWorkmatesName;
-
+    private PlaceDetail placeDetail;
     private Disposable mDisposable;
     private String placeId;
 
+
+    private String restoName;
+    private String name;
     private PlaceDetail detail;
 
     public WorkmatesViewHolder(@NonNull View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-//        executeHttpRequestWithRetrofit();
+        executeHttpRequestWithRetrofit();
     }
 
 
@@ -54,7 +61,7 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
     @SuppressLint("SetTextI18n")
     public void updateWithDetails(User users, RequestManager glide) {
         //for retrieve name
-       mWorkmatesName.setText(users.getUsername() + " " +users.getPlaceId());
+       mWorkmatesName.setText(users.getUsername() + " " + users.getPlaceId());
        //for retrieve user photo
         if (users.getUrlPicture() != null && !users.getUrlPicture().isEmpty()) {
             glide.load(users.getUrlPicture()).apply(RequestOptions.circleCropTransform()).into(mWorkmatesPhoto);
@@ -66,16 +73,18 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
     private void executeHttpRequestWithRetrofit() {
         this.mDisposable = Go4LunchStream.streamFetchDetails(placeId)
                 .subscribeWith(new DisposableObserver<PlaceDetail>() {
+
                     @Override
                     public void onNext(PlaceDetail placeDetail) {
-                        detail = placeDetail;
-                        Log.d("restoName", "name"+detail);
+
+                    detail = placeDetail;
                     }
 
                     @Override
                     public void onComplete() {
-                        detail.getResult().getName();
-                        Log.d("ON_Complete", "Test onComplete"+ detail);
+
+                    detail.getResult().getName();
+                        Log.d("ON_Complete", "Test onComplete");
                     }
 
                     @Override
@@ -85,7 +94,18 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
                 });
     }
 
-
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        this.disposeWhenDestroy();
+//    }
+//
+//    /**
+//     * dispose subscription
+//     */
+//    private void disposeWhenDestroy() {
+//        if (this.mDisposable != null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
+//    }
 
 
 }
