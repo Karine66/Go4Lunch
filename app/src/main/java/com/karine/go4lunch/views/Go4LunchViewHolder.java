@@ -114,8 +114,8 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
                 this.mOpenHours.setText("Closed");
                 this.mOpenHours.setTextColor(Color.RED);
             } else if (result.getOpeningHours().getOpenNow().toString().equals("true")) {
-                this.mOpenHours.setText("Open");
-
+               // this.mOpenHours.setText("Open");
+                getHoursInfo(result);
                 this.mOpenHours.setTextColor(itemView.getContext().getResources().getColor(R.color.colorOpen));
             }
         }
@@ -128,7 +128,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
 //                this.mOpenHours.setTextColor(Color.RED);
 //            }
 
-       getHoursInfo(result);
+//       getHoursInfo(result);
 
 
 //        Log.d("TestHours", result.getOpeningHours().toString());
@@ -163,7 +163,8 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-        private void getHoursInfo(PlaceDetailsResult result) {
+        @SuppressLint("SetTextI18n")
+        private String getHoursInfo(PlaceDetailsResult result) {
             int[] days = {0, 1, 2, 3, 4, 5, 6};
             Calendar calendar = Calendar.getInstance();
             int day = calendar.get(Calendar.DAY_OF_WEEK) - 1;
@@ -171,23 +172,28 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
             if (result.getOpeningHours() != null && result.getOpeningHours().getPeriods() != null) {
                 for (Period p : result.getOpeningHours().getPeriods()) {
                     String closeHour = p.getClose().getTime();
+
                     Log.d("closeHour", String.valueOf(closeHour));
+
                     if ((p.getOpen().getDay() == days[day]) && (getCurrentTime().compareTo((convertStringToHours(closeHour))) < 0)) {
 
                         diff = getCurrentTime().compareTo((convertStringToHours(closeHour)));
-
+                        mOpenHours.setText("Open Until" + " " + convertStringToHours(closeHour));
                         Log.d("diff", String.valueOf(diff));
                         Log.d("Open Until", "Open Until" + " " + (convertStringToHours(closeHour)));
+                    }
 
                         if (diff == -1 && (days[day] == p.getClose().getDay())) {
+                            mOpenHours.setText("Closing Soon" +" "+ (convertStringToHours(closeHour)));
                             Log.d("Closing Soon", "closing soon");
-                            Log.d("DiffClosingSoon", String.valueOf(diff));
+
                         }
                     }
                 }
+            return closeHour;
             }
 
-        }
+
     // convert string to hours
     public String convertStringToHours(String hour){
         String hour1 = hour.substring(0,2);

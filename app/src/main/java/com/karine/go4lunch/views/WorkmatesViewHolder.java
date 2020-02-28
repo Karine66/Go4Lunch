@@ -43,7 +43,11 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
 
     private String restoName;
     private String name;
+    private String idResto;
+    private User users;
+    private PlaceDetailsResult result;
     private PlaceDetail detail;
+
 
     public WorkmatesViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -62,6 +66,8 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
     public void updateWithDetails(User users, RequestManager glide) {
         //for retrieve name
        mWorkmatesName.setText(users.getUsername() + " " + users.getPlaceId());
+        idResto = users.getPlaceId();
+        Log.d("idRestoUser", "idRestoUsers"+ " " +idResto);
        //for retrieve user photo
         if (users.getUrlPicture() != null && !users.getUrlPicture().isEmpty()) {
             glide.load(users.getUrlPicture()).apply(RequestOptions.circleCropTransform()).into(mWorkmatesPhoto);
@@ -71,20 +77,35 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void executeHttpRequestWithRetrofit() {
-        this.mDisposable = Go4LunchStream.streamFetchDetails(placeId)
+        this.mDisposable = Go4LunchStream.streamFetchDetails(idResto)
                 .subscribeWith(new DisposableObserver<PlaceDetail>() {
 
                     @Override
                     public void onNext(PlaceDetail placeDetail) {
-
-                    detail = placeDetail;
+//                    detail = placeDetail;
+                    Log.d("idResto", "idResto" + idResto);
                     }
 
                     @Override
                     public void onComplete() {
 
-                    detail.getResult().getName();
-                        Log.d("ON_Complete", "Test onComplete");
+//                        if(idResto != null) {
+//                            restoName = detail.getResult().getName();
+//                            Log.d("OnCompleteRestoName", "restoName" + restoName);
+//                        } else {
+//                            Log.d("RestoName", "noResto");
+//                        }
+
+
+//                        if(detail.getResult().getPlaceId()!= null) {
+//                        String restoName = detail.getResult().getName();
+//                        Log.d("OnCompleteREstoName", "restoName" + restoName);
+//                    } else {
+//                        Log.d("RestoName", "noResto" + restoName);
+//                    }
+
+
+//                           Log.d("ON_Complete", "Test onComplete"+ restoName);
                     }
 
                     @Override
