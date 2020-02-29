@@ -37,13 +37,12 @@
         android:layout_gravity="center"
         android:background="@color/com_facebook_button_background_color"
         android:drawableStart="@drawable/fui_ic_facebook_white_22dp"
-        android:layout_marginBottom="130dp"
+        android:layout_marginBottom="150dp"
         android:onClick="onClickFacebookBtn"
         android:hint="Continue with Facebook"
         android:paddingStart="6dp"
-        android:paddingTop="12dp"
-        android:paddingBottom="10dp"
-        android:textSize="10sp"
+        android:paddingEnd="28dp"
+        android:textSize="13sp"
          />
 </LinearLayout>
 

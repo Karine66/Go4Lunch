@@ -15,13 +15,17 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
+import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.karine.go4lunch.R;
+import com.karine.go4lunch.Utils.FirebaseUtils;
 import com.karine.go4lunch.controllers.fragments.BaseFragment;
 import com.karine.go4lunch.controllers.fragments.ChatFragment;
 import com.karine.go4lunch.controllers.fragments.ListFragment;
@@ -34,7 +38,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainPageActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
+    //Declarations
     @BindView(R.id.main_page_toolbar)
     Toolbar toolbar;
     @BindView(R.id.bottom_navigation)
@@ -43,6 +47,7 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
     private GoogleMap mMap;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    private static final int SIGN_OUT_TASK = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +72,33 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
 
     }
 
+    /**
+     * Request for sign out
+     */
 
+    private void signOutFromUserFirebase() {
+        if (FirebaseUtils.getCurrentUser() != null) {
+            AuthUI.getInstance()
+                    .signOut(this)
+                .addOnSuccessListener(this, this.updateUIAfterRestRequestsCompleted(SIGN_OUT_TASK));
+        }
+    }
+
+    //Create OnCompleteListener called after tasks ended
+    private OnSuccessListener<Void> updateUIAfterRestRequestsCompleted(final int origin) {
+        return new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                switch(origin) {
+                    case SIGN_OUT_TASK:
+                        finish();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+    }
 //        @Override
 //    public boolean onCreateOptionsMenu (Menu menu){
 //        //2 inflate the menu and add it to the toolbar
@@ -127,6 +158,8 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
             case R.id.menu_drawer_settings:
                 break;
             case R.id.menu_drawer_Logout:
+                signOutFromUserFirebase();
+                Toast.makeText(getApplicationContext(),"You're deconnected",Toast.LENGTH_SHORT).show();;
                 break;
 
         }

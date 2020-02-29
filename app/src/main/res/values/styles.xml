@@ -6,19 +6,19 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
 
     <style name="RatingBar" parent="Theme.AppCompat">
         <item name="colorControlNormal">@color/colorAccent</item>
         <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
-<!--&lt;!&ndash;    Toolbar theme&ndash;&gt;-->
-<!--    <style name="ToolbarStyle" parent="AppTheme">-->
-<!--        <item-->
-<!--            name="android:textColorPrimary">@android:color/white</item>-->
-<!--        <item-->
-<!--        name="colorControlNormal">@android:color/white</item>-->
-<!--    </style>-->
+
+    <!--Hamburger menu -->
+    <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@color/quantum_white_100</item>
+    </style>
 
 
 </resources>

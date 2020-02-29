@@ -113,16 +113,20 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
             if (result.getOpeningHours().getOpenNow().toString().equals("false")) {
                 this.mOpenHours.setText("Closed");
                 this.mOpenHours.setTextColor(Color.RED);
-            } else if (result.getOpeningHours().getOpenNow().toString().equals("true")) {
-               // this.mOpenHours.setText("Open");
-                getHoursInfo(result);
-                this.mOpenHours.setTextColor(itemView.getContext().getResources().getColor(R.color.colorOpen));
+//            } else if (result.getOpeningHours().getOpenNow().toString().equals("true")) {
+//               // this.mOpenHours.setText("Open");
+//                getHoursInfo(result);
+//                this.mOpenHours.setTextColor(itemView.getContext().getResources().getColor(R.color.colorOpen));
+//            }
             }
-        }
-               if (result.getOpeningHours() == null){
+            if(result.getOpeningHours() == null) {
                 this.mOpenHours.setText("Opening Hours not available");
                 this.mOpenHours.setTextColor(Color.BLACK);
             }
+            getHoursInfo(result);
+
+        }
+//
 //               if (result.getOpeningHours().getPermanentlyClosed().toString().equals("true") ){
 //                this.mOpenHours.setText("Permanently Closed");
 //                this.mOpenHours.setTextColor(Color.RED);
@@ -163,7 +167,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-        @SuppressLint("SetTextI18n")
+
         private String getHoursInfo(PlaceDetailsResult result) {
             int[] days = {0, 1, 2, 3, 4, 5, 6};
             Calendar calendar = Calendar.getInstance();
@@ -172,19 +176,19 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
             if (result.getOpeningHours() != null && result.getOpeningHours().getPeriods() != null) {
                 for (Period p : result.getOpeningHours().getPeriods()) {
                     String closeHour = p.getClose().getTime();
-
                     Log.d("closeHour", String.valueOf(closeHour));
+                    diff = getCurrentTime().compareTo(convertStringToHours(closeHour));
+                    Log.d("diff", String.valueOf(diff));
 
-                    if ((p.getOpen().getDay() == days[day]) && (getCurrentTime().compareTo((convertStringToHours(closeHour))) < 0)) {
+                    if (p.getOpen().getDay() == days[day] && getCurrentTime().compareTo(convertStringToHours(closeHour)) < 0) {
 
-                        diff = getCurrentTime().compareTo((convertStringToHours(closeHour)));
-                        mOpenHours.setText("Open Until" + " " + convertStringToHours(closeHour));
-                        Log.d("diff", String.valueOf(diff));
+                        mOpenHours.setText(String.format("Open Until %s", convertStringToHours(closeHour)));
+                        this.mOpenHours.setTextColor(itemView.getContext().getResources().getColor(R.color.colorOpen));
                         Log.d("Open Until", "Open Until" + " " + (convertStringToHours(closeHour)));
                     }
-
-                        if (diff == -1 && (days[day] == p.getClose().getDay())) {
-                            mOpenHours.setText("Closing Soon" +" "+ (convertStringToHours(closeHour)));
+                       else if (diff == -1 && days[day] == p.getClose().getDay()) {
+                            mOpenHours.setText(String.format("Closing Soon(%s)", convertStringToHours(closeHour)));
+                        this.mOpenHours.setTextColor(itemView.getContext().getResources().getColor(R.color.colorOpen));
                             Log.d("Closing Soon", "closing soon");
 
                         }
@@ -192,6 +196,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
                 }
             return closeHour;
             }
+
 
 
     // convert string to hours
