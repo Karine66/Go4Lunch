@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+
     </style>
 
     <style name="RatingBar" parent="Theme.AppCompat">
@@ -18,6 +19,17 @@
     <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
         <item name="color">@color/quantum_white_100</item>
+    </style>
+    <!--For Styleable Toasts-->
+    <style name="personalizedToast">
+        <item name="stColorBackground">#FFEE58</item>
+        <item name="stTextColor">#000</item>
+        <item name="stIconStart">@drawable/lunch_black</item>
+        <item name="stStrokeColor">@color/colorAccentDark</item>
+        <item name="stStrokeWidth">2dp</item>
+        <item name="cornerRadius">5dp</item>
+        <item name="stLength">SHORT</item>
+
     </style>
 
 

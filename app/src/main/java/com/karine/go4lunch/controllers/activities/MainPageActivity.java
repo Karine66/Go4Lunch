@@ -31,6 +31,7 @@ import com.karine.go4lunch.controllers.fragments.ChatFragment;
 import com.karine.go4lunch.controllers.fragments.ListFragment;
 import com.karine.go4lunch.controllers.fragments.MapFragment;
 import com.karine.go4lunch.controllers.fragments.WorkMatesFragment;
+import com.muddzdev.styleabletoast.StyleableToast;
 
 import java.util.Objects;
 
@@ -159,7 +160,7 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
                 break;
             case R.id.menu_drawer_Logout:
                 signOutFromUserFirebase();
-                Toast.makeText(getApplicationContext(),"You're deconnected",Toast.LENGTH_SHORT).show();;
+                StyleableToast.makeText(getApplicationContext(),"You're deconnected",R.style.personalizedToast).show();;
                 break;
 
         }

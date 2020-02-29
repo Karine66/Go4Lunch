@@ -17,6 +17,7 @@ import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.karine.go4lunch.API.UserHelper;
 import com.karine.go4lunch.R;
+import com.muddzdev.styleabletoast.StyleableToast;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -104,22 +105,24 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+
+
     //method that handles response after signin Activity close
     private void handleResponseAfterSignIn(int requestCode, int resultCode, Intent data) {
         IdpResponse response = IdpResponse.fromResultIntent(data);
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == RESULT_OK) {//sucess
-                Toast.makeText(this,"Connection succeed", Toast.LENGTH_SHORT).show();
+                StyleableToast.makeText(this,"Connection succeed", R.style.personalizedToast).show();
                 this.createUserInFirestore();
                 Intent loginIntent = new Intent(this, MainPageActivity.class);
                 startActivity(loginIntent);
             } else { //error
                 if (response == null) {
-                    Toast.makeText(this,"Error authentication canceled", Toast.LENGTH_SHORT).show();
+                    StyleableToast.makeText(this,"Error authentication canceled", R.style.personalizedToast).show();
                 } else if (Objects.requireNonNull(response.getError()).getErrorCode() == ErrorCodes.NO_NETWORK) {
-                    Toast.makeText(this,"Error no internet", Toast.LENGTH_SHORT).show();
+                    StyleableToast.makeText(this,"Error no internet", R.style.personalizedToast).show();
                 } else if (response.getError().getErrorCode() == ErrorCodes.UNKNOWN_ERROR) {
-                    Toast.makeText(this,"Error unknown error", Toast.LENGTH_SHORT).show();
+                    StyleableToast.makeText(this,"Error unknown error", R.style.personalizedToast).show();
                 }
             }
         }
