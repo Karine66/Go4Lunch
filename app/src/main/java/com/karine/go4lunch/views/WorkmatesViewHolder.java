@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,6 +48,8 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
     private User users;
     private PlaceDetailsResult result;
     private PlaceDetail detail;
+    private String id;
+    private String restoId;
 
 
     public WorkmatesViewHolder(@NonNull View itemView) {
@@ -55,6 +58,10 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
         executeHttpRequestWithRetrofit();
     }
 
+
+    public String getIdResto(String name) {
+        return idResto;
+    }
 
     /**
      * For update usernames and photos
@@ -82,19 +89,23 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
 
                     @Override
                     public void onNext(PlaceDetail placeDetail) {
-//                    detail = placeDetail;
+                    detail = placeDetail;
                     Log.d("idResto", "idResto" + idResto);
                     }
 
                     @Override
                     public void onComplete() {
 
-//                        if(idResto != null) {
-//                            restoName = detail.getResult().getName();
-//                            Log.d("OnCompleteRestoName", "restoName" + restoName);
-//                        } else {
-//                            Log.d("RestoName", "noResto");
-//                        }
+
+                        if(restoId != null) {
+                            restoName = detail.getResult().getName();
+
+
+
+                            Log.d("OnCompleteRestoName", "restoName" + restoName);
+                        } else {
+                            Log.d("RestoName", "noResto");
+                        }
 
 
 //                        if(detail.getResult().getPlaceId()!= null) {

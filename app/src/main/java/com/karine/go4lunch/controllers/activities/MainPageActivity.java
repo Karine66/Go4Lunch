@@ -13,11 +13,17 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -44,6 +50,15 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
     Toolbar toolbar;
     @BindView(R.id.bottom_navigation)
     BottomNavigationView bottomNavigationView;
+    @BindView(R.id.main_page_nav_view)
+    NavigationView mNavigationView;
+//    @BindView(R.id.photo_header)
+//    ImageView mPhotoHeader;
+//    @BindView(R.id.name_header)
+//    TextView mNameHeader;
+//    @BindView(R.id.mail_header)
+//    TextView mMailHeader;
+
 
     private GoogleMap mMap;
     private DrawerLayout drawerLayout;
@@ -59,6 +74,7 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         this.configureToolbar();
         this.configureDrawerLayout();
         this.configureNavigationView();
+        this.updateUINavHeader();
 
         //For change title Action Bar
         ActionBar actionBar = getSupportActionBar();
@@ -184,6 +200,38 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
     private void configureNavigationView() {
         this.navigationView = (NavigationView) findViewById(R.id.main_page_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    /**
+     * Update UI Nav Header
+     */
+    private void updateUINavHeader() {
+        if(FirebaseUtils.getCurrentUser() !=null) {
+            View headerView = mNavigationView.getHeaderView(0); //For return layout
+            ImageView mPhotoHeader = headerView.findViewById(R.id.photo_header);
+            TextView mNameHeader = headerView.findViewById(R.id.name_header);
+            TextView mMailHeader = headerView.findViewById(R.id.mail_header);
+            // get photo in Firebase
+            if(FirebaseUtils.getCurrentUser().getPhotoUrl() != null) {
+                Glide.with(this)
+                .load(FirebaseUtils.getCurrentUser().getPhotoUrl())
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(mPhotoHeader);
+            }else {
+                mPhotoHeader.setImageResource(R.drawable.no_picture);
+            }
+            //Get email
+            String email = TextUtils.isEmpty(FirebaseUtils.getCurrentUser().getEmail())?
+            getString(Integer.parseInt("No Email Found")) : FirebaseUtils.getCurrentUser().getEmail();
+           //Get Name
+            String name = TextUtils.isEmpty(FirebaseUtils.getCurrentUser().getDisplayName()) ?
+                    getString(Integer.parseInt("No Username Found")) : FirebaseUtils.getCurrentUser().getDisplayName();
+            //Update With data
+            mNameHeader.setText(name);
+            mMailHeader.setText(email);
+
+        }
+
     }
 
 }

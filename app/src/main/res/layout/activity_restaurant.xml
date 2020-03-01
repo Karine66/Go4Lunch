@@ -20,9 +20,11 @@
        android:layout_width="wrap_content"
        android:layout_marginStart="300dp"
        android:layout_marginTop="170dp"
+       android:clickable="true"
         android:backgroundTint="#69F0AE"
        android:src="@drawable/baseline_done_white_24"
-        app:fabSize="auto" />
+        app:fabSize="auto"
+       android:focusable="true" />
 
     <FrameLayout
         android:layout_width="match_parent"

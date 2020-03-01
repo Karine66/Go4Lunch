@@ -108,24 +108,24 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         Log.d("TestDistance", distance);
 
         //for retrieve opening hours (open or closed)
-       // String openingHour = Arrays.toString(result.getOpeningHours().getWeekdayText());
+
         if (result.getOpeningHours() != null) {
             if (result.getOpeningHours().getOpenNow().toString().equals("false")) {
                 this.mOpenHours.setText("Closed");
                 this.mOpenHours.setTextColor(Color.RED);
-//            } else if (result.getOpeningHours().getOpenNow().toString().equals("true")) {
-//               // this.mOpenHours.setText("Open");
-//                getHoursInfo(result);
-//                this.mOpenHours.setTextColor(itemView.getContext().getResources().getColor(R.color.colorOpen));
-//            }
+            } else if (result.getOpeningHours().getOpenNow().toString().equals("true")) {
+                // this.mOpenHours.setText("Open");
+                getHoursInfo(result);
+                this.mOpenHours.setTextColor(itemView.getContext().getResources().getColor(R.color.colorOpen));
             }
-            if(result.getOpeningHours() == null) {
-                this.mOpenHours.setText("Opening Hours not available");
-                this.mOpenHours.setTextColor(Color.BLACK);
-            }
-            getHoursInfo(result);
-
         }
+        if (result.getOpeningHours() == null) {
+            this.mOpenHours.setText("Opening Hours not available");
+            this.mOpenHours.setTextColor(Color.BLACK);
+        }
+
+
+
 //
 //               if (result.getOpeningHours().getPermanentlyClosed().toString().equals("true") ){
 //                this.mOpenHours.setText("Permanently Closed");
@@ -189,7 +189,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
                        else if (diff == -1 && days[day] == p.getClose().getDay()) {
                             mOpenHours.setText(String.format("Closing Soon(%s)", convertStringToHours(closeHour)));
                         this.mOpenHours.setTextColor(itemView.getContext().getResources().getColor(R.color.colorOpen));
-                            Log.d("Closing Soon", "closing soon");
+                            Log.d("Closing Soon", "closing soon"+ convertStringToHours(closeHour));
 
                         }
                     }

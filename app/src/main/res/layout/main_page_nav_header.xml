@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:id="@+id/nav_header"
     android:layout_height="@dimen/nav_header_height"
     android:gravity="center">
 
@@ -13,6 +14,35 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/image_hearder" />
+        app:srcCompat="@drawable/header" />
 
+    <ImageView
+        android:id="@+id/photo_header"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="140dp"
+        android:layout_marginStart="10dp"/>
+    <TextView
+        android:id="@+id/name_header"
+        android:layout_width="200dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="200dp"
+       android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:textColor="#fff"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:id="@+id/mail_header"
+        android:layout_width="200dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="225dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:textColor="#fff"
+        android:textStyle="bold"
+        />
 </RelativeLayout>
