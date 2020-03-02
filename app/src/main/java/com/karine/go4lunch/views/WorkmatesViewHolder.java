@@ -50,18 +50,17 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
     private PlaceDetail detail;
     private String id;
     private String restoId;
+    private String userName;
 
 
     public WorkmatesViewHolder(@NonNull View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-        executeHttpRequestWithRetrofit();
+
     }
 
 
-    public String getIdResto(String name) {
-        return idResto;
-    }
+
 
     /**
      * For update usernames and photos
@@ -72,9 +71,10 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
     @SuppressLint("SetTextI18n")
     public void updateWithDetails(User users, RequestManager glide) {
         //for retrieve name
-       mWorkmatesName.setText(users.getUsername() + " " + users.getPlaceId());
+        userName = users.getUsername();
         idResto = users.getPlaceId();
         Log.d("idRestoUser", "idRestoUsers"+ " " +idResto);
+        executeHttpRequestWithRetrofit();
        //for retrieve user photo
         if (users.getUrlPicture() != null && !users.getUrlPicture().isEmpty()) {
             glide.load(users.getUrlPicture()).apply(RequestOptions.circleCropTransform()).into(mWorkmatesPhoto);
@@ -93,16 +93,14 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
                     Log.d("idResto", "idResto" + idResto);
                     }
 
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void onComplete() {
-                        restoId = detail.getResult().getPlaceId();
 
-                        if(restoId != null) {
+                        if(idResto != null) {
                             restoName = detail.getResult().getName();
-
-
-
-                            Log.d("OnCompleteRestoName", "restoName" + restoName);
+                            mWorkmatesName.setText(userName +" "+"eat at"+" "+restoName);
+                            Log.d("OnCompleteRestoName", "restoName" +idResto);
                         } else {
                             Log.d("RestoName", "noResto");
                         }

@@ -180,7 +180,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
                     diff = getCurrentTime().compareTo(convertStringToHours(closeHour));
                     Log.d("diff", String.valueOf(diff));
 
-                    if (p.getOpen().getDay() == days[day] && getCurrentTime().compareTo(convertStringToHours(closeHour)) < 0) {
+                    if (p.getOpen().getDay() == days[day] && diff < -1) {
 
                         mOpenHours.setText(String.format("Open Until %s", convertStringToHours(closeHour)));
                         this.mOpenHours.setTextColor(itemView.getContext().getResources().getColor(R.color.colorOpen));

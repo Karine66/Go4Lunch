@@ -27,10 +27,11 @@
 
         <TextView
             android:id="@+id/workmates_name"
-            android:layout_width="250dp"
+            android:layout_width="280dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
-            android:layout_marginStart="35dp"
+            android:layout_marginStart="20dp"
+            android:textColor="#000"
             android:layout_toEndOf="@id/workmates_photo" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
