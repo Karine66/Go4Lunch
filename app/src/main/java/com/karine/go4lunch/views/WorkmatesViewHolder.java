@@ -95,7 +95,7 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
 
                     @Override
                     public void onComplete() {
-
+                        restoId = detail.getResult().getPlaceId();
 
                         if(restoId != null) {
                             restoName = detail.getResult().getName();

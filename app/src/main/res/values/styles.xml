@@ -29,7 +29,6 @@
         <item name="stStrokeWidth">2dp</item>
         <item name="cornerRadius">5dp</item>
         <item name="stLength">SHORT</item>
-
     </style>
 
 
