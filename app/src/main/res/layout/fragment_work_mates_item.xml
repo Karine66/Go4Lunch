@@ -32,6 +32,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="20dp"
             android:textColor="#000"
+            android:textStyle="italic"
             android:layout_toEndOf="@id/workmates_photo" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

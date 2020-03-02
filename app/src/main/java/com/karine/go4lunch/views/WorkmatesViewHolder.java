@@ -48,8 +48,6 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
     private User users;
     private PlaceDetailsResult result;
     private PlaceDetail detail;
-    private String id;
-    private String restoId;
     private String userName;
 
 
@@ -59,9 +57,6 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-
-
-
     /**
      * For update usernames and photos
      *
@@ -70,7 +65,7 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
      */
     @SuppressLint("SetTextI18n")
     public void updateWithDetails(User users, RequestManager glide) {
-        //for retrieve name
+        //for retrieve name and id resto for request
         userName = users.getUsername();
         idResto = users.getPlaceId();
         Log.d("idRestoUser", "idRestoUsers"+ " " +idResto);
@@ -83,6 +78,10 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
+    /**
+     * request for restrieve restaurant name with id
+     */
+
     private void executeHttpRequestWithRetrofit() {
         this.mDisposable = Go4LunchStream.streamFetchDetails(idResto)
                 .subscribeWith(new DisposableObserver<PlaceDetail>() {
@@ -90,31 +89,20 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
                     @Override
                     public void onNext(PlaceDetail placeDetail) {
                     detail = placeDetail;
-                    Log.d("idResto", "idResto" + idResto);
                     }
 
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void onComplete() {
 
-                        if(idResto != null) {
+                        if (idResto != null) {
                             restoName = detail.getResult().getName();
-                            mWorkmatesName.setText(userName +" "+"eat at"+" "+restoName);
-                            Log.d("OnCompleteRestoName", "restoName" +idResto);
+                            mWorkmatesName.setText(userName + " " + "eat at" + " " + restoName);
+                            Log.d("OnCompleteRestoName", "restoName" + idResto);
                         } else {
-                            Log.d("RestoName", "noResto");
+                            mWorkmatesName.setText(userName + " " + "hasn't decided yet");
+                            Log.d("RestoName", "noResto" + userName);
                         }
-
-
-//                        if(detail.getResult().getPlaceId()!= null) {
-//                        String restoName = detail.getResult().getName();
-//                        Log.d("OnCompleteREstoName", "restoName" + restoName);
-//                    } else {
-//                        Log.d("RestoName", "noResto" + restoName);
-//                    }
-
-
-//                           Log.d("ON_Complete", "Test onComplete"+ restoName);
                     }
 
                     @Override
@@ -123,20 +111,5 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
                     }
                 });
     }
-
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        this.disposeWhenDestroy();
-//    }
-//
-//    /**
-//     * dispose subscription
-//     */
-//    private void disposeWhenDestroy() {
-//        if (this.mDisposable != null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
-//    }
-
-
 }
 

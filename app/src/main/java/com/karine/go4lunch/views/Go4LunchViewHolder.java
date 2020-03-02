@@ -71,7 +71,6 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
     private float[] distanceResults = new float[3];
     private Period periods;
     private String localTime;
-    private boolean permanentalyClosed;
     private String closeHour;
 
 
@@ -124,18 +123,6 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
             this.mOpenHours.setTextColor(Color.BLACK);
         }
 
-
-
-//
-//               if (result.getOpeningHours().getPermanentlyClosed().toString().equals("true") ){
-//                this.mOpenHours.setText("Permanently Closed");
-//                this.mOpenHours.setTextColor(Color.RED);
-//            }
-
-//       getHoursInfo(result);
-
-
-//        Log.d("TestHours", result.getOpeningHours().toString());
         //for add photos with Glide
         if (result.getPhotos() != null && !result.getPhotos().isEmpty()) {
             glide.load("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=400&photoreference=" + result.getPhotos().get(0).getPhotoReference() + "&key=" + GOOGLE_MAP_API_KEY)
