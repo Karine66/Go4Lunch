@@ -2,7 +2,10 @@ package com.karine.go4lunch.models;
 
 import androidx.annotation.Nullable;
 
-public class User {
+import java.io.Serializable;
+
+
+public class User implements Serializable {
 
     private String reference;
     private String uid;
@@ -23,6 +26,7 @@ public class User {
             this.uid = uid;
             this.username = username;
             this.urlPicture = urlPicture;
+
 
         }
 

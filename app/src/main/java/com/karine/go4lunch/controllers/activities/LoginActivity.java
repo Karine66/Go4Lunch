@@ -100,6 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                     getCurrentUser().getPhotoUrl().toString() : null;
             String userName = getCurrentUser().getDisplayName();
             String uid = getCurrentUser().getUid();
+           // String placeId = getCurrentUser().getPlaceId();
 
             UserHelper.createUser(uid, userName, urlPicture).addOnFailureListener(onFailureListener());
         }

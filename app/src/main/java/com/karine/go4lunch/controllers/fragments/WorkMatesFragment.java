@@ -2,7 +2,9 @@ package com.karine.go4lunch.controllers.fragments;
 
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +20,17 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.karine.go4lunch.R;
+import com.karine.go4lunch.Utils.ItemClickSupport;
 import com.karine.go4lunch.controllers.activities.MainPageActivity;
+import com.karine.go4lunch.controllers.activities.RestaurantActivity;
+import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
+import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 import com.karine.go4lunch.models.User;
 import com.karine.go4lunch.views.WorkmatesAdapter;
 
+import java.io.Serializable;
+import java.util.BitSet;
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -43,6 +52,10 @@ public class WorkMatesFragment extends BaseFragment {
     private WorkmatesAdapter workmatesAdapter;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference collectionUsers = db.collection("users");
+    private PlaceDetailsResult placeDetailsResult;
+    public List<PlaceDetail> placeDetails;
+
+
 
     /**
      * Constructor
@@ -59,6 +72,8 @@ public class WorkMatesFragment extends BaseFragment {
         ButterKnife.bind(this, view);
 
         setUpRecyclerView();
+//        retrieveData();
+//        configureOnClickRecyclerView();
         return view;
     }
 //
@@ -90,6 +105,7 @@ public class WorkMatesFragment extends BaseFragment {
 
     }
 
+
     @Override
     public void onStart() {
         super.onStart();
@@ -101,6 +117,8 @@ public class WorkMatesFragment extends BaseFragment {
         super.onStop();
         workmatesAdapter.stopListening();
     }
+
+
 
     /**
      * dispose subscription

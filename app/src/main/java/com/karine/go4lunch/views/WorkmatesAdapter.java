@@ -54,6 +54,7 @@ public class WorkmatesAdapter extends FirestoreRecyclerAdapter<User, WorkmatesVi
         return new WorkmatesViewHolder(view);
     }
 
+
     /**
      * Update viewHolder
      * @param workmatesViewHolder
@@ -64,4 +65,6 @@ public class WorkmatesAdapter extends FirestoreRecyclerAdapter<User, WorkmatesVi
     protected void onBindViewHolder(@NonNull WorkmatesViewHolder workmatesViewHolder, int position, @NonNull User model) {
         workmatesViewHolder.updateWithDetails(model, this.glide);
     }
+
+
 }

@@ -69,6 +69,8 @@ public class ListFragment extends BaseFragment implements Serializable {
         ButterKnife.bind(this, view);
         this.configureRecyclerView();
         this.configureOnClickRecyclerView();
+
+
         return view;
     }
 
@@ -107,7 +109,6 @@ public class ListFragment extends BaseFragment implements Serializable {
     private void configureOnClickRecyclerView() {
         ItemClickSupport.addTo(mRecyclerView, R.layout.fragment_list_item)
                 .setOnItemClickListener((new ItemClickSupport.OnItemClickListener() {
-
 
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {

@@ -1,6 +1,8 @@
 package com.karine.go4lunch.views;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,21 +15,15 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.karine.go4lunch.R;
 import com.karine.go4lunch.Utils.Go4LunchStream;
+import com.karine.go4lunch.controllers.activities.RestaurantActivity;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 import com.karine.go4lunch.models.User;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
-import io.reactivex.observers.DisposableSingleObserver;
 
 public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
     /**
@@ -54,15 +50,28 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
     public WorkmatesViewHolder(@NonNull View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+        //for retrieve restaurant sheet on click workmates
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(detail!=null) {
+                    Intent intent = new Intent(v.getContext(), RestaurantActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("placeDetailsResult", detail.getResult());
+                    intent.putExtras(bundle);
+                    v.getContext().startActivity(intent);
+                }
+            }
+        });
 
     }
 
     /**
      * For update usernames and photos
-     *
      * @param users
      * @param glide
      */
+
     @SuppressLint("SetTextI18n")
     public void updateWithDetails(User users, RequestManager glide) {
         //for retrieve name and id resto for request
