@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/fragmentWorkmates"
+    android:background="#EBE4E4"
+    tools:context=".controllers.fragments.WorkMatesFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fragment_Workmates_RV"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" />
+</RelativeLayout>

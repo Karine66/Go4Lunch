@@ -12,27 +12,27 @@
     app:cardCornerRadius="5dp">
 
     <RelativeLayout
-        android:id="@+id/fragment_workmates_item"
+        android:id="@+id/restaurant_item"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:scaleType="centerCrop">
 
         <ImageView
-        android:id="@+id/workmates_photo"
+        android:id="@+id/resto_mates_photo"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="10dp"
         android:layout_centerVertical="true"
-        android:contentDescription="workmatesPhoto" />
+        android:contentDescription="restoMatesPhoto" />
 
         <TextView
-            android:id="@+id/workmates_name"
+            android:id="@+id/resto_mates_name"
             android:layout_width="280dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="20dp"
             android:textColor="#000"
             android:textStyle="italic"
-            android:layout_toEndOf="@id/workmates_photo" />
+            android:layout_toEndOf="@id/resto_mates_photo" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

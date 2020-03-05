@@ -12,8 +12,11 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +26,7 @@ import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,17 +36,24 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.karine.go4lunch.R;
 import com.karine.go4lunch.Utils.FirebaseUtils;
+import com.karine.go4lunch.Utils.Go4LunchStream;
 import com.karine.go4lunch.controllers.fragments.BaseFragment;
 import com.karine.go4lunch.controllers.fragments.ChatFragment;
 import com.karine.go4lunch.controllers.fragments.ListFragment;
 import com.karine.go4lunch.controllers.fragments.MapFragment;
 import com.karine.go4lunch.controllers.fragments.WorkMatesFragment;
+import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
+import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
+import com.karine.go4lunch.models.User;
 import com.muddzdev.styleabletoast.StyleableToast;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 
 public class MainPageActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     //Declarations
@@ -64,6 +75,13 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private static final int SIGN_OUT_TASK = 100;
+    private Disposable mDisposable;
+    private PlaceDetail detail;
+    private User users;
+    private String userId;
+    private String idResto;
+    private PlaceDetailsResult result;
+    private String nameId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +93,8 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         this.configureDrawerLayout();
         this.configureNavigationView();
         this.updateUINavHeader();
-
+//        this.executeHttpRequestWithRetrofit();
+        this.userResto(users);
         //For change title Action Bar
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -87,6 +106,10 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_frame_layout,
                 new MapFragment()).commit();
 
+    }
+    //    Configure toolbar
+    private void configureToolbar() {
+        setSupportActionBar(toolbar);
     }
 
     /**
@@ -171,6 +194,15 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         int id = item.getItemId();
         switch (id) {
             case R.id.menu_drawer_lunch :
+                if(FirebaseUtils.getCurrentUser() != null) {
+
+                    Intent intent = new Intent(this, RestaurantActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("placeDetailsResult", detail.getResult());
+                    intent.putExtras(bundle);
+                    this.startActivity(intent);
+                }
+
                 break;
             case R.id.menu_drawer_settings:
                 break;
@@ -182,11 +214,6 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         }
         this.drawerLayout.closeDrawer(GravityCompat.START);
         return true;
-    }
-//    Configure toolbar
-    private void configureToolbar() {
-        setSupportActionBar(toolbar);
-   //    Objects.requireNonNull(getActionBar()).setTitle("I'm Hungry");
     }
     //configure Drawer Layout
     private void configureDrawerLayout() {
@@ -206,24 +233,24 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
      * Update UI Nav Header
      */
     private void updateUINavHeader() {
-        if(FirebaseUtils.getCurrentUser() !=null) {
+        if (FirebaseUtils.getCurrentUser() != null) {
             View headerView = mNavigationView.getHeaderView(0); //For return layout
             ImageView mPhotoHeader = headerView.findViewById(R.id.photo_header);
             TextView mNameHeader = headerView.findViewById(R.id.name_header);
             TextView mMailHeader = headerView.findViewById(R.id.mail_header);
             // get photo in Firebase
-            if(FirebaseUtils.getCurrentUser().getPhotoUrl() != null) {
+            if (FirebaseUtils.getCurrentUser().getPhotoUrl() != null) {
                 Glide.with(this)
-                .load(FirebaseUtils.getCurrentUser().getPhotoUrl())
+                        .load(FirebaseUtils.getCurrentUser().getPhotoUrl())
                         .apply(RequestOptions.circleCropTransform())
                         .into(mPhotoHeader);
-            }else {
+            } else {
                 mPhotoHeader.setImageResource(R.drawable.no_picture);
             }
             //Get email
-            String email = TextUtils.isEmpty(FirebaseUtils.getCurrentUser().getEmail())?
-            getString(Integer.parseInt("No Email Found")) : FirebaseUtils.getCurrentUser().getEmail();
-           //Get Name
+            String email = TextUtils.isEmpty(FirebaseUtils.getCurrentUser().getEmail()) ?
+                    getString(Integer.parseInt("No Email Found")) : FirebaseUtils.getCurrentUser().getEmail();
+            //Get Name
             String name = TextUtils.isEmpty(FirebaseUtils.getCurrentUser().getDisplayName()) ?
                     getString(Integer.parseInt("No Username Found")) : FirebaseUtils.getCurrentUser().getDisplayName();
             //Update With data
@@ -231,7 +258,40 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
             mMailHeader.setText(email);
 
         }
+    }
 
+    private void userResto (User users) {
+       idResto = users.getPlaceId();
+        executeHttpRequestWithRetrofit();
+    }
+
+
+    private void executeHttpRequestWithRetrofit() {
+        this.mDisposable = Go4LunchStream.streamFetchDetails(idResto)
+                .subscribeWith(new DisposableObserver<PlaceDetail>() {
+
+                    @Override
+                    public void onNext(PlaceDetail placeDetail) {
+
+                        detail = placeDetail;
+
+
+
+                    }
+                    @Override
+                    public void onComplete() {
+                        if(idResto != null) {
+                            Log.d("your lunch request", "your lunch" + detail.getResult());
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("onErrorYourLunc", Log.getStackTraceString(e));
+                    }
+                });
     }
 
 }

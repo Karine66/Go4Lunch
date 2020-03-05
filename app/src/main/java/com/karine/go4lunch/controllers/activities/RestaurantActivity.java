@@ -38,6 +38,7 @@ import com.karine.go4lunch.Utils.FirebaseUtils;
 import com.karine.go4lunch.models.NearbySearchAPI.ResultSearch;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 import com.karine.go4lunch.models.User;
+import com.muddzdev.styleabletoast.StyleableToast;
 
 public class RestaurantActivity extends AppCompatActivity implements Serializable {
 
@@ -180,7 +181,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
             Log.d("PhoneNumber", formattedPhoneNumber);
             startActivity(intent);
         } else {
-            Toast.makeText(RestaurantActivity.this, "No Phone Available", Toast.LENGTH_SHORT).show();
+            StyleableToast.makeText(RestaurantActivity.this, "No Phone Available", R.style.personalizedToast).show();
         }
     }
 
@@ -214,7 +215,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
              Log.d("Website", url);
             startActivity(intent);
         }else{
-            Toast.makeText(this, "No Website",Toast.LENGTH_SHORT).show();
+            StyleableToast.makeText(this, "No Website",R.style.personalizedToast).show();
         }
 
     }
