@@ -1,14 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/fragmentWorkmates"
-    android:background="#EBE4E4"
-    tools:context=".controllers.fragments.WorkMatesFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fragment_Workmates_RV"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent" />
-</RelativeLayout>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:elevation="4dp"
+    android:orientation="horizontal"
+    android:padding="20dp"
+    app:cardBackgroundColor="#FFCCBC"
+    app:cardCornerRadius="5dp">
+
+    <RelativeLayout
+        android:id="@+id/restaurant_item"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:scaleType="centerCrop">
+
+        <ImageView
+            android:id="@+id/resto_mates_photo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true"
+            android:contentDescription="restoMatesPhoto" />
+
+        <TextView
+            android:id="@+id/resto_mates_name"
+            android:layout_width="280dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:textColor="#000"
+            android:textStyle="italic"
+            android:layout_toEndOf="@id/resto_mates_photo" />
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
