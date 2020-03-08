@@ -109,13 +109,12 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         //for retrieve opening hours (open or closed)
 
         if (result.getOpeningHours() != null) {
+
             if (result.getOpeningHours().getOpenNow().toString().equals("false")) {
                 this.mOpenHours.setText("Closed");
                 this.mOpenHours.setTextColor(Color.RED);
             } else if (result.getOpeningHours().getOpenNow().toString().equals("true")) {
-                // this.mOpenHours.setText("Open");
                 getHoursInfo(result);
-                this.mOpenHours.setTextColor(itemView.getContext().getResources().getColor(R.color.colorOpen));
             }
         }
         if (result.getOpeningHours() == null) {
@@ -141,7 +140,10 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         double endLongitude = endLocation.getLng();
         android.location.Location.distanceBetween(startLatitude, startLongitude, endLatitude, endLongitude, distanceResults);
    }
-       //For restaurant Rating
+
+    /**
+     * @param result
+     */
     private void restaurantRating(PlaceDetailsResult result) {
         if (result.getRating() != null) {
             double restaurantRating = result.getRating();
@@ -155,6 +157,11 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
     }
 
 
+    /**
+     * @param result
+     * @return
+     */
+        @SuppressLint("SetTextI18n")
         private String getHoursInfo(PlaceDetailsResult result) {
             int[] days = {0, 1, 2, 3, 4, 5, 6};
             Calendar calendar = Calendar.getInstance();
@@ -166,17 +173,17 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
                     Log.d("closeHour", String.valueOf(closeHour));
                     diff = getCurrentTime().compareTo(convertStringToHours(closeHour));
                     Log.d("diff", String.valueOf(diff));
+                    if (p.getOpen().getDay() == days[day] && diff <-1) {
 
-                    if (p.getOpen().getDay() == days[day] && diff < -1) {
-
-                        mOpenHours.setText(String.format("Open Until %s", convertStringToHours(closeHour)));
+                        mOpenHours.setText("Open Until" +" "+ convertStringToHours(closeHour));
                         this.mOpenHours.setTextColor(itemView.getContext().getResources().getColor(R.color.colorOpen));
-                        Log.d("Open Until", "Open Until" + " " + (convertStringToHours(closeHour)));
+                        Log.d("Open Until", "Open Until" + " " + convertStringToHours(closeHour));
+
                     }
-                       else if (diff == -1 && days[day] == p.getClose().getDay()) {
-                            mOpenHours.setText(String.format("Closing Soon(%s)", convertStringToHours(closeHour)));
+                    else if (diff == -1 && days[day] == p.getClose().getDay()) {
+                            mOpenHours.setText("Closing Soon"+" "+ convertStringToHours(closeHour));
                         this.mOpenHours.setTextColor(itemView.getContext().getResources().getColor(R.color.colorOpen));
-                            Log.d("Closing Soon", "closing soon"+ convertStringToHours(closeHour));
+                            Log.d("Closing Soon", "closing soon"+convertStringToHours(closeHour));
 
                         }
                     }
@@ -185,7 +192,10 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
             }
 
 
-
+    /**
+     * @param hour
+     * @return
+     */
     // convert string to hours
     public String convertStringToHours(String hour){
         String hour1 = hour.substring(0,2);

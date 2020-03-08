@@ -94,7 +94,7 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         this.configureNavigationView();
         this.updateUINavHeader();
 //        this.executeHttpRequestWithRetrofit();
-        this.userResto(users);
+//        this.userResto(users);
         //For change title Action Bar
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -260,10 +260,10 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
-    private void userResto (User users) {
-       idResto = users.getPlaceId();
-        executeHttpRequestWithRetrofit();
-    }
+//    private void userResto (User users) {
+//       idResto = users.getPlaceId();
+//        executeHttpRequestWithRetrofit();
+//    }
 
 
     private void executeHttpRequestWithRetrofit() {

@@ -1,6 +1,5 @@
 package com.karine.go4lunch.controllers.activities;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -9,9 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-import com.facebook.login.widget.LoginButton;
 import com.firebase.ui.auth.AuthUI;;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
@@ -48,11 +45,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         ButterKnife.bind(this);
-//        //For Hide Action Bar
-//        ActionBar actionBar = getSupportActionBar();
-//        if (actionBar != null) {
-//            actionBar.hide();
-//        }
 
     }
 
@@ -100,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                     getCurrentUser().getPhotoUrl().toString() : null;
             String userName = getCurrentUser().getDisplayName();
             String uid = getCurrentUser().getUid();
-           // String placeId = getCurrentUser().getPlaceId();
+//            String placeId = getCurrentUser().getPlaceId();
 
             UserHelper.createUser(uid, userName, urlPicture).addOnFailureListener(onFailureListener());
         }

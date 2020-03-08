@@ -95,13 +95,14 @@
         android:drawableTint="@color/colorPrimaryDark"
         android:text="WEBSITE"
         android:textAlignment="center"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+            tools:ignore="RtlCompat" />
 
     </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fragment_restaurant_RV"
-        android:layout_marginTop="20dp"
+        android:id="@+id/restaurant_RV"
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/action_btn"
         android:layout_height="match_parent"
         android:layout_width="match_parent" />

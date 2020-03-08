@@ -25,14 +25,14 @@ import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
-public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
+public class RestaurantViewHolder extends RecyclerView.ViewHolder {
     /**
      * Déclarations
      */
-    @BindView(R.id.workmates_photo)
-    ImageView mWorkmatesPhoto;
-    @BindView(R.id.workmates_name)
-    TextView mWorkmatesName;
+    @BindView(R.id.resto_mates_photo)
+    ImageView mRestoMatesPhoto;
+    @BindView(R.id.resto_mates_name)
+    TextView mRestoMatesName;
     private PlaceDetail placeDetail;
     private Disposable mDisposable;
     private String placeId;
@@ -47,7 +47,7 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
     private String userName;
 
 
-    public WorkmatesViewHolder(@NonNull View itemView) {
+    public RestaurantViewHolder(@NonNull View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         //for retrieve restaurant sheet on click workmates
@@ -77,14 +77,13 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
         //for retrieve name and id resto for request
         userName = users.getUsername();
         idResto = users.getPlaceId();
-
         Log.d("idRestoUser", "idRestoUsers"+ " " +idResto);
         executeHttpRequestWithRetrofit();
        //for retrieve user photo
         if (users.getUrlPicture() != null && !users.getUrlPicture().isEmpty()) {
-            glide.load(users.getUrlPicture()).apply(RequestOptions.circleCropTransform()).into(mWorkmatesPhoto);
+            glide.load(users.getUrlPicture()).apply(RequestOptions.circleCropTransform()).into(mRestoMatesPhoto);
         } else {
-            mWorkmatesPhoto.setImageResource(R.drawable.no_picture);
+            mRestoMatesPhoto.setImageResource(R.drawable.no_picture);
         }
     }
 
@@ -107,10 +106,10 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
 
                         if (idResto != null) {
                             restoName = detail.getResult().getName();
-                            mWorkmatesName.setText(userName + " " + "eat at" + " " + restoName);
+                            mRestoMatesName.setText(userName + " " + "eat at" + " " + restoName);
                             Log.d("OnCompleteRestoName", "restoName" + idResto);
                         } else {
-                            mWorkmatesName.setText(userName + " " + "hasn't decided yet");
+                            mRestoMatesName.setText(userName + " " + "hasn't decided yet");
                             Log.d("RestoName", "noResto" + userName);
                         }
                     }

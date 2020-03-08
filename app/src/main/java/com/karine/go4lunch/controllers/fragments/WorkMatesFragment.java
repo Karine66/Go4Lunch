@@ -93,7 +93,8 @@ public class WorkMatesFragment extends BaseFragment {
      * Configure RecyclerView, Adapter, LayoutManager & glue it
      */
     private void setUpRecyclerView() {
-        Query query = collectionUsers.orderBy("username", Query.Direction.DESCENDING);
+//        Query query = collectionUsers.orderBy("placeId", Query.Direction.DESCENDING);
+        Query query = collectionUsers.orderBy("username", Query.Direction.ASCENDING);
 
         FirestoreRecyclerOptions<User> options = new FirestoreRecyclerOptions.Builder<User>()
                 .setQuery(query, User.class)

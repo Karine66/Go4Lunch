@@ -18,11 +18,17 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.karine.go4lunch.API.UserHelper;
 import com.karine.go4lunch.BuildConfig;
 import com.karine.go4lunch.R;
@@ -38,6 +44,8 @@ import com.karine.go4lunch.Utils.FirebaseUtils;
 import com.karine.go4lunch.models.NearbySearchAPI.ResultSearch;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 import com.karine.go4lunch.models.User;
+import com.karine.go4lunch.views.RestaurantAdapter;
+import com.karine.go4lunch.views.WorkmatesAdapter;
 import com.muddzdev.styleabletoast.StyleableToast;
 
 public class RestaurantActivity extends AppCompatActivity implements Serializable {
@@ -55,6 +63,8 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     Button mWebBtn;
     @BindView(R.id.floating_ok_btn)
     FloatingActionButton mFloatingBtn;
+    @BindView(R.id.restaurant_RV)
+    RecyclerView mRecyclerViewRestaurant;
 
     String GOOGLE_MAP_API_KEY = BuildConfig.GOOGLE_MAP_API_KEY;
 //    private PlaceDetailsResult placeDetailsResult;
@@ -64,6 +74,10 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     private RequestManager mGlide;
     private String restoId;
     private PlaceDetailsResult placeDetailsResult;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference collectionUsers = db.collection("users");
+    private RestaurantAdapter restaurantAdapter;
+    private Disposable mDisposable;
 
 
     @Override
@@ -73,7 +87,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         ButterKnife.bind(this);
         this.retrieveData();
         this.floatingBtn();
-
+        this.setUpRecyclerView();
         //For Hide Action Bar
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -220,5 +234,56 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
 
     }
 
+    //For Recycler View Workmates
+    /**
+     * RecyclerView configuration
+     * Configure RecyclerView, Adapter, LayoutManager & glue it
+     */
+    private void setUpRecyclerView() {
+        Query query = collectionUsers.orderBy("placeId", Query.Direction.DESCENDING);
 
+        FirestoreRecyclerOptions<User> options = new FirestoreRecyclerOptions.Builder<User>()
+                .setQuery(query, User.class)
+                .build();
+        this.restaurantAdapter = new RestaurantAdapter(options, Glide.with(this));
+        mRecyclerViewRestaurant.setHasFixedSize(true);
+        mRecyclerViewRestaurant.setAdapter(restaurantAdapter);
+        mRecyclerViewRestaurant.setLayoutManager(new LinearLayoutManager(this));
+
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        restaurantAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        restaurantAdapter.stopListening();
+    }
+
+    /**
+     * dispose subscription
+     */
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.disposeWhenDestroy();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    /**
+     * dispose subscription
+     */
+    private void disposeWhenDestroy() {
+        if (this.mDisposable != null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
+    }
 }
+
+
