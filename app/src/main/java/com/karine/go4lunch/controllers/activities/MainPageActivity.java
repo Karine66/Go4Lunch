@@ -34,6 +34,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.karine.go4lunch.API.UserHelper;
 import com.karine.go4lunch.R;
 import com.karine.go4lunch.Utils.FirebaseUtils;
 import com.karine.go4lunch.Utils.Go4LunchStream;
@@ -54,6 +56,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
+
+import static com.karine.go4lunch.Utils.FirebaseUtils.getCurrentUser;
+import static com.karine.go4lunch.Utils.FirebaseUtils.onFailureListener;
 
 public class MainPageActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     //Declarations
@@ -195,14 +200,19 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         switch (id) {
             case R.id.menu_drawer_lunch :
                 if(FirebaseUtils.getCurrentUser() != null) {
+                    UserHelper.getUser(getCurrentUser().getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            User user = documentSnapshot.toObject(User.class);
+                            if (Objects.requireNonNull(user).getPlaceId() != null) {
+                                userResto(user);
+                            } else {
 
-                    Intent intent = new Intent(this, RestaurantActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("placeDetailsResult", detail.getResult());
-                    intent.putExtras(bundle);
-                    this.startActivity(intent);
+                            }
+                        }
+
+                    });
                 }
-
                 break;
             case R.id.menu_drawer_settings:
                 break;
@@ -249,10 +259,10 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
             }
             //Get email
             String email = TextUtils.isEmpty(FirebaseUtils.getCurrentUser().getEmail()) ?
-                    getString(Integer.parseInt("No Email Found")) : FirebaseUtils.getCurrentUser().getEmail();
+                    ("No Email Found") : FirebaseUtils.getCurrentUser().getEmail();
             //Get Name
             String name = TextUtils.isEmpty(FirebaseUtils.getCurrentUser().getDisplayName()) ?
-                    getString(Integer.parseInt("No Username Found")) : FirebaseUtils.getCurrentUser().getDisplayName();
+                    ("No Username Found") : FirebaseUtils.getCurrentUser().getDisplayName();
             //Update With data
             mNameHeader.setText(name);
             mMailHeader.setText(email);
@@ -260,10 +270,10 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
-//    private void userResto (User users) {
-//       idResto = users.getPlaceId();
-//        executeHttpRequestWithRetrofit();
-//    }
+    private void userResto (User users) {
+       idResto = users.getPlaceId();
+        executeHttpRequestWithRetrofit();
+    }
 
 
     private void executeHttpRequestWithRetrofit() {
@@ -275,7 +285,7 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
 
                         detail = placeDetail;
 
-
+                        startForLunch();
 
                     }
                     @Override
@@ -292,6 +302,13 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
                         Log.d("onErrorYourLunc", Log.getStackTraceString(e));
                     }
                 });
+    }
+    public void startForLunch() {
+        Intent intent = new Intent(this, RestaurantActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("placeDetailsResult", detail.getResult());
+        intent.putExtras(bundle);
+        this.startActivity(intent);
     }
 
 }

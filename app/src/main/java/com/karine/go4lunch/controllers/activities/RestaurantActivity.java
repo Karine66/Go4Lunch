@@ -42,6 +42,7 @@ import io.reactivex.disposables.Disposable;
 
 import com.karine.go4lunch.Utils.FirebaseUtils;
 import com.karine.go4lunch.models.NearbySearchAPI.ResultSearch;
+import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 import com.karine.go4lunch.models.User;
 import com.karine.go4lunch.views.RestaurantAdapter;
@@ -78,6 +79,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     private CollectionReference collectionUsers = db.collection("users");
     private RestaurantAdapter restaurantAdapter;
     private Disposable mDisposable;
+    private PlaceDetail placeDetail;
 
 
     @Override
@@ -240,7 +242,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
      * Configure RecyclerView, Adapter, LayoutManager & glue it
      */
     private void setUpRecyclerView() {
-        Query query = collectionUsers.orderBy("placeId", Query.Direction.DESCENDING);
+        Query query = collectionUsers.whereEqualTo("placeId", placeDetailsResult);
 
         FirestoreRecyclerOptions<User> options = new FirestoreRecyclerOptions.Builder<User>()
                 .setQuery(query, User.class)

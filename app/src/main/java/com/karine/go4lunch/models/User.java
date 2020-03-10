@@ -22,10 +22,11 @@ public class User implements Serializable {
      * @param username
      * @param urlPicture
      */
-    public User(String uid, String username, @Nullable String urlPicture) {
+    public User(String uid, String username, @Nullable String urlPicture, String placeId) {
             this.uid = uid;
             this.username = username;
             this.urlPicture = urlPicture;
+            this.placeId = placeId;
 
 
         }

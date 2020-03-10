@@ -12,8 +12,11 @@ import android.widget.RelativeLayout;
 import com.firebase.ui.auth.AuthUI;;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.karine.go4lunch.API.UserHelper;
 import com.karine.go4lunch.R;
+import com.karine.go4lunch.models.User;
 import com.muddzdev.styleabletoast.StyleableToast;
 
 import java.util.Collections;
@@ -87,16 +90,25 @@ public class LoginActivity extends AppCompatActivity {
 
     //Http request that create user in firestore
     private void createUserInFirestore() {
-        if(getCurrentUser() != null) {
-            String urlPicture = (getCurrentUser().getPhotoUrl() !=null) ?
+
+            String urlPicture = (getCurrentUser().getPhotoUrl() != null) ?
                     getCurrentUser().getPhotoUrl().toString() : null;
             String userName = getCurrentUser().getDisplayName();
             String uid = getCurrentUser().getUid();
-//            String placeId = getCurrentUser().getPlaceId();
+            UserHelper.getUser(uid).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    User user = documentSnapshot.toObject(User.class);
+                    if (user != null) {
+                        UserHelper.createUser(uid, userName, urlPicture, user.getPlaceId()).addOnFailureListener(onFailureListener());
+                    }else{
+                        UserHelper.createUser(uid, userName, urlPicture, null).addOnFailureListener(onFailureListener());
+                    }
+                }
 
-            UserHelper.createUser(uid, userName, urlPicture).addOnFailureListener(onFailureListener());
+
+            });
         }
-    }
 
 
 
