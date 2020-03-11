@@ -74,6 +74,8 @@ public class UserHelper {
     public static Task<Void> deleteUser(String uid) {
         return UserHelper.getUsersCollection().document(uid).delete();
     }
-
+    public static Task<Void>deletePlaceId(String placeId) {
+        return UserHelper.getUsersCollection().document(placeId).delete();
+    }
 }
 

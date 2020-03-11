@@ -207,7 +207,7 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
                             if (Objects.requireNonNull(user).getPlaceId() != null) {
                                 userResto(user);
                             } else {
-
+                                StyleableToast.makeText(getApplicationContext(), "No restaurant choose for the moment", R.style.personalizedToast).show();
                             }
                         }
 

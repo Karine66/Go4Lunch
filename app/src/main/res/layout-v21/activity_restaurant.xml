@@ -16,13 +16,14 @@
 
    <com.google.android.material.floatingactionbutton.FloatingActionButton
        android:id="@+id/floating_ok_btn"
-       style="@style/Widget.MaterialComponents.FloatingActionButton"
        android:layout_height="wrap_content"
        android:layout_width="wrap_content"
        android:layout_marginStart="300dp"
        android:layout_marginTop="170dp"
        android:clickable="true"
-       android:elevation="8dp"
+        app:pressedTranslationZ="12dp"
+       android:elevation="6dp"
+        android:backgroundTint="#69F0AE"
        android:src="@drawable/baseline_done_white_24"
         app:fabSize="auto"
        android:focusable="true" />

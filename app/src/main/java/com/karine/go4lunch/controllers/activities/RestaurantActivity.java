@@ -1,6 +1,7 @@
 package com.karine.go4lunch.controllers.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -79,9 +80,11 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     private CollectionReference collectionUsers = db.collection("users");
     private RestaurantAdapter restaurantAdapter;
     private Disposable mDisposable;
-    private PlaceDetail placeDetail;
+    private static final String SELECTED = "SELECTED";
+    private static final String UNSELECTED = "UNSELECTED";
 
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +93,8 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         this.retrieveData();
         this.floatingBtn();
         this.setUpRecyclerView();
+
+
         //For Hide Action Bar
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -145,10 +150,15 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
 
             @Override
             public void onClick(View v) {
+                    if(v.getId() == R.id.floating_ok_btn)
+                        if(SELECTED.equals(mFloatingBtn.getTag())) {
+                            selectedRestaurant();
+                        }else{
+                            removeRestaurant();
+                        }
 
-               selectedRestaurant();
 
-                }
+            }
         });
     }
 
@@ -164,16 +174,17 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
 
         if (placeDetailsResult != null) {
             UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeDetailsResult.getPlaceId());
+            mFloatingBtn.setImageDrawable(getResources().getDrawable(R.drawable.fui_ic_check_circle_black_128dp));
+            mFloatingBtn.setTag(UNSELECTED);
         }
-
-
-        if (placeDetailsResult != null) {
-            Log.d("FloatingBtn", "id" + UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeDetailsResult.getPlaceId()));
-        }
-
     }
 
-
+    //For remove restaurant choice
+    public void removeRestaurant() {
+        UserHelper.deletePlaceId(Objects.requireNonNull(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid()));
+        mFloatingBtn.setImageDrawable(getResources().getDrawable(R.drawable.baseline_done_white_24));
+        mFloatingBtn.setTag(SELECTED);
+    }
 
 
     //For click call button
@@ -242,7 +253,9 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
      * Configure RecyclerView, Adapter, LayoutManager & glue it
      */
     private void setUpRecyclerView() {
-        Query query = collectionUsers.whereEqualTo("placeId", placeDetailsResult);
+
+
+        Query query = collectionUsers.orderBy("username").orderBy("placeId", Query.Direction.DESCENDING);
 
         FirestoreRecyclerOptions<User> options = new FirestoreRecyclerOptions.Builder<User>()
                 .setQuery(query, User.class)
