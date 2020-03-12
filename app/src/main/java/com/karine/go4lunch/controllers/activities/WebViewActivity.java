@@ -49,8 +49,9 @@ public class WebViewActivity extends AppCompatActivity {
 
         //For Hide Action Bar
         ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
-        actionBar.hide();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
 
     }
 

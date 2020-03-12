@@ -153,15 +153,15 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
                     if(v.getId() == R.id.floating_ok_btn)
                         if(SELECTED.equals(mFloatingBtn.getTag())) {
                             selectedRestaurant();
-                        }else{
+                        }
+                        else if (mFloatingBtn.isSelected()){
+                            selectedRestaurant();
+                        } else{
                             removeRestaurant();
                         }
-
-
             }
         });
-    }
-
+            }
     public void selectedRestaurant() {
 
         Intent intent = this.getIntent();

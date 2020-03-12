@@ -210,7 +210,6 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
                                 StyleableToast.makeText(getApplicationContext(), "No restaurant choose for the moment", R.style.personalizedToast).show();
                             }
                         }
-
                     });
                 }
                 break;
