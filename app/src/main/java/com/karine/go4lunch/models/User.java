@@ -3,6 +3,7 @@ package com.karine.go4lunch.models;
 import androidx.annotation.Nullable;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 
 public class User implements Serializable {
@@ -13,8 +14,9 @@ public class User implements Serializable {
         @Nullable
         private String urlPicture;
         private String placeId;
+    private ArrayList<String> like;
 
-        public User() { }
+    public User() { }
 
     /**
      * Constructor
@@ -22,11 +24,12 @@ public class User implements Serializable {
      * @param username
      * @param urlPicture
      */
-    public User(String uid, String username, @Nullable String urlPicture, String placeId) {
+    public User(String uid, String username, @Nullable String urlPicture, String placeId, ArrayList<String> like) {
             this.uid = uid;
             this.username = username;
             this.urlPicture = urlPicture;
             this.placeId = placeId;
+            this.like = like;
 
 
         }
@@ -41,6 +44,9 @@ public class User implements Serializable {
         public String getPlaceId(){
         return placeId;
         }
+        public ArrayList<String> getLike() {
+        return like;
+        }
 
 
     /**
@@ -53,6 +59,8 @@ public class User implements Serializable {
         public void setPlaceId(String placeId) {
             this.placeId = placeId;
         }
-
+        public void setLike(ArrayList<String> like) {
+            this.like = like;
+        }
     }
 

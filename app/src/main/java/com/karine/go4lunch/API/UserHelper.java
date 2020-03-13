@@ -4,9 +4,12 @@ package com.karine.go4lunch.API;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.karine.go4lunch.models.User;
+
+import java.util.ArrayList;
 
 
 public class UserHelper {
@@ -32,9 +35,9 @@ public class UserHelper {
      * @param urlPicture
      * @return
      */
-    public static Task<Void> createUser(String uid, String username, String urlPicture, String placeId) {
+    public static Task<Void> createUser(String uid, String username, String urlPicture, String placeId, ArrayList<String> like) {
         //Create user object
-        User userToCreate = new User(uid, username, urlPicture, placeId);
+        User userToCreate = new User(uid, username, urlPicture, placeId, like);
         //Add a new user Document in Firestore
         return UserHelper.getUsersCollection()
                 .document(uid) //Setting uID for Document
@@ -64,6 +67,9 @@ public class UserHelper {
     public static Task<Void> updatePlaceId(String uid, String placeId) {
         return UserHelper.getUsersCollection().document(uid).update("placeId", placeId);
     }
+    public static Task<Void> updateLike(String uid, String placeId) {
+        return UserHelper.getUsersCollection().document(uid).update("like", FieldValue.arrayUnion(placeId));
+    }
 
     /**
      * Delete
@@ -76,6 +82,9 @@ public class UserHelper {
     }
     public static Task<Void>deletePlaceId(String uid) {
         return UserHelper.getUsersCollection().document(uid).update("placeId", null);
+    }
+    public static Task<Void>deleteLike(String uid) {
+        return UserHelper.getUsersCollection().document(uid).update("like", null);
     }
 }
 

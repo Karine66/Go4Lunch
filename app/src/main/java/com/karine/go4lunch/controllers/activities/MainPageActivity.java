@@ -68,12 +68,6 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
     BottomNavigationView bottomNavigationView;
     @BindView(R.id.main_page_nav_view)
     NavigationView mNavigationView;
-//    @BindView(R.id.photo_header)
-//    ImageView mPhotoHeader;
-//    @BindView(R.id.name_header)
-//    TextView mNameHeader;
-//    @BindView(R.id.mail_header)
-//    TextView mMailHeader;
 
 
     private GoogleMap mMap;
@@ -226,7 +220,7 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
     }
     //configure Drawer Layout
     private void configureDrawerLayout() {
-        this.drawerLayout = (DrawerLayout) findViewById(R.id.main_page_drawer_layout);
+        this.drawerLayout = findViewById(R.id.main_page_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
@@ -234,7 +228,7 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
     }
     //Configure NavigationView
     private void configureNavigationView() {
-        this.navigationView = (NavigationView) findViewById(R.id.main_page_nav_view);
+        this.navigationView = findViewById(R.id.main_page_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 

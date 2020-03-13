@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.UserHandle;
@@ -67,9 +68,11 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     FloatingActionButton mFloatingBtn;
     @BindView(R.id.restaurant_RV)
     RecyclerView mRecyclerViewRestaurant;
+    @BindView(R.id.star_btn)
+    Button mStarBtn;
 
     String GOOGLE_MAP_API_KEY = BuildConfig.GOOGLE_MAP_API_KEY;
-//    private PlaceDetailsResult placeDetailsResult;
+    //    private PlaceDetailsResult placeDetailsResult;
     private RequestManager glide;
     private String formattedPhoneNumber;
     private String url;
@@ -92,6 +95,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         ButterKnife.bind(this);
         this.retrieveData();
         this.floatingBtn();
+        this.starBtn();
         this.setUpRecyclerView();
 
 
@@ -117,6 +121,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         }
 
     }
+
     private void updateUI(PlaceDetailsResult placeDetailsResult, RequestManager glide) {
         mGlide = glide;
 
@@ -144,24 +149,25 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         webBtn(url);
 
     }
+
     //For Floating button
     public void floatingBtn() {
         mFloatingBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                    if(v.getId() == R.id.floating_ok_btn)
-                        if(SELECTED.equals(mFloatingBtn.getTag())) {
-                            selectedRestaurant();
-                        }
-                        else if (mFloatingBtn.isSelected()){
-                            selectedRestaurant();
-                        } else{
-                            removeRestaurant();
-                        }
+                if (v.getId() == R.id.floating_ok_btn)
+                    if (SELECTED.equals(mFloatingBtn.getTag())) {
+                        selectedRestaurant();
+                    } else if (mFloatingBtn.isSelected()) {
+                        selectedRestaurant();
+                    } else {
+                        removeRestaurant();
+                    }
             }
         });
-            }
+    }
+
     public void selectedRestaurant() {
 
         Intent intent = this.getIntent();
@@ -236,18 +242,19 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     }
 
     public void makeWebView(String url) {
-        if(url!=null && !url.isEmpty()) {
+        if (url != null && !url.isEmpty()) {
             Intent intent = new Intent(RestaurantActivity.this, WebViewActivity.class);
             intent.putExtra("website", url);
-             Log.d("Website", url);
+            Log.d("Website", url);
             startActivity(intent);
-        }else{
-            StyleableToast.makeText(this, "No Website",R.style.personalizedToast).show();
+        } else {
+            StyleableToast.makeText(this, "No Website", R.style.personalizedToast).show();
         }
 
     }
 
     //For Recycler View Workmates
+
     /**
      * RecyclerView configuration
      * Configure RecyclerView, Adapter, LayoutManager & glue it
@@ -266,6 +273,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         mRecyclerViewRestaurant.setLayoutManager(new LinearLayoutManager(this));
 
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -298,6 +306,35 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
      */
     private void disposeWhenDestroy() {
         if (this.mDisposable != null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
+    }
+
+    public void starBtn() {
+        mStarBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                likeRestaurant();
+            }
+        });
+    }
+
+    public void likeRestaurant() {
+
+        Intent intent = this.getIntent();
+        Bundle bundle = intent.getExtras();
+
+        PlaceDetailsResult placeDetailsResult = null;
+        if (bundle != null) {
+            placeDetailsResult = (PlaceDetailsResult) bundle.getSerializable("placeDetailsResult");
+        }
+
+        if (!mStarBtn.isSelected()) {
+            if (placeDetailsResult != null) {
+                UserHelper.updateLike(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeDetailsResult.getPlaceId());
+                mStarBtn.setBackgroundColor(Color.TRANSPARENT);
+            }
+        } else {
+            UserHelper.deleteLike(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid());
+        }
     }
 }
 

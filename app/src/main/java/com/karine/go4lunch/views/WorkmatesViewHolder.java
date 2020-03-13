@@ -51,19 +51,15 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         ButterKnife.bind(this, itemView);
         //for retrieve restaurant sheet on click workmates
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(detail!=null) {
-                    Intent intent = new Intent(v.getContext(), RestaurantActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("placeDetailsResult", detail.getResult());
-                    intent.putExtras(bundle);
-                    v.getContext().startActivity(intent);
-                }
+        itemView.setOnClickListener(v -> {
+            if(detail!=null) {
+                Intent intent = new Intent(v.getContext(), RestaurantActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("placeDetailsResult", detail.getResult());
+                intent.putExtras(bundle);
+                v.getContext().startActivity(intent);
             }
         });
-
     }
 
     /**

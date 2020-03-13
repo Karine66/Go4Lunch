@@ -100,9 +100,9 @@ public class LoginActivity extends AppCompatActivity {
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     User user = documentSnapshot.toObject(User.class);
                     if (user != null) {
-                        UserHelper.createUser(uid, userName, urlPicture, user.getPlaceId()).addOnFailureListener(onFailureListener());
+                        UserHelper.createUser(uid, userName, urlPicture, user.getPlaceId(), user.getLike()).addOnFailureListener(onFailureListener());
                     }else{
-                        UserHelper.createUser(uid, userName, urlPicture, null).addOnFailureListener(onFailureListener());
+                        UserHelper.createUser(uid, userName, urlPicture, null, null).addOnFailureListener(onFailureListener());
                     }
                 }
 
