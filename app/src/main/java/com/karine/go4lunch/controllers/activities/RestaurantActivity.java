@@ -262,7 +262,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     private void setUpRecyclerView() {
 
 
-        Query query = collectionUsers.orderBy("username").orderBy("placeId", Query.Direction.DESCENDING);
+        Query query = collectionUsers.whereEqualTo("placeId", placeDetailsResult);
 
         FirestoreRecyclerOptions<User> options = new FirestoreRecyclerOptions.Builder<User>()
                 .setQuery(query, User.class)
