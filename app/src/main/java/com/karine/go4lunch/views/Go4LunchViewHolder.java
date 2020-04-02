@@ -80,6 +80,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
     private int diff;
 
 
+
     public Go4LunchViewHolder(View itemView) {
         super(itemView);
 
@@ -171,17 +172,19 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
                 for (Period p : result.getOpeningHours().getPeriods()) {
                     String closeHour = p.getClose().getTime();
                     Log.d("closeHour", String.valueOf(closeHour));
-                    diff = getCurrentTime().compareTo(convertStringToHours(closeHour));
+                    int hourClose = Integer.parseInt(closeHour);
+                    Log.d("hourClose", String.valueOf(hourClose));
+                    diff = getCurrentTime()-hourClose;
                     Log.d("diff", String.valueOf(diff));
-                    if (p.getOpen().getDay() == days[day] && diff <-1) {
 
+                    if (p.getOpen().getDay() == days[day] && diff <-100) {
                         mOpenHours.setText("Open Until" +" "+ convertStringToHours(closeHour));
                         this.mOpenHours.setTextColor(itemView.getContext().getResources().getColor(R.color.colorOpen));
                         Log.d("Open Until", "Open Until" + " " + convertStringToHours(closeHour));
 
                     }
-                    else if (diff == -1 && days[day] == p.getClose().getDay()) {
-                            mOpenHours.setText("Closing Soon"+" "+ convertStringToHours(closeHour));
+                    else if (diff >= -100 && days[day] == p.getClose().getDay()) {
+                            mOpenHours.setText("Closing Soon"+" "+"("+ convertStringToHours(closeHour)+")");
                         this.mOpenHours.setTextColor(itemView.getContext().getResources().getColor(R.color.colorOpen));
                             Log.d("Closing Soon", "closing soon"+convertStringToHours(closeHour));
 
@@ -190,8 +193,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
                 }
             return closeHour;
             }
-
-
+            
     /**
      * @param hour
      * @return
@@ -213,15 +215,14 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         Log.d("TestDate", dayDate);
     }
 
-    private String getCurrentTime() {
+    private int getCurrentTime() {
         Calendar calendar = Calendar.getInstance();
         Date currentLocalTime = calendar.getTime();
         @SuppressLint("SimpleDateFormat")
-        DateFormat date = new SimpleDateFormat("HH:mm");
-        @SuppressLint("SimpleDateFormat")
-        String localTime = date.format(currentLocalTime);
+        DateFormat date = new SimpleDateFormat("HHmm");
+        localTime = date.format(currentLocalTime);
         Log.d("TestHour", localTime);
-        return localTime;
+        return Integer.parseInt(localTime);
     }
 
 }

@@ -262,7 +262,8 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     private void setUpRecyclerView() {
 
 
-        Query query = collectionUsers.whereEqualTo("placeId", placeDetailsResult);
+        Query query = collectionUsers.orderBy("username", Query.Direction.DESCENDING);
+     //   Query query = collectionUsers.whereEqualTo("placeId", placeDetailsResult);
 
         FirestoreRecyclerOptions<User> options = new FirestoreRecyclerOptions.Builder<User>()
                 .setQuery(query, User.class)
@@ -330,7 +331,8 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         if (!mStarBtn.isSelected()) {
             if (placeDetailsResult != null) {
                 UserHelper.updateLike(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeDetailsResult.getPlaceId());
-                mStarBtn.setBackgroundColor(Color.TRANSPARENT);
+                mStarBtn.setBackgroundColor(Color.BLUE);
+
             }
         } else {
             UserHelper.deleteLike(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid());
