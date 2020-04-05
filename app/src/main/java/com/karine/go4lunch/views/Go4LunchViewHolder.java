@@ -11,11 +11,19 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.karine.go4lunch.API.UserHelper;
 import com.karine.go4lunch.BuildConfig;
 import com.karine.go4lunch.R;
 
@@ -26,6 +34,8 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +46,7 @@ import butterknife.ButterKnife;
 import retrofit2.adapter.rxjava2.Result;
 
 import com.karine.go4lunch.models.PlaceDetailsAPI.Period;
+import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 
 
@@ -59,6 +70,8 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
     RatingBar mRatingBar;
     @BindView(R.id.list_distance)
     TextView mDistance;
+    @BindView(R.id.list_workmates)
+            TextView mWormates;
 
 
     String GOOGLE_MAP_API_KEY = BuildConfig.GOOGLE_MAP_API_KEY;
@@ -78,7 +91,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
     private SimpleDateFormat newCloseHour;
     private String newHourString;
     private int diff;
-
+    private String placeId;
 
 
     public Go4LunchViewHolder(View itemView) {
@@ -107,6 +120,8 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         this.mDistance.setText(distance);
         Log.d("TestDistance", distance);
 
+
+        numberWorkmates(placeId);
         //for retrieve opening hours (open or closed)
 
         if (result.getOpeningHours() != null) {
@@ -193,7 +208,34 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
                 }
             return closeHour;
             }
-            
+
+            private void numberWorkmates(String placeId) {
+
+                final int[] mates = {0};
+
+               UserHelper.getUsersCollection()
+                       .whereEqualTo("placeId", placeId)
+                       .get()
+                       .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                           @Override
+                           public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                               if(task.isSuccessful()) {
+                                   for(QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
+                                      // mates[0]++;
+                                       Log.d("document", String.valueOf(documentSnapshot.getData()));
+                                   }
+                                   if(mates[0] >0 ) {
+                                       String numberMates = String.valueOf((mates[0]));
+                                        mWormates.setText(numberMates);
+
+                                   } else if (mates[0] == 0) {
+                                       mWormates.setText("0");
+                                   }
+                               }
+                           }
+                       });
+
+            }
     /**
      * @param hour
      * @return

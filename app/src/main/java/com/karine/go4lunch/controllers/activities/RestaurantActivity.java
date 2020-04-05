@@ -85,6 +85,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     private Disposable mDisposable;
     private static final String SELECTED = "SELECTED";
     private static final String UNSELECTED = "UNSELECTED";
+    private String placeId;
 
 
     @SuppressLint("ResourceAsColor")
@@ -147,6 +148,8 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         String url = placeDetailsResult.getWebsite();
 //        Log.d("website", url);
         webBtn(url);
+
+
 
     }
 
@@ -262,8 +265,9 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     private void setUpRecyclerView() {
 
 
-        Query query = collectionUsers.orderBy("username", Query.Direction.DESCENDING);
-     //   Query query = collectionUsers.whereEqualTo("placeId", placeDetailsResult);
+       Query query = collectionUsers.orderBy("username", Query.Direction.DESCENDING);
+
+    //  Query query = collectionUsers.whereEqualTo("placeId", placeId);
 
         FirestoreRecyclerOptions<User> options = new FirestoreRecyclerOptions.Builder<User>()
                 .setQuery(query, User.class)
@@ -313,10 +317,13 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         mStarBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 likeRestaurant();
             }
         });
     }
+
+
 
     public void likeRestaurant() {
 
@@ -328,16 +335,15 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
             placeDetailsResult = (PlaceDetailsResult) bundle.getSerializable("placeDetailsResult");
         }
 
+        if (placeDetailsResult != null) {
         if (!mStarBtn.isSelected()) {
-            if (placeDetailsResult != null) {
                 UserHelper.updateLike(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeDetailsResult.getPlaceId());
                 mStarBtn.setBackgroundColor(Color.BLUE);
-
-            }
-        } else {
+        }else {
             UserHelper.deleteLike(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid());
+            mStarBtn.setBackgroundColor(Color.TRANSPARENT);
         }
     }
-}
+}}
 
 

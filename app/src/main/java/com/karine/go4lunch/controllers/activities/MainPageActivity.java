@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -47,9 +48,11 @@ import com.karine.go4lunch.controllers.fragments.WorkMatesFragment;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 import com.karine.go4lunch.models.User;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.muddzdev.styleabletoast.StyleableToast;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -68,6 +71,8 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
     BottomNavigationView bottomNavigationView;
     @BindView(R.id.main_page_nav_view)
     NavigationView mNavigationView;
+    @BindView(R.id.searchView)
+    MaterialSearchView searchView;
 
 
     private GoogleMap mMap;
@@ -92,8 +97,10 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         this.configureDrawerLayout();
         this.configureNavigationView();
         this.updateUINavHeader();
-//        this.executeHttpRequestWithRetrofit();
-//        this.userResto(users);
+        this.searchViewQueryListener();
+        this.searchViewListener();
+        //For voice in SearchView
+        searchView.setVoiceSearch(true);
         //For change title Action Bar
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -138,12 +145,59 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
             }
         };
     }
-//        @Override
-//    public boolean onCreateOptionsMenu (Menu menu){
-//        //2 inflate the menu and add it to the toolbar
-//        getMenuInflater().inflate(R.menu.menu_toolbar,menu);
-//        return true;
-//    }
+        @Override
+    public boolean onCreateOptionsMenu (Menu menu){
+        //2 inflate the menu and add it to the toolbar
+        getMenuInflater().inflate(R.menu.menu_activity_main, menu);
+        MenuItem item = menu.findItem(R.id.actionSearch);
+        return true;
+    }
+
+    //For SearchView Listener
+    public void searchViewQueryListener () {
+
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+    }
+
+    public void searchViewListener () {
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+
+            }
+        });
+    }
+
+    //For voice in Searchview
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == MaterialSearchView.REQUEST_VOICE && resultCode == RESULT_OK) {
+            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            if(matches != null && matches.size()>0) {
+                String searchWord = matches.get(0);
+                if(!TextUtils.isEmpty(searchWord)) {
+                    searchView.setQuery(searchWord, false);
+                }
+            }
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     //For back click to close menu
     @Override
