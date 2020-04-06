@@ -8,14 +8,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.speech.RecognizerIntent;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -23,16 +18,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -40,7 +31,6 @@ import com.karine.go4lunch.API.UserHelper;
 import com.karine.go4lunch.R;
 import com.karine.go4lunch.Utils.FirebaseUtils;
 import com.karine.go4lunch.Utils.Go4LunchStream;
-import com.karine.go4lunch.controllers.fragments.BaseFragment;
 import com.karine.go4lunch.controllers.fragments.ChatFragment;
 import com.karine.go4lunch.controllers.fragments.ListFragment;
 import com.karine.go4lunch.controllers.fragments.MapFragment;
@@ -51,8 +41,6 @@ import com.karine.go4lunch.models.User;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.muddzdev.styleabletoast.StyleableToast;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -61,7 +49,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
 import static com.karine.go4lunch.Utils.FirebaseUtils.getCurrentUser;
-import static com.karine.go4lunch.Utils.FirebaseUtils.onFailureListener;
 
 public class MainPageActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     //Declarations
@@ -110,8 +97,7 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         //For connect MapFragment with activity
         getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_frame_layout,
                 new MapFragment()).commit();
-        //For voice in SearchView
-        searchView.setVoiceSearch(true);
+
     }
     //    Configure toolbar
     private void configureToolbar() {
@@ -182,22 +168,6 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
 
             }
         });
-    }
-
-    //For voice in Searchview
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == MaterialSearchView.REQUEST_VOICE && resultCode == RESULT_OK) {
-            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            if(matches != null && matches.size()>0) {
-                String searchWord = matches.get(0);
-                if(!TextUtils.isEmpty(searchWord)) {
-                    searchView.setQuery(searchWord, false);
-                }
-            }
-            return;
-        }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     //For back click to close menu
