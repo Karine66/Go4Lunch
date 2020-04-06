@@ -99,8 +99,7 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         this.updateUINavHeader();
         this.searchViewQueryListener();
         this.searchViewListener();
-        //For voice in SearchView
-        searchView.setVoiceSearch(true);
+
         //For change title Action Bar
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -111,7 +110,8 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         //For connect MapFragment with activity
         getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_frame_layout,
                 new MapFragment()).commit();
-
+        //For voice in SearchView
+        searchView.setVoiceSearch(true);
     }
     //    Configure toolbar
     private void configureToolbar() {
@@ -150,6 +150,7 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         //2 inflate the menu and add it to the toolbar
         getMenuInflater().inflate(R.menu.menu_activity_main, menu);
         MenuItem item = menu.findItem(R.id.actionSearch);
+        searchView.setMenuItem(item);
         return true;
     }
 
