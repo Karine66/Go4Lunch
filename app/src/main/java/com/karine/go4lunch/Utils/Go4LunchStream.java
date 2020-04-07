@@ -8,6 +8,9 @@ import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.karine.go4lunch.models.AutocompleteAPI.AutocompleteResult;
 import com.karine.go4lunch.models.NearbySearchAPI.GoogleApi;
 import com.karine.go4lunch.models.NearbySearchAPI.ResultSearch;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
@@ -51,5 +54,13 @@ public class Go4LunchStream {
                 .toList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
+    }
+    //For autocomplete
+    public static Observable<AutocompleteResult> streamFetchAutocomplete(String input, int radius, String location) {
+        Go4LunchService go4LunchService = Go4LunchRetrofitObject.retrofit.create(Go4LunchService.class);
+        return go4LunchService.getAutocomplete(input, radius, location)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .timeout(10, TimeUnit.SECONDS);
     }
 }

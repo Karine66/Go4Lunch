@@ -39,7 +39,10 @@ import com.karine.go4lunch.Utils.ItemClickSupport;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
+
+import com.karine.go4lunch.models.AutocompleteAPI.AutocompleteResult;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 import com.karine.go4lunch.views.Go4LunchAdapter;
@@ -69,6 +72,7 @@ public class ListFragment extends BaseFragment implements Serializable {
 
     private String  placeId;
     private Context mContext;
+    private String input;
 
 
     public ListFragment() {
@@ -127,21 +131,6 @@ public class ListFragment extends BaseFragment implements Serializable {
     }
 
 
-//    //For SearchView Listener
-//    public void searchViewQueryListener () {
-//
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                return false;
-//            }
-//        });
-//    }
 
 
 
@@ -231,5 +220,30 @@ public class ListFragment extends BaseFragment implements Serializable {
 
         Log.d("TestUI", placeDetails.toString());
         adapter.notifyDataSetChanged();
+    }
+    /**
+     * HTTP request RX Java for autocomplete
+     */
+    private void executeHttpRequestWithRetrofitAutocomplete() {
+
+        this.mDisposable = Go4LunchStream.streamFetchAutocomplete(input, 2000, "restaurant")
+                .subscribeWith(new DisposableObserver<AutocompleteResult>() {
+
+                    @Override
+                    public void onNext(AutocompleteResult autocompleteResult) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("onErrorWorkmates", Log.getStackTraceString(e));
+                    }
+                });
     }
 }
