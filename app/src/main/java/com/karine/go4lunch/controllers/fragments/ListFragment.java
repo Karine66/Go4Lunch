@@ -1,28 +1,38 @@
 package com.karine.go4lunch.controllers.fragments;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.karine.go4lunch.R;
+import com.karine.go4lunch.controllers.activities.MainPageActivity;
 import com.karine.go4lunch.controllers.activities.RestaurantActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.karine.go4lunch.Utils.Go4LunchStream;
 import com.karine.go4lunch.Utils.ItemClickSupport;
@@ -33,6 +43,7 @@ import io.reactivex.observers.DisposableSingleObserver;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 import com.karine.go4lunch.views.Go4LunchAdapter;
+
 
 
 /**
@@ -53,7 +64,11 @@ public class ListFragment extends BaseFragment implements Serializable {
 
     @BindView(R.id.fragment_list_RV)
     RecyclerView mRecyclerView;
+//    @BindView(R.id.searchView)
+//    SearchView searchView;
+
     private String  placeId;
+    private Context mContext;
 
 
     public ListFragment() {
@@ -67,10 +82,11 @@ public class ListFragment extends BaseFragment implements Serializable {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         ButterKnife.bind(this, view);
+
         this.configureRecyclerView();
         this.configureOnClickRecyclerView();
-
-
+        //for SearchView
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -80,6 +96,53 @@ public class ListFragment extends BaseFragment implements Serializable {
 //       For title action bar for this fragment
          getActionBar().setTitle("I'm Hungry");
         }
+
+        //For SearchView
+    @Override
+    public void onCreateOptionsMenu (@NonNull Menu menu, @NonNull MenuInflater inflater){
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.menu_activity_main,menu);
+        MenuItem item = menu.findItem(R.id.actionSearch);
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        SearchView searchView = (SearchView) item.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return true;
+            }
+        });
+        searchView.setOnClickListener(new View.OnClickListener() {
+                                          @Override
+                                          public void onClick(View v) {
+
+                                          }
+                                      }
+        );
+    }
+
+
+//    //For SearchView Listener
+//    public void searchViewQueryListener () {
+//
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                return false;
+//            }
+//        });
+//    }
+
 
 
     @Override

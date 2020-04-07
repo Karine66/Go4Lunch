@@ -58,8 +58,7 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
     BottomNavigationView bottomNavigationView;
     @BindView(R.id.main_page_nav_view)
     NavigationView mNavigationView;
-    @BindView(R.id.searchView)
-    MaterialSearchView searchView;
+
 
 
     private GoogleMap mMap;
@@ -84,8 +83,8 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         this.configureDrawerLayout();
         this.configureNavigationView();
         this.updateUINavHeader();
-        this.searchViewQueryListener();
-        this.searchViewListener();
+//        this.searchViewQueryListener();
+//        this.searchViewListener();
 
         //For change title Action Bar
         ActionBar actionBar = getSupportActionBar();
@@ -131,44 +130,8 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
             }
         };
     }
-        @Override
-    public boolean onCreateOptionsMenu (Menu menu){
-        //2 inflate the menu and add it to the toolbar
-        getMenuInflater().inflate(R.menu.menu_activity_main, menu);
-        MenuItem item = menu.findItem(R.id.actionSearch);
-        searchView.setMenuItem(item);
-        return true;
-    }
 
-    //For SearchView Listener
-    public void searchViewQueryListener () {
 
-        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-    }
-
-    public void searchViewListener () {
-        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
-            @Override
-            public void onSearchViewShown() {
-
-            }
-
-            @Override
-            public void onSearchViewClosed() {
-
-            }
-        });
-    }
 
     //For back click to close menu
     @Override

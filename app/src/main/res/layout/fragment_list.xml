@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragmentList"
     android:background="#EBE4E4"
     tools:context=".controllers.fragments.ListFragment">
@@ -10,6 +11,13 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_list_RV"
         android:layout_height="match_parent"
+        android:layout_width="match_parent" />
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchView"
+        app:voiceIcon="@drawable/ic_action_voice_search"
+        app:searchIcon="@drawable/ic_action_action_search"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent" />
 
 </RelativeLayout>

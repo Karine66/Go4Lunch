@@ -211,30 +211,20 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
 
             private void numberWorkmates(String placeId) {
 
-                final int[] mates = {0};
+                UserHelper.getUsersCollection()
+                        .whereEqualTo("placeId", placeId)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 
-               UserHelper.getUsersCollection()
-                       .whereEqualTo("placeId", placeId)
-                       .get()
-                       .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                           @Override
-                           public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                               if(task.isSuccessful()) {
-                                   for(QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
-                                      // mates[0]++;
-                                       Log.d("document", String.valueOf(documentSnapshot.getData()));
-                                   }
-                                   if(mates[0] >0 ) {
-                                       String numberMates = String.valueOf((mates[0]));
-                                        mWormates.setText(numberMates);
-
-                                   } else if (mates[0] == 0) {
-                                       mWormates.setText("0");
-                                   }
-                               }
-                           }
-                       });
-
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    int numberWorkmates = Objects.requireNonNull(task.getResult()).size();
+                                    String workmatesNumber = "(" + numberWorkmates + ")";
+                                    mWormates.setText(workmatesNumber);
+                                }
+                            }
+                        });
             }
     /**
      * @param hour
