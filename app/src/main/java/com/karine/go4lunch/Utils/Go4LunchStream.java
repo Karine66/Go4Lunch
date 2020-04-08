@@ -56,9 +56,9 @@ public class Go4LunchStream {
                 .observeOn(AndroidSchedulers.mainThread());
     }
     //For autocomplete
-    public static Observable<AutocompleteResult> streamFetchAutocomplete(String input, int radius, String location) {
+    public static Observable<AutocompleteResult> streamFetchAutocomplete(String input, int radius, String location, String type) {
         Go4LunchService go4LunchService = Go4LunchRetrofitObject.retrofit.create(Go4LunchService.class);
-        return go4LunchService.getAutocomplete(input, radius, location)
+        return go4LunchService.getAutocomplete(input, radius, location, type)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);

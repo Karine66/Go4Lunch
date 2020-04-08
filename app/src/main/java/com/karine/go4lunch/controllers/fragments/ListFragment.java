@@ -1,19 +1,10 @@
 package com.karine.go4lunch.controllers.fragments;
 
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,37 +13,43 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.karine.go4lunch.R;
-import com.karine.go4lunch.controllers.activities.MainPageActivity;
+import com.karine.go4lunch.Utils.Go4LunchStream;
+import com.karine.go4lunch.Utils.ItemClickSupport;
 import com.karine.go4lunch.controllers.activities.RestaurantActivity;
+import com.karine.go4lunch.models.AutocompleteAPI.AutocompleteResult;
+import com.karine.go4lunch.models.AutocompleteAPI.Prediction;
+import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
+import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
+import com.karine.go4lunch.views.Go4LunchAdapter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-import com.karine.go4lunch.Utils.Go4LunchStream;
-import com.karine.go4lunch.Utils.ItemClickSupport;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 
-import com.karine.go4lunch.models.AutocompleteAPI.AutocompleteResult;
-import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
-import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
-import com.karine.go4lunch.views.Go4LunchAdapter;
-
-
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ListFragment extends BaseFragment implements Serializable {
+
+    @BindView(R.id.fragment_list_RV)
+    RecyclerView mRecyclerView;
 
     public Disposable mDisposable;
     private String mPosition;
@@ -62,17 +59,13 @@ public class ListFragment extends BaseFragment implements Serializable {
     public LocationManager locationManager;
     private Object provider;
     private Go4LunchAdapter adapter;
-   private List<PlaceDetailsResult> result;
-
-
-    @BindView(R.id.fragment_list_RV)
-    RecyclerView mRecyclerView;
-//    @BindView(R.id.searchView)
-//    SearchView searchView;
-
-    private String  placeId;
+    private List<PlaceDetailsResult> result;
+    private String placeId;
     private Context mContext;
     private String input;
+    private AutocompleteResult autocompleteResult;
+    private AutocompleteResult resultAutocomplete;
+    private List<Prediction> predictions;
 
 
     public ListFragment() {
@@ -89,6 +82,7 @@ public class ListFragment extends BaseFragment implements Serializable {
 
         this.configureRecyclerView();
         this.configureOnClickRecyclerView();
+
         //for SearchView
         setHasOptionsMenu(true);
         return view;
@@ -98,15 +92,15 @@ public class ListFragment extends BaseFragment implements Serializable {
     public void onActivityCreated(@Nullable Bundle saveInstanceState) {
         super.onActivityCreated(saveInstanceState);
 //       For title action bar for this fragment
-         getActionBar().setTitle("I'm Hungry");
-        }
+        getActionBar().setTitle("I'm Hungry");
+    }
 
-        //For SearchView
+    //For SearchView
     @Override
-    public void onCreateOptionsMenu (@NonNull Menu menu, @NonNull MenuInflater inflater){
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
-        inflater.inflate(R.menu.menu_activity_main,menu);
+        inflater.inflate(R.menu.menu_activity_main, menu);
         MenuItem item = menu.findItem(R.id.actionSearch);
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
         SearchView searchView = (SearchView) item.getActionView();
@@ -116,29 +110,21 @@ public class ListFragment extends BaseFragment implements Serializable {
             public boolean onQueryTextSubmit(String query) {
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String newText) {
+                executeHttpRequestWithRetrofitAutocomplete(newText);
                 return true;
             }
         });
-        searchView.setOnClickListener(new View.OnClickListener() {
-                                          @Override
-                                          public void onClick(View v) {
-
-                                          }
-                                      }
-        );
     }
-
-
-
-
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         this.disposeWhenDestroy();
     }
+
     //Configure RecyclerView, Adapter, LayoutManager & glue it
     private void configureRecyclerView() {
         //reset List
@@ -176,14 +162,14 @@ public class ListFragment extends BaseFragment implements Serializable {
     }
 
 
-    public void onLocationChanged(Location location){
-            double mLatitude = location.getLatitude();
-            double mLongitude = location.getLongitude();
-                mPosition = mLatitude + "," + mLongitude;
-                Log.d("TestListPosition", mPosition);
-                adapter.setPosition(mPosition);
-                executeHttpRequestWithRetrofit();
-            }
+    public void onLocationChanged(Location location) {
+        double mLatitude = location.getLatitude();
+        double mLongitude = location.getLongitude();
+        mPosition = mLatitude + "," + mLongitude;
+        Log.d("TestListPosition", mPosition);
+        adapter.setPosition(mPosition);
+        executeHttpRequestWithRetrofit();
+    }
 
     /**
      * HTTP request RX Java for restaurants
@@ -196,9 +182,9 @@ public class ListFragment extends BaseFragment implements Serializable {
                     @Override
                     public void onSuccess(List<PlaceDetail> placeDetails) {
 
-                       updateUI(placeDetails);
+                        updateUI(placeDetails);
 
-                   Log.d("TestPlaceDetail", String.valueOf(placeDetails.size()));
+                        Log.d("TestPlaceDetail", String.valueOf(placeDetails.size()));
 
                     }
 
@@ -209,41 +195,60 @@ public class ListFragment extends BaseFragment implements Serializable {
                     }
                 });
     }
-        private void disposeWhenDestroy() {
-        if(this.mDisposable != null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
-        }
 
-        //Update UI
+    private void disposeWhenDestroy() {
+        if (this.mDisposable != null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
+    }
+
+    //Update UI Restaurants
     private void updateUI(List<PlaceDetail> placeDetails) {
-     this.placeDetails.clear();
-     this.placeDetails.addAll(placeDetails);
+        this.placeDetails.clear();
+        this.placeDetails.addAll(placeDetails);
 
         Log.d("TestUI", placeDetails.toString());
         adapter.notifyDataSetChanged();
     }
+
     /**
      * HTTP request RX Java for autocomplete
      */
-    private void executeHttpRequestWithRetrofitAutocomplete() {
+    private void executeHttpRequestWithRetrofitAutocomplete(String input) {
 
-        this.mDisposable = Go4LunchStream.streamFetchAutocomplete(input, 2000, "restaurant")
+        this.mDisposable = Go4LunchStream.streamFetchAutocomplete(input, 2000, mPosition, "establishment")
                 .subscribeWith(new DisposableObserver<AutocompleteResult>() {
 
                     @Override
                     public void onNext(AutocompleteResult autocompleteResult) {
 
+                        resultAutocomplete = autocompleteResult;
+//                        updateUIAutocomplete(autocompleteResult);
+
                     }
 
                     @Override
                     public void onComplete() {
+                        for (Prediction prediction : resultAutocomplete.getPredictions()) {
+                            String description = prediction.getDescription();
+                            Log.d("autocomplete", description);
 
+                        }
 
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("onErrorWorkmates", Log.getStackTraceString(e));
+                        Log.e("onErrorAutocomplete", Log.getStackTraceString(e));
                     }
+
                 });
+    }
+
+    //Update UI Autocomplete
+    private void updateUIAutocomplete(AutocompleteResult autocompleteResult) {
+        predictions.clear();
+        predictions.addAll(autocompleteResult.getPredictions());
+
+        Log.d("TestUIAutocomplete", predictions.toString());
+        adapter.notifyDataSetChanged();
     }
 }

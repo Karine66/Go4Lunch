@@ -28,8 +28,8 @@ public interface Go4LunchService {
     Observable<PlaceDetail> getDetails(@Query("place_id") String placeId);
 
     //Autocomplete API Request
-    @GET("maps/api/place/autocomplete/json?key="+GOOGLE_MAP_API_KEY)
-    Observable<AutocompleteResult> getAutocomplete(@Query("input") String input, @Query("radius") int radius, @Query("location") String location);
+    @GET("maps/api/place/autocomplete/json?strictbounds&key="+GOOGLE_MAP_API_KEY)
+    Observable<AutocompleteResult> getAutocomplete(@Query("input") String input, @Query("radius") int radius, @Query("location") String location, @Query("type") String type);
 }
 
 

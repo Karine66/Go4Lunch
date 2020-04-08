@@ -15,7 +15,7 @@
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"
-        app:voiceIcon="@drawable/ic_action_voice_search"
+        app:voiceIcon="@drawable/ic_action_voice_search_inverted"
         app:searchIcon="@drawable/ic_action_action_search"
         android:layout_height="wrap_content"
         android:layout_width="match_parent" />
