@@ -97,7 +97,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         this.retrieveData();
         this.floatingBtn();
         this.starBtn();
-        this.setUpRecyclerView();
+        this.setUpRecyclerView(placeId);
 
 
         //For Hide Action Bar
@@ -113,13 +113,14 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         Bundle bundle = intent.getExtras();
 
         PlaceDetailsResult placeDetailsResult = null;
-        placeId = placeDetailsResult.getPlaceId();
+
+
         if (bundle != null) {
             placeDetailsResult = (PlaceDetailsResult) bundle.getSerializable("placeDetailsResult");
         }
         if (placeDetailsResult != null) {
             updateUI(placeDetailsResult, mGlide);
-
+            placeId = placeDetailsResult.getPlaceId();
         }
 
     }
@@ -263,9 +264,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
      * RecyclerView configuration
      * Configure RecyclerView, Adapter, LayoutManager & glue it
      */
-    private void setUpRecyclerView() {
-
-
+    private void setUpRecyclerView(String placeId) {
 
 
       Query query = collectionUsers.whereEqualTo("placeId", placeId);
