@@ -219,13 +219,21 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
-                                    int numberWorkmates = Objects.requireNonNull(task.getResult()).size();
-                                    String workmatesNumber = "(" + numberWorkmates + ")";
-                                    mWormates.setText(workmatesNumber);
+                                        for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
+                                        Log.d("numberWorkmates", documentSnapshot.getId()+" "+documentSnapshot.getData());
+                                        }
+                                            int numberWorkmates = Objects.requireNonNull(task.getResult()).size();
+                                            String workmatesNumber = "(" + numberWorkmates + ")";
+                                            mWormates.setText(workmatesNumber);
+
+
+                                    }else{
+                                    Log.e("numberMatesError", "Error getting documents: ", task.getException());
                                 }
-                            }
-                        });
-            }
+                                }
+                            });
+                        }
+
     /**
      * @param hour
      * @return

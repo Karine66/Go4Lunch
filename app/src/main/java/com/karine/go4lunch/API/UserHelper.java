@@ -83,8 +83,8 @@ public class UserHelper {
     public static Task<Void>deletePlaceId(String uid) {
         return UserHelper.getUsersCollection().document(uid).update("placeId", null);
     }
-    public static Task<Void>deleteLike(String uid) {
-        return UserHelper.getUsersCollection().document(uid).update("like", null);
+    public static Task<Void>deleteLike(String uid, String placeId) {
+        return UserHelper.getUsersCollection().document(uid).update("like", FieldValue.arrayRemove(placeId));
     }
 }
 

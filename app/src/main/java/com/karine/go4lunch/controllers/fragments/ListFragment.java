@@ -1,5 +1,6 @@
 package com.karine.go4lunch.controllers.fragments;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -66,6 +67,7 @@ public class ListFragment extends BaseFragment implements Serializable {
     private AutocompleteResult autocompleteResult;
     private AutocompleteResult resultAutocomplete;
     private List<Prediction> predictions;
+    private String description;
 
 
     public ListFragment() {
@@ -85,6 +87,7 @@ public class ListFragment extends BaseFragment implements Serializable {
 
         //for SearchView
         setHasOptionsMenu(true);
+
         return view;
     }
 
@@ -105,6 +108,7 @@ public class ListFragment extends BaseFragment implements Serializable {
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
         SearchView searchView = (SearchView) item.getActionView();
 
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -118,6 +122,8 @@ public class ListFragment extends BaseFragment implements Serializable {
             }
         });
     }
+
+
 
     @Override
     public void onDestroy() {
@@ -228,7 +234,7 @@ public class ListFragment extends BaseFragment implements Serializable {
                     @Override
                     public void onComplete() {
                         for (Prediction prediction : resultAutocomplete.getPredictions()) {
-                            String description = prediction.getDescription();
+                            description = prediction.getDescription();
                             Log.d("autocomplete", description);
 
                         }

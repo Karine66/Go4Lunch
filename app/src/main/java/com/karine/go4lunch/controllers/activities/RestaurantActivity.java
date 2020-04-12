@@ -27,15 +27,22 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.karine.go4lunch.API.UserHelper;
 import com.karine.go4lunch.BuildConfig;
 import com.karine.go4lunch.R;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -43,12 +50,9 @@ import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 
 import com.karine.go4lunch.Utils.FirebaseUtils;
-import com.karine.go4lunch.models.NearbySearchAPI.ResultSearch;
-import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 import com.karine.go4lunch.models.User;
 import com.karine.go4lunch.views.RestaurantAdapter;
-import com.karine.go4lunch.views.WorkmatesAdapter;
 import com.muddzdev.styleabletoast.StyleableToast;
 
 public class RestaurantActivity extends AppCompatActivity implements Serializable {
@@ -86,6 +90,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     private static final String SELECTED = "SELECTED";
     private static final String UNSELECTED = "UNSELECTED";
     private String placeId;
+    private String like;
 
 
     @SuppressLint("ResourceAsColor")
@@ -98,7 +103,32 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         this.floatingBtn();
         this.starBtn();
         this.setUpRecyclerView(placeId);
+        //For retrieve data when activity is open
+        Intent intent = this.getIntent();
+        Bundle bundle = intent.getExtras();
 
+        PlaceDetailsResult placeDetailsResult = null;
+        if (bundle != null) {
+            placeDetailsResult = (PlaceDetailsResult) bundle.getSerializable("placeDetailsResult");
+        }
+        if (placeDetailsResult != null) {
+            final String placeRestaurantId = placeDetailsResult.getPlaceId();
+            UserHelper.getUser(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    User user = documentSnapshot.toObject(User.class);
+                    if (user != null) {
+                        if (!user.getLike().isEmpty() && user.getLike().contains(placeRestaurantId)) {
+                            UserHelper.deleteLike(FirebaseUtils.getCurrentUser().getUid(), placeRestaurantId);
+                            mStarBtn.setBackgroundColor(Color.TRANSPARENT);
+                        } else {
+                            UserHelper.updateLike(FirebaseUtils.getCurrentUser().getUid(), placeRestaurantId);
+                            mStarBtn.setBackgroundColor(Color.BLUE);
+                        }
+                    }
+               }
+            });
+        }
 
         //For Hide Action Bar
         ActionBar actionBar = getSupportActionBar();
@@ -113,7 +143,6 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         Bundle bundle = intent.getExtras();
 
         PlaceDetailsResult placeDetailsResult = null;
-
 
         if (bundle != null) {
             placeDetailsResult = (PlaceDetailsResult) bundle.getSerializable("placeDetailsResult");
@@ -150,9 +179,6 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         String url = placeDetailsResult.getWebsite();
 //        Log.d("website", url);
         webBtn(url);
-
-
-
     }
 
     //For Floating button
@@ -267,7 +293,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     private void setUpRecyclerView(String placeId) {
 
 
-      Query query = collectionUsers.whereEqualTo("placeId", placeId);
+        Query query = collectionUsers.whereEqualTo("placeId", placeId);
 
         FirestoreRecyclerOptions<User> options = new FirestoreRecyclerOptions.Builder<User>()
                 .setQuery(query, User.class)
@@ -323,8 +349,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         });
     }
 
-
-
+//For like/dislike
     public void likeRestaurant() {
 
         Intent intent = this.getIntent();
@@ -334,16 +359,24 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         if (bundle != null) {
             placeDetailsResult = (PlaceDetailsResult) bundle.getSerializable("placeDetailsResult");
         }
-
         if (placeDetailsResult != null) {
-        if (!mStarBtn.isSelected()) {
-                UserHelper.updateLike(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeDetailsResult.getPlaceId());
-                mStarBtn.setBackgroundColor(Color.BLUE);
-        }else {
-            UserHelper.deleteLike(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid());
-            mStarBtn.setBackgroundColor(Color.TRANSPARENT);
+            final String placeRestaurantId = placeDetailsResult.getPlaceId();
+            UserHelper.getUser(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    User user = documentSnapshot.toObject(User.class);
+                    if (user != null) {
+                        if (!user.getLike().isEmpty() && user.getLike().contains(placeRestaurantId)) {
+                            UserHelper.deleteLike(FirebaseUtils.getCurrentUser().getUid(), placeRestaurantId);
+                            mStarBtn.setBackgroundColor(Color.TRANSPARENT);
+                        } else {
+                            UserHelper.updateLike(FirebaseUtils.getCurrentUser().getUid(), placeRestaurantId);
+                            mStarBtn.setBackgroundColor(Color.BLUE);
+                        }
+                    }
+                }
+            });
         }
     }
-}}
-
+}
 
