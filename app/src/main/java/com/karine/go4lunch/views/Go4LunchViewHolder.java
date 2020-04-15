@@ -121,7 +121,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         Log.d("TestDistance", distance);
 
 
-        numberWorkmates(placeId);
+        numberWorkmates(result.getPlaceId());
         //for retrieve opening hours (open or closed)
 
         if (result.getOpeningHours() != null) {

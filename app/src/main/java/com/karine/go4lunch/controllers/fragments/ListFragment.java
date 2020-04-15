@@ -39,6 +39,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
@@ -55,19 +56,9 @@ public class ListFragment extends BaseFragment implements Serializable {
     public Disposable mDisposable;
     private String mPosition;
     public List<PlaceDetail> placeDetails;
-    private GoogleMap mMap;
-    private Location location;
-    public LocationManager locationManager;
-    private Object provider;
     private Go4LunchAdapter adapter;
-    private List<PlaceDetailsResult> result;
-    private String placeId;
-    private Context mContext;
-    private String input;
+    private Prediction predictions;
     private AutocompleteResult autocompleteResult;
-    private AutocompleteResult resultAutocomplete;
-    private List<Prediction> predictions;
-    private String description;
 
 
     public ListFragment() {
@@ -122,8 +113,6 @@ public class ListFragment extends BaseFragment implements Serializable {
             }
         });
     }
-
-
 
     @Override
     public void onDestroy() {
@@ -220,41 +209,25 @@ public class ListFragment extends BaseFragment implements Serializable {
      */
     private void executeHttpRequestWithRetrofitAutocomplete(String input) {
 
-        this.mDisposable = Go4LunchStream.streamFetchAutocomplete(input, 2000, mPosition, "establishment")
-                .subscribeWith(new DisposableObserver<AutocompleteResult>() {
+        this.mDisposable = Go4LunchStream.streamFetchAutocompleteInfos(input, 2000, mPosition,"establishment")
+                .subscribeWith(new DisposableSingleObserver<List<PlaceDetail>>() {
 
                     @Override
-                    public void onNext(AutocompleteResult autocompleteResult) {
+                    public void onSuccess(List<PlaceDetail> placeDetails ) {
 
-                        resultAutocomplete = autocompleteResult;
-//                        updateUIAutocomplete(autocompleteResult);
+                            updateUI(placeDetails);
 
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        for (Prediction prediction : resultAutocomplete.getPredictions()) {
-                            description = prediction.getDescription();
-                            Log.d("autocomplete", description);
-
+                            Log.d("TestPlaceDetail", String.valueOf(placeDetails.size()));
                         }
 
-                    }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("onErrorAutocomplete", Log.getStackTraceString(e));
+                        Log.e("TestAutocomplete", Log.getStackTraceString(e));
+
                     }
-
                 });
+
     }
 
-    //Update UI Autocomplete
-    private void updateUIAutocomplete(AutocompleteResult autocompleteResult) {
-        predictions.clear();
-        predictions.addAll(autocompleteResult.getPredictions());
-
-        Log.d("TestUIAutocomplete", predictions.toString());
-        adapter.notifyDataSetChanged();
-    }
 }

@@ -119,11 +119,11 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
                     User user = documentSnapshot.toObject(User.class);
                     if (user != null) {
                         if (!user.getLike().isEmpty() && user.getLike().contains(placeRestaurantId)) {
-                            UserHelper.deleteLike(FirebaseUtils.getCurrentUser().getUid(), placeRestaurantId);
-                            mStarBtn.setBackgroundColor(Color.TRANSPARENT);
-                        } else {
-                            UserHelper.updateLike(FirebaseUtils.getCurrentUser().getUid(), placeRestaurantId);
+//                            UserHelper.deleteLike(FirebaseUtils.getCurrentUser().getUid(), placeRestaurantId);
                             mStarBtn.setBackgroundColor(Color.BLUE);
+                        } else {
+//                            UserHelper.updateLike(FirebaseUtils.getCurrentUser().getUid(), placeRestaurantId);
+                            mStarBtn.setBackgroundColor(Color.TRANSPARENT);
                         }
                     }
                }
