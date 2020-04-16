@@ -59,6 +59,7 @@ public class ListFragment extends BaseFragment implements Serializable {
     private Go4LunchAdapter adapter;
     private Prediction predictions;
     private AutocompleteResult autocompleteResult;
+    private String input;
 
 
     public ListFragment() {
@@ -197,8 +198,9 @@ public class ListFragment extends BaseFragment implements Serializable {
 
     //Update UI Restaurants
     private void updateUI(List<PlaceDetail> placeDetails) {
-        this.placeDetails.clear();
-        this.placeDetails.addAll(placeDetails);
+
+            this.placeDetails.clear();
+            this.placeDetails.addAll(placeDetails);
 
         Log.d("TestUI", placeDetails.toString());
         adapter.notifyDataSetChanged();
@@ -215,7 +217,7 @@ public class ListFragment extends BaseFragment implements Serializable {
                     @Override
                     public void onSuccess(List<PlaceDetail> placeDetails ) {
 
-                            updateUI(placeDetails);
+                                updateUI(placeDetails);
 
                             Log.d("TestPlaceDetail", String.valueOf(placeDetails.size()));
                         }

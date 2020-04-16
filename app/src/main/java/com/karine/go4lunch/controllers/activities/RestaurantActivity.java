@@ -106,7 +106,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         //For retrieve data when activity is open
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
-
+        //for retrieve like when open
         PlaceDetailsResult placeDetailsResult = null;
         if (bundle != null) {
             placeDetailsResult = (PlaceDetailsResult) bundle.getSerializable("placeDetailsResult");

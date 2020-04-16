@@ -62,7 +62,7 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
     private List<ResultSearch> resultSearch;
     private Marker positionMarker;
     private String TAG_LIST_FRAGMENT;
-
+    private String input;
 
 
     public MapFragment() {
@@ -164,6 +164,7 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
             mPosition = mLatitude + "," + mLongitude;
             Log.d("TestLatLng", mPosition);
             executeHttpRequestWithRetrofit();
+
         }
     }
 
@@ -224,4 +225,29 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
         if (this.mDisposable != null && !this.mDisposable.isDisposed())
             this.mDisposable.dispose();
     }
+    /**
+     * HTTP request RX Java for autocomplete
+     */
+    private void executeHttpRequestWithRetrofitAutocomplete(String input) {
+
+        this.mDisposable = Go4LunchStream.streamFetchAutocompleteInfos(input, 2000, mPosition,"establishment")
+                .subscribeWith(new DisposableSingleObserver<List<PlaceDetail>>() {
+
+                    @Override
+                    public void onSuccess(List<PlaceDetail> placeDetails ) {
+
+
+//                        Log.d("TestAutocompleteMap", positionMarker.getTag(placeDetails));
+                    }
+
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("TestAutocomplete", Log.getStackTraceString(e));
+
+                    }
+                });
+
+    }
+
 }
