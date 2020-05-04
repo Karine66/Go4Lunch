@@ -100,7 +100,6 @@ public class ListFragment extends BaseFragment implements Serializable {
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
         SearchView searchView = (SearchView) item.getActionView();
 
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -109,9 +108,13 @@ public class ListFragment extends BaseFragment implements Serializable {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                if (newText.isEmpty()) {
+                    executeHttpRequestWithRetrofit();
+                }
                 executeHttpRequestWithRetrofitAutocomplete(newText);
                 return true;
-            }
+           }
+
         });
     }
 

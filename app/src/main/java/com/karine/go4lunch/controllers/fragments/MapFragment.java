@@ -164,7 +164,7 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
             mPosition = mLatitude + "," + mLongitude;
             Log.d("TestLatLng", mPosition);
             executeHttpRequestWithRetrofit();
-
+   //         executeHttpRequestWithRetrofitAutocomplete(input);
         }
     }
 
@@ -235,8 +235,20 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
 
                     @Override
                     public void onSuccess(List<PlaceDetail> placeDetails ) {
-
-
+//                        for (PlaceDetail detail : placeDetails) {
+//                            LatLng latLng = new LatLng(detail.getResult().getGeometry().getLocation().getLat(),
+//                                    detail.getResult().getGeometry().getLocation().getLng()
+//                            );
+//                            positionMarker = mMap.addMarker(new MarkerOptions().position(latLng)
+//                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.restaurant_markerv2))
+//                                    .title(detail.getResult().getName())
+//                                    .snippet(detail.getResult().getVicinity()));
+//                            positionMarker.showInfoWindow();
+//                            PlaceDetailsResult placeDetailsResult = detail.getResult();
+//                            positionMarker.setTag(placeDetailsResult);
+//                            Log.d("detailResultMap", String.valueOf(placeDetailsResult));
+//                        }
+//                            positionMarker.setTag(placeDetails);
 //                        Log.d("TestAutocompleteMap", positionMarker.getTag(placeDetails));
                     }
 

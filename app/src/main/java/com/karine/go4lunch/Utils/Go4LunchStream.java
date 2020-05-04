@@ -1,6 +1,11 @@
 package com.karine.go4lunch.Utils;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -19,6 +24,7 @@ import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
 import retrofit2.http.Query;
 
 public class Go4LunchStream {
+    public List<String> food;
 
 //    public static String fields = "opening_hours,photo,rating,vicinity,name,geometry,formatted_phone_number,website";
 
@@ -69,9 +75,21 @@ public class Go4LunchStream {
     public static Single<List<PlaceDetail>> streamFetchAutocompleteInfos(String input, int radius, String location, String type) {
         return streamFetchAutocomplete(input, radius, location, type)
                 .flatMapIterable(new Function<AutocompleteResult, List<Prediction>>() {
+
+                    List food = new ArrayList();
+
                     @Override
                     public List<Prediction> apply(AutocompleteResult autocompleteResult) throws Exception {
-                        return autocompleteResult.getPredictions();
+
+//                        for (Prediction prediction : autocompleteResult.getPredictions()) {
+//                            if (prediction.getTypes().contains("food")) {
+//                                food.addAll(prediction);
+//
+//                            }
+//                        }
+
+                       return autocompleteResult.getPredictions();
+
                     }
                 })
                 .flatMap(new Function<Prediction, ObservableSource<PlaceDetail>>() {
