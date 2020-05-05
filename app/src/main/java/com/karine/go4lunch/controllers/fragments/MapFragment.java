@@ -110,8 +110,12 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
+                if (newText.isEmpty()) {
+                    executeHttpRequestWithRetrofit();
+                }
+                executeHttpRequestWithRetrofitAutocomplete(newText);
                 return true;
+
             }
         });
     }
@@ -168,6 +172,24 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
         }
     }
 
+    //for position marker
+    private void positionMarker(List<PlaceDetail> placeDetails) {
+        for (PlaceDetail detail : placeDetails) {
+            LatLng latLng = new LatLng(detail.getResult().getGeometry().getLocation().getLat(),
+                    detail.getResult().getGeometry().getLocation().getLng()
+            );
+            positionMarker = mMap.addMarker(new MarkerOptions().position(latLng)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.restaurant_markerv2))
+                    .title(detail.getResult().getName())
+                    .snippet(detail.getResult().getVicinity()));
+            positionMarker.showInfoWindow();
+            PlaceDetailsResult placeDetailsResult = detail.getResult();
+            positionMarker.setTag(placeDetailsResult);
+            Log.d("detailResultMap", String.valueOf(placeDetailsResult));
+        }
+    }
+
+
 //    /**
 //     * HTTP request RX Java for restaurants
 //     */
@@ -180,27 +202,12 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
                     @Override
                     public void onSuccess(List<PlaceDetail> placeDetails) {
 
-                        for (PlaceDetail detail : placeDetails) {
-                            LatLng latLng = new LatLng(detail.getResult().getGeometry().getLocation().getLat(),
-                                    detail.getResult().getGeometry().getLocation().getLng()
-                            );
-                            positionMarker = mMap.addMarker(new MarkerOptions().position(latLng)
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.restaurant_markerv2))
-                                    .title(detail.getResult().getName())
-                                    .snippet(detail.getResult().getVicinity()));
-                            positionMarker.showInfoWindow();
-                            PlaceDetailsResult placeDetailsResult = detail.getResult();
-                            positionMarker.setTag(placeDetailsResult);
-                            Log.d("detailResultMap", String.valueOf(placeDetailsResult));
-                        }
+                        positionMarker(placeDetails);
                     }
-
                     @Override
                     public void onError(Throwable e) {
                         Log.e("TestDetail", Log.getStackTraceString(e));
-
                     }
-
                 });
 
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
@@ -234,32 +241,29 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
                 .subscribeWith(new DisposableSingleObserver<List<PlaceDetail>>() {
 
                     @Override
-                    public void onSuccess(List<PlaceDetail> placeDetails ) {
-//                        for (PlaceDetail detail : placeDetails) {
-//                            LatLng latLng = new LatLng(detail.getResult().getGeometry().getLocation().getLat(),
-//                                    detail.getResult().getGeometry().getLocation().getLng()
-//                            );
-//                            positionMarker = mMap.addMarker(new MarkerOptions().position(latLng)
-//                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.restaurant_markerv2))
-//                                    .title(detail.getResult().getName())
-//                                    .snippet(detail.getResult().getVicinity()));
-//                            positionMarker.showInfoWindow();
-//                            PlaceDetailsResult placeDetailsResult = detail.getResult();
-//                            positionMarker.setTag(placeDetailsResult);
-//                            Log.d("detailResultMap", String.valueOf(placeDetailsResult));
-//                        }
-//                            positionMarker.setTag(placeDetails);
-//                        Log.d("TestAutocompleteMap", positionMarker.getTag(placeDetails));
+                    public void onSuccess(List<PlaceDetail> placeDetails) {
+                        placeDetails.clear();
+                        positionMarker(placeDetails);
                     }
-
 
                     @Override
                     public void onError(Throwable e) {
                         Log.e("TestAutocomplete", Log.getStackTraceString(e));
-
                     }
                 });
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
 
+            public void onInfoWindowClick(Marker marker) {
+
+                PlaceDetailsResult positionMarkerList = (PlaceDetailsResult) positionMarker.getTag();
+                Intent intent = new Intent(getContext(), RestaurantActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("placeDetailsResult", positionMarkerList);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
 }
