@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -38,7 +37,6 @@ import com.karine.go4lunch.controllers.fragments.WorkMatesFragment;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 import com.karine.go4lunch.models.User;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.muddzdev.styleabletoast.StyleableToast;
 
 import java.util.Objects;
@@ -83,8 +81,6 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         this.configureDrawerLayout();
         this.configureNavigationView();
         this.updateUINavHeader();
-//        this.searchViewQueryListener();
-//        this.searchViewListener();
 
         //For change title Action Bar
         ActionBar actionBar = getSupportActionBar();
@@ -130,8 +126,6 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
             }
         };
     }
-
-
 
     //For back click to close menu
     @Override
@@ -255,7 +249,6 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
        idResto = users.getPlaceId();
         executeHttpRequestWithRetrofit();
     }
-
 
     private void executeHttpRequestWithRetrofit() {
         this.mDisposable = Go4LunchStream.streamFetchDetails(idResto)

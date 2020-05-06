@@ -18,7 +18,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/fragment_list_RV"
-        app:searchIcon="@drawable/ic_action_action_search"
-        app:voiceIcon="@drawable/ic_action_voice_search_inverted" />
+        app:searchIcon="@drawable/baseline_search_white_48"/>
 
 </RelativeLayout>

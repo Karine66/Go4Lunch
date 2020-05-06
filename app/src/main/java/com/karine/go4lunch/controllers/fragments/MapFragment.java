@@ -2,20 +2,12 @@ package com.karine.go4lunch.controllers.fragments;
 
 
 import android.Manifest;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,30 +16,33 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.karine.go4lunch.R;
+import com.karine.go4lunch.Utils.Go4LunchStream;
 import com.karine.go4lunch.controllers.activities.RestaurantActivity;
+import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
+import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-import com.karine.go4lunch.Utils.Go4LunchStream;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
-
-import com.karine.go4lunch.models.NearbySearchAPI.ResultSearch;
-import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
-import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,13 +51,11 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
 
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;
-    private Location location;
+//    private Location location;
     private Disposable mDisposable;
     private String mPosition;
-    private List<ResultSearch> resultSearch;
     private Marker positionMarker;
-    private String TAG_LIST_FRAGMENT;
-    private String input;
+//    private String input;
 
 
     public MapFragment() {
@@ -89,8 +82,9 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
         super.onActivityCreated(saveInstanceState);
         mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.map);
         //For title for this fragment
-           getActionBar().setTitle("I'm Hungry");
-        }
+        getActionBar().setTitle("I'm Hungry");
+    }
+
     //For SearchView
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
@@ -100,7 +94,6 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
         MenuItem item = menu.findItem(R.id.actionSearch);
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
         SearchView searchView = (SearchView) item.getActionView();
-
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -115,13 +108,9 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
                 }
                 executeHttpRequestWithRetrofitAutocomplete(newText);
                 return true;
-
             }
         });
     }
-
-
-
 
     @Override
     public void onDestroy() {
@@ -132,10 +121,7 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
     @Override
     public void onResume() {
         super.onResume();
-//        checkPermissions();
         loadMap();
-
-
     }
 
     private void loadMap() {
@@ -168,7 +154,6 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
             mPosition = mLatitude + "," + mLongitude;
             Log.d("TestLatLng", mPosition);
             executeHttpRequestWithRetrofit();
-   //         executeHttpRequestWithRetrofitAutocomplete(input);
         }
     }
 
@@ -188,8 +173,6 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
             Log.d("detailResultMap", String.valueOf(placeDetailsResult));
         }
     }
-
-
 //    /**
 //     * HTTP request RX Java for restaurants
 //     */
@@ -204,6 +187,7 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
 
                         positionMarker(placeDetails);
                     }
+
                     @Override
                     public void onError(Throwable e) {
                         Log.e("TestDetail", Log.getStackTraceString(e));
@@ -232,17 +216,18 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
         if (this.mDisposable != null && !this.mDisposable.isDisposed())
             this.mDisposable.dispose();
     }
+
     /**
      * HTTP request RX Java for autocomplete
      */
     private void executeHttpRequestWithRetrofitAutocomplete(String input) {
 
-        this.mDisposable = Go4LunchStream.streamFetchAutocompleteInfos(input, 2000, mPosition,"establishment")
+        this.mDisposable = Go4LunchStream.streamFetchAutocompleteInfos(input, 2000, mPosition, "establishment")
                 .subscribeWith(new DisposableSingleObserver<List<PlaceDetail>>() {
 
                     @Override
                     public void onSuccess(List<PlaceDetail> placeDetails) {
-                        placeDetails.clear();
+
                         positionMarker(placeDetails);
                     }
 
@@ -265,5 +250,4 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
             }
         });
     }
-
 }

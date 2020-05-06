@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.UserHandle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,22 +26,17 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.karine.go4lunch.API.UserHelper;
 import com.karine.go4lunch.BuildConfig;
 import com.karine.go4lunch.R;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -119,10 +113,8 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
                     User user = documentSnapshot.toObject(User.class);
                     if (user != null) {
                         if (!user.getLike().isEmpty() && user.getLike().contains(placeRestaurantId)) {
-//                            UserHelper.deleteLike(FirebaseUtils.getCurrentUser().getUid(), placeRestaurantId);
                             mStarBtn.setBackgroundColor(Color.BLUE);
                         } else {
-//                            UserHelper.updateLike(FirebaseUtils.getCurrentUser().getUid(), placeRestaurantId);
                             mStarBtn.setBackgroundColor(Color.TRANSPARENT);
                         }
                     }
@@ -260,8 +252,6 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
             }
         }
     }
-
-
     //For click website button
     public void webBtn(String url) {
         mWebBtn.setOnClickListener(new View.OnClickListener() {
@@ -271,7 +261,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
             }
         });
     }
-
+    //For webview
     public void makeWebView(String url) {
         if (url != null && !url.isEmpty()) {
             Intent intent = new Intent(RestaurantActivity.this, WebViewActivity.class);

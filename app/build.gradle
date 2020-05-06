@@ -72,8 +72,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     //For styleable Toast
     implementation 'com.muddzdev:styleabletoast:2.2.3'
-    //For Searchview
-    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
+
 
 }
     apply plugin: 'com.google.gms.google-services'

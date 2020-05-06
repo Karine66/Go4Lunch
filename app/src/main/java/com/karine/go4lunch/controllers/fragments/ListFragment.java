@@ -1,10 +1,7 @@
 package com.karine.go4lunch.controllers.fragments;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,7 +19,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.maps.GoogleMap;
 import com.karine.go4lunch.R;
 import com.karine.go4lunch.Utils.Go4LunchStream;
 import com.karine.go4lunch.Utils.ItemClickSupport;
@@ -39,9 +35,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.observers.DisposableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 
 
@@ -50,12 +44,11 @@ import io.reactivex.observers.DisposableSingleObserver;
  */
 public class ListFragment extends BaseFragment implements Serializable {
 
+    public Disposable mDisposable;
+    public List<PlaceDetail> placeDetails;
     @BindView(R.id.fragment_list_RV)
     RecyclerView mRecyclerView;
-
-    public Disposable mDisposable;
     private String mPosition;
-    public List<PlaceDetail> placeDetails;
     private Go4LunchAdapter adapter;
     private Prediction predictions;
     private AutocompleteResult autocompleteResult;
@@ -113,7 +106,7 @@ public class ListFragment extends BaseFragment implements Serializable {
                 }
                 executeHttpRequestWithRetrofitAutocomplete(newText);
                 return true;
-           }
+            }
 
         });
     }
@@ -202,8 +195,8 @@ public class ListFragment extends BaseFragment implements Serializable {
     //Update UI Restaurants
     private void updateUI(List<PlaceDetail> placeDetails) {
 
-            this.placeDetails.clear();
-            this.placeDetails.addAll(placeDetails);
+        this.placeDetails.clear();
+        this.placeDetails.addAll(placeDetails);
 
         Log.d("TestUI", placeDetails.toString());
         adapter.notifyDataSetChanged();
@@ -214,17 +207,16 @@ public class ListFragment extends BaseFragment implements Serializable {
      */
     private void executeHttpRequestWithRetrofitAutocomplete(String input) {
 
-        this.mDisposable = Go4LunchStream.streamFetchAutocompleteInfos(input, 2000, mPosition,"establishment")
+        this.mDisposable = Go4LunchStream.streamFetchAutocompleteInfos(input, 2000, mPosition, "establishment")
                 .subscribeWith(new DisposableSingleObserver<List<PlaceDetail>>() {
 
                     @Override
-                    public void onSuccess(List<PlaceDetail> placeDetails ) {
+                    public void onSuccess(List<PlaceDetail> placeDetails) {
 
-                                updateUI(placeDetails);
+                        updateUI(placeDetails);
 
-                            Log.d("TestPlaceDetail", String.valueOf(placeDetails.size()));
-                        }
-
+                        Log.d("TestPlaceDetail", String.valueOf(placeDetails.size()));
+                    }
 
                     @Override
                     public void onError(Throwable e) {
@@ -232,7 +224,5 @@ public class ListFragment extends BaseFragment implements Serializable {
 
                     }
                 });
-
     }
-
 }
