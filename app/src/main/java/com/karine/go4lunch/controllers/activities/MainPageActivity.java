@@ -9,6 +9,9 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -28,6 +31,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.karine.go4lunch.API.UserHelper;
 import com.karine.go4lunch.R;
+import com.karine.go4lunch.Utils.AlertReceiver;
 import com.karine.go4lunch.Utils.FirebaseUtils;
 import com.karine.go4lunch.Utils.Go4LunchStream;
 import com.karine.go4lunch.controllers.fragments.ChatFragment;
@@ -39,6 +43,7 @@ import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 import com.karine.go4lunch.models.User;
 import com.muddzdev.styleabletoast.StyleableToast;
 
+import java.util.Calendar;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -81,6 +86,7 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         this.configureDrawerLayout();
         this.configureNavigationView();
         this.updateUINavHeader();
+        this.onTimeSet();
 
         //For change title Action Bar
         ActionBar actionBar = getSupportActionBar();
@@ -273,7 +279,7 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("onErrorYourLunc", Log.getStackTraceString(e));
+                        Log.d("onErrorYourLunch", Log.getStackTraceString(e));
                     }
                 });
     }
@@ -285,4 +291,26 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         this.startActivity(intent);
     }
 
+    //For Notifications
+
+    public void onTimeSet() {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY, 19);
+        c.set(Calendar.MINUTE,40);
+        c.set(Calendar.SECOND, 0);
+
+
+        startAlarm(c);
+    }
+    private void startAlarm(Calendar c) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+
+        if (c.before(Calendar.getInstance())) {
+            c.add(Calendar.DATE, 1);
+        }
+
+        Objects.requireNonNull(alarmManager).setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+    }
 }

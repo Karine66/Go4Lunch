@@ -154,6 +154,7 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
             mPosition = mLatitude + "," + mLongitude;
             Log.d("TestLatLng", mPosition);
             executeHttpRequestWithRetrofit();
+
         }
     }
 
