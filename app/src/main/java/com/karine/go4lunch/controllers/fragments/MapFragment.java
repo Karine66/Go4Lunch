@@ -106,6 +106,7 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
                 if (newText.isEmpty()) {
                     executeHttpRequestWithRetrofit();
                 }
+
                 executeHttpRequestWithRetrofitAutocomplete(newText);
                 return true;
             }
@@ -160,6 +161,7 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
 
     //for position marker
     private void positionMarker(List<PlaceDetail> placeDetails) {
+        mMap.clear();
         for (PlaceDetail detail : placeDetails) {
             LatLng latLng = new LatLng(detail.getResult().getGeometry().getLocation().getLat(),
                     detail.getResult().getGeometry().getLocation().getLng()

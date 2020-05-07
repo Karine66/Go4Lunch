@@ -264,17 +264,13 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
                     public void onNext(PlaceDetail placeDetail) {
 
                         detail = placeDetail;
-
                         startForLunch();
-
                     }
                     @Override
                     public void onComplete() {
                         if(idResto != null) {
                             Log.d("your lunch request", "your lunch" + detail.getResult());
                         }
-
-
                     }
 
                     @Override
@@ -283,6 +279,8 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
                     }
                 });
     }
+    //For your lunch in navigation drawer
+
     public void startForLunch() {
         Intent intent = new Intent(this, RestaurantActivity.class);
         Bundle bundle = new Bundle();
@@ -299,9 +297,9 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         c.set(Calendar.MINUTE,40);
         c.set(Calendar.SECOND, 0);
 
-
         startAlarm(c);
     }
+
     private void startAlarm(Calendar c) {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlertReceiver.class);
@@ -310,7 +308,6 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         if (c.before(Calendar.getInstance())) {
             c.add(Calendar.DATE, 1);
         }
-
         Objects.requireNonNull(alarmManager).setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
     }
 }
