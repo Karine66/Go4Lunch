@@ -14,6 +14,7 @@ import com.karine.go4lunch.R;
 import com.karine.go4lunch.Utils.AlertReceiver;
 import com.muddzdev.styleabletoast.StyleableToast;
 
+import java.util.Calendar;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -24,6 +25,7 @@ public class SettingActivity extends AppCompatActivity {
     Button mAlarmOff;
     @BindView(R.id.alarmOn)
     Button mAlarmOn;
+    private Calendar c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +35,19 @@ public class SettingActivity extends AppCompatActivity {
         this.alarmOn();
         this.alarmOff();
 
-        
+
+    }
+
+    private void startAlarm(Calendar c) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+
+        if (c.before(Calendar.getInstance())) {
+            c.add(Calendar.DATE, 1);
+        }
+        Objects.requireNonNull(alarmManager).setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+
     }
 
     //For Cancel Alarm
@@ -60,7 +74,7 @@ public class SettingActivity extends AppCompatActivity {
         mAlarmOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startAlarm(c);
                 StyleableToast.makeText(getApplicationContext(),"Alarm activated",R.style.personalizedToast).show();
 
             }
