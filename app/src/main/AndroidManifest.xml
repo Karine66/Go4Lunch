@@ -23,7 +23,8 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
-        <activity android:name=".controllers.activities.WebViewActivity"></activity>
+        <activity android:name=".controllers.activities.SettingActivity"></activity>
+        <activity android:name=".controllers.activities.WebViewActivity" />
         <activity android:name=".controllers.activities.RestaurantActivity" />
 
         <meta-data
@@ -33,18 +34,16 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_api_key" />
 
-
         <activity android:name=".controllers.activities.MainPageActivity" />
         <activity android:name=".controllers.activities.LoginActivity">
-
             <intent-filter>
-
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".Utils.AlertReceiver"/>
+
+        <receiver android:name=".Utils.AlertReceiver" />
     </application>
 
 </manifest>

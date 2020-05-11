@@ -112,7 +112,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     User user = documentSnapshot.toObject(User.class);
                     if (user != null) {
-                        if (!user.getLike().isEmpty() && user.getLike().contains(placeRestaurantId)) {
+                        if (user.getLike() != null && !user.getLike().isEmpty() && user.getLike().contains(placeRestaurantId)) {
                             mStarBtn.setBackgroundColor(Color.BLUE);
                         } else {
                             mStarBtn.setBackgroundColor(Color.TRANSPARENT);

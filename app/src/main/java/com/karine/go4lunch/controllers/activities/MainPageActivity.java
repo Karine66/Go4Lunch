@@ -18,6 +18,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -64,6 +65,7 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
 
 
 
+
     private GoogleMap mMap;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -75,6 +77,7 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
     private String idResto;
     private PlaceDetailsResult result;
     private String nameId;
+    private Calendar c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,6 +199,8 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
                 }
                 break;
             case R.id.menu_drawer_settings:
+                Intent settingIntent = new Intent(this, SettingActivity.class);
+                startActivity(settingIntent);
                 break;
             case R.id.menu_drawer_Logout:
                 signOutFromUserFirebase();
@@ -293,8 +298,8 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
 
     public void onTimeSet() {
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, 21);
-        c.set(Calendar.MINUTE,59);
+        c.set(Calendar.HOUR_OF_DAY, 12);
+        c.set(Calendar.MINUTE,43);
         c.set(Calendar.SECOND, 0);
 
         startAlarm(c);
@@ -309,5 +314,8 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
             c.add(Calendar.DATE, 1);
         }
         Objects.requireNonNull(alarmManager).setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+
     }
+
+
 }
