@@ -298,8 +298,8 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
 
     public void onTimeSet() {
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, 12);
-        c.set(Calendar.MINUTE,43);
+        c.set(Calendar.HOUR_OF_DAY, 17);
+        c.set(Calendar.MINUTE,32);
         c.set(Calendar.SECOND, 0);
 
         startAlarm(c);

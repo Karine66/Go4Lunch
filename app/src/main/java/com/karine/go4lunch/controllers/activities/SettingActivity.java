@@ -18,23 +18,25 @@ import java.util.Calendar;
 import java.util.Objects;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class SettingActivity extends AppCompatActivity {
 
-    @BindView(R.id.alarmOff)
-    Button mAlarmOff;
     @BindView(R.id.alarmOn)
     Button mAlarmOn;
+    @BindView(R.id.alarmOff)
+    Button mAlarmOff;
+
     private Calendar c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+        ButterKnife.bind(this);
 
         this.alarmOn();
         this.alarmOff();
-
 
     }
 

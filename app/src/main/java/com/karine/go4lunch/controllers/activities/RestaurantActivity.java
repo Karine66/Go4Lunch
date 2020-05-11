@@ -93,6 +93,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant);
         ButterKnife.bind(this);
+
         this.retrieveData();
         this.floatingBtn();
         this.starBtn();
