@@ -18,7 +18,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,9 +31,9 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.karine.go4lunch.API.UserHelper;
 import com.karine.go4lunch.R;
-import com.karine.go4lunch.Utils.AlertReceiver;
-import com.karine.go4lunch.Utils.FirebaseUtils;
-import com.karine.go4lunch.Utils.Go4LunchStream;
+import com.karine.go4lunch.utils.AlertReceiver;
+import com.karine.go4lunch.utils.FirebaseUtils;
+import com.karine.go4lunch.utils.Go4LunchStream;
 import com.karine.go4lunch.controllers.fragments.ChatFragment;
 import com.karine.go4lunch.controllers.fragments.ListFragment;
 import com.karine.go4lunch.controllers.fragments.MapFragment;
@@ -52,7 +51,7 @@ import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
-import static com.karine.go4lunch.Utils.FirebaseUtils.getCurrentUser;
+import static com.karine.go4lunch.utils.FirebaseUtils.getCurrentUser;
 
 public class MainPageActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     //Declarations
@@ -298,8 +297,8 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
 
     public void onTimeSet() {
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, 17);
-        c.set(Calendar.MINUTE,32);
+        c.set(Calendar.HOUR_OF_DAY, 18);
+        c.set(Calendar.MINUTE,7);
         c.set(Calendar.SECOND, 0);
 
         startAlarm(c);

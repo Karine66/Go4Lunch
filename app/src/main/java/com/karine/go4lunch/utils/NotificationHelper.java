@@ -1,7 +1,6 @@
-package com.karine.go4lunch.Utils;
+package com.karine.go4lunch.utils;
 
 import android.annotation.TargetApi;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -15,8 +14,6 @@ import androidx.core.app.NotificationCompat;
 
 import com.karine.go4lunch.R;
 
-import java.util.Objects;
-
 public class NotificationHelper extends ContextWrapper {
 
     public static final String channelID = "channelID";
@@ -29,6 +26,7 @@ public class NotificationHelper extends ContextWrapper {
 
     //For Sound alarm
     Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+    private PendingIntent pendingIntent;
 
     public NotificationHelper(Context base) {
         super(base);

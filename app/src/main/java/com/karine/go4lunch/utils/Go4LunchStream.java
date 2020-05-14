@@ -1,14 +1,7 @@
-package com.karine.go4lunch.Utils;
-
-import android.util.Log;
+package com.karine.go4lunch.utils;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.TreeSet;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -18,13 +11,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
-import com.google.android.libraries.places.widget.Autocomplete;
 import com.karine.go4lunch.models.AutocompleteAPI.AutocompleteResult;
 import com.karine.go4lunch.models.AutocompleteAPI.Prediction;
 import com.karine.go4lunch.models.NearbySearchAPI.GoogleApi;
 import com.karine.go4lunch.models.NearbySearchAPI.ResultSearch;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
-import retrofit2.http.Query;
 
 public class Go4LunchStream {
 

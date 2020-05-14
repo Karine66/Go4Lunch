@@ -43,7 +43,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 
-import com.karine.go4lunch.Utils.FirebaseUtils;
+import com.karine.go4lunch.utils.FirebaseUtils;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 import com.karine.go4lunch.models.User;
 import com.karine.go4lunch.views.RestaurantAdapter;

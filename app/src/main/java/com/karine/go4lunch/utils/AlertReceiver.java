@@ -1,12 +1,9 @@
-package com.karine.go4lunch.Utils;
+package com.karine.go4lunch.utils;
 
 import android.annotation.SuppressLint;
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -15,14 +12,11 @@ import androidx.core.app.NotificationCompat;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.karine.go4lunch.API.UserHelper;
-import com.karine.go4lunch.controllers.activities.MainPageActivity;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
-import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 import com.karine.go4lunch.models.User;
 
 import java.util.Objects;
@@ -46,7 +40,7 @@ public class AlertReceiver extends BroadcastReceiver {
         NotificationHelper notificationHelper = new NotificationHelper(context);
         NotificationCompat.Builder nb = notificationHelper.getChannelNotification();
         notificationHelper.getManager().notify(1, nb.build());
-        workmatesNotif(placeId);
+
         UserHelper.getUser(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -82,7 +76,7 @@ public class AlertReceiver extends BroadcastReceiver {
                         if (userIdNotif != null) {
                             restoNotifName = detail.getResult().getName();
                             restoNotifAddress = detail.getResult().getVicinity();
-
+                            workmatesNotif(userIdNotif);
 
                            
                             Log.d("RestoNameNotif",  restoNotifName +" "+ restoNotifAddress);
@@ -98,10 +92,10 @@ public class AlertReceiver extends BroadcastReceiver {
 
     //For Retrieve workmates who chose this restaurant
 
-    private void workmatesNotif(String placeId) {
+    private void workmatesNotif(String userIdNotif) {
 
         UserHelper.getUsersCollection()
-                .whereEqualTo("placeId", placeId)
+                .whereEqualTo("placeId", userIdNotif)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 

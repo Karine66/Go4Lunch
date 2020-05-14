@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.karine.go4lunch.R;
-import com.karine.go4lunch.Utils.AlertReceiver;
+import com.karine.go4lunch.utils.AlertReceiver;
 import com.muddzdev.styleabletoast.StyleableToast;
 
 import java.util.Calendar;
@@ -35,9 +35,20 @@ public class SettingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
 
+
         this.alarmOn();
+//        this.onTimeSet();
         this.alarmOff();
 
+    }
+
+    public void onTimeSet() {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY, 18);
+        c.set(Calendar.MINUTE,7);
+        c.set(Calendar.SECOND, 0);
+
+        startAlarm(c);
     }
 
     private void startAlarm(Calendar c) {
@@ -76,7 +87,7 @@ public class SettingActivity extends AppCompatActivity {
         mAlarmOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startAlarm(c);
+                onTimeSet();
                 StyleableToast.makeText(getApplicationContext(),"Alarm activated",R.style.personalizedToast).show();
 
             }

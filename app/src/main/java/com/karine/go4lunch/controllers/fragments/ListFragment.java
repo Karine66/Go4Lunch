@@ -20,8 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.karine.go4lunch.R;
-import com.karine.go4lunch.Utils.Go4LunchStream;
-import com.karine.go4lunch.Utils.ItemClickSupport;
+import com.karine.go4lunch.utils.Go4LunchStream;
+import com.karine.go4lunch.utils.ItemClickSupport;
 import com.karine.go4lunch.controllers.activities.RestaurantActivity;
 import com.karine.go4lunch.models.AutocompleteAPI.AutocompleteResult;
 import com.karine.go4lunch.models.AutocompleteAPI.Prediction;

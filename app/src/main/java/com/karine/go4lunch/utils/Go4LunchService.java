@@ -1,7 +1,6 @@
-package com.karine.go4lunch.Utils;
+package com.karine.go4lunch.utils;
 
 
-import com.google.android.libraries.places.widget.Autocomplete;
 import com.karine.go4lunch.BuildConfig;
 
 import io.reactivex.Observable;

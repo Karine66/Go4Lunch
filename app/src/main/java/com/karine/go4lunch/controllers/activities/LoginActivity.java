@@ -26,8 +26,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.karine.go4lunch.Utils.FirebaseUtils.getCurrentUser;
-import static com.karine.go4lunch.Utils.FirebaseUtils.onFailureListener;
+import static com.karine.go4lunch.utils.FirebaseUtils.getCurrentUser;
+import static com.karine.go4lunch.utils.FirebaseUtils.onFailureListener;
 
 
 public class LoginActivity extends AppCompatActivity {

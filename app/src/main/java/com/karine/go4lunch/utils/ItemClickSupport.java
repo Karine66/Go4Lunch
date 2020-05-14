@@ -1,4 +1,4 @@
-package com.karine.go4lunch.Utils;
+package com.karine.go4lunch.utils;
 
 import android.view.View;
 
