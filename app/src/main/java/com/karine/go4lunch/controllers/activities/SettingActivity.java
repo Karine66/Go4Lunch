@@ -6,10 +6,13 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.material.button.MaterialButton;
 import com.karine.go4lunch.R;
 import com.karine.go4lunch.utils.AlertReceiver;
 import com.muddzdev.styleabletoast.StyleableToast;
@@ -37,15 +40,16 @@ public class SettingActivity extends AppCompatActivity {
 
 
         this.alarmOn();
-//        this.onTimeSet();
         this.alarmOff();
 
+        SharedPreferences saveFavPrefs = getSharedPreferences("cancelAlarm", MODE_PRIVATE);;
+        mAlarmOff.setSelected(saveFavPrefs.getBoolean("cancelAlarm", true));
     }
 
     public void onTimeSet() {
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, 18);
-        c.set(Calendar.MINUTE,7);
+        c.set(Calendar.HOUR_OF_DAY, 17);
+        c.set(Calendar.MINUTE,54);
         c.set(Calendar.SECOND, 0);
 
         startAlarm(c);
@@ -78,17 +82,33 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 cancelAlarm();
+
                 StyleableToast.makeText(getApplicationContext(),"Alarm canceled",R.style.personalizedToast).show();
+
+                SharedPreferences sharedPref = getSharedPreferences("cancelAlarm", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                if (mAlarmOff.isEnabled()){
+                    editor.putBoolean("alarmOff", true);
+                    editor.apply();
+
+                }
+                else{
+
+                    editor.putBoolean("alarmOff", false);
+                    editor.apply();
+                }
             }
         });
     }
+
+
     //For button alarm on
     public void alarmOn(){
         mAlarmOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onTimeSet();
-                StyleableToast.makeText(getApplicationContext(),"Alarm activated",R.style.personalizedToast).show();
+                StyleableToast.makeText(getApplicationContext(),"Alarm activated for 12 h",R.style.personalizedToast).show();
 
             }
         });

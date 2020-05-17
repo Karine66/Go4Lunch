@@ -1,9 +1,11 @@
 package com.karine.go4lunch.utils;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -33,12 +35,13 @@ public class AlertReceiver extends BroadcastReceiver {
     private Disposable mDisposable;
     private String restoNotifAddress;
     private String placeId;
+    private Context context;
 
 
     @Override
     public void onReceive(Context context, Intent intent) {
         NotificationHelper notificationHelper = new NotificationHelper(context);
-        NotificationCompat.Builder nb = notificationHelper.getChannelNotification();
+        NotificationCompat.Builder nb = notificationHelper.getChannelNotification(intent);
         notificationHelper.getManager().notify(1, nb.build());
 
         UserHelper.getUser(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -59,6 +62,7 @@ public class AlertReceiver extends BroadcastReceiver {
         });
 
     }
+    //request RXJava for retrieve restaurant name and restaurant address
     private void executeHttpRequestWithRetrofit() {
         this.mDisposable = Go4LunchStream.streamFetchDetails(userIdNotif)
                 .subscribeWith(new DisposableObserver<PlaceDetail>() {
@@ -77,7 +81,7 @@ public class AlertReceiver extends BroadcastReceiver {
                             restoNotifName = detail.getResult().getName();
                             restoNotifAddress = detail.getResult().getVicinity();
                             workmatesNotif(userIdNotif);
-
+//                            saveData(context);
                            
                             Log.d("RestoNameNotif",  restoNotifName +" "+ restoNotifAddress);
                         }
@@ -114,7 +118,14 @@ public class AlertReceiver extends BroadcastReceiver {
                     }
                 });
     }
-
+//    public void saveData (Context context) {
+//        Intent intent = new Intent(context, NotificationHelper.class);
+//        Bundle bundle = new Bundle();
+//        intent.putExtra("restoNotifName", restoNotifName);
+//        intent.putExtra("restoNotifAddress", restoNotifAddress);
+//        intent.putExtras(bundle);
+//        context.startActivity(intent);
+//    }
 }
 
 

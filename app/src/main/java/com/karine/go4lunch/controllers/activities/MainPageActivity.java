@@ -13,7 +13,9 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.TwoStatePreference;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
@@ -78,6 +80,7 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
     private String nameId;
     private Calendar c;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +103,7 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         //For connect MapFragment with activity
         getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_frame_layout,
                 new MapFragment()).commit();
+
 
     }
     //    Configure toolbar
@@ -297,8 +301,8 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
 
     public void onTimeSet() {
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, 18);
-        c.set(Calendar.MINUTE,7);
+        c.set(Calendar.HOUR_OF_DAY, 17);
+        c.set(Calendar.MINUTE,54);
         c.set(Calendar.SECOND, 0);
 
         startAlarm(c);
