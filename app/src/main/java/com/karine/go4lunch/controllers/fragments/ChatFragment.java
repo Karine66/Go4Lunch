@@ -44,7 +44,7 @@ public class ChatFragment extends BaseFragment implements ChatAdapter.Listener {
 
 
     // FOR DESIGN
-    // 1 - Getting all views needed
+    // Getting all views needed
     @BindView(R.id.chat_recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.chat_text_view_recycler_view_empty)
@@ -55,17 +55,13 @@ public class ChatFragment extends BaseFragment implements ChatAdapter.Listener {
     ImageView imageViewPreview;
 
     // FOR DATA
-    // 2 - Declaring Adapter and data
+//    Declaring Adapter and data
     private ChatAdapter chatAdapter;
     @Nullable
     private User modelCurrentUser;
     private String currentChatName;
     private String chatName;
 
-//    // STATIC DATA FOR CHAT (3)
-//    private static final String CHAT_NAME_ANDROID = "android";
-//    private static final String CHAT_NAME_BUG = "bug";
-//    private static final String CHAT_NAME_FIREBASE = "firebase";
 
 
     public ChatFragment() {
@@ -104,7 +100,7 @@ public class ChatFragment extends BaseFragment implements ChatAdapter.Listener {
         // --------------------
         // REST REQUESTS
         // --------------------
-        // 4 - Get Current User from Firestore
+        // Get Current User from Firestore
         private void getCurrentUserFromFirestore(){
             UserHelper.getUser(Objects.requireNonNull(getCurrentUser()).getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
@@ -117,7 +113,7 @@ public class ChatFragment extends BaseFragment implements ChatAdapter.Listener {
         // --------------------
         // UI
         // --------------------
-        // 5 - Configure RecyclerView with a Query
+        //Configure RecyclerView with a Query
         private void configureRecyclerView(){
             //Track current chat name
 //            this.currentChatName = chatName;
@@ -133,7 +129,7 @@ public class ChatFragment extends BaseFragment implements ChatAdapter.Listener {
             recyclerView.setAdapter(this.chatAdapter);
         }
 
-        // 6 - Create options for RecyclerView from a Query
+        // Create options for RecyclerView from a Query
         private FirestoreRecyclerOptions<Message> generateOptionsForAdapter(Query query){
             return new FirestoreRecyclerOptions.Builder<Message>()
                     .setQuery(query, Message.class)
