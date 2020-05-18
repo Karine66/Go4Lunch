@@ -10,6 +10,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,7 +21,12 @@ import androidx.fragment.app.Fragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.karine.go4lunch.R;
 import com.karine.go4lunch.controllers.activities.MainPageActivity;
+import com.muddzdev.styleabletoast.StyleableToast;
 
 import java.util.Objects;
 
@@ -137,6 +143,21 @@ public abstract class BaseFragment extends Fragment implements LocationListener 
         public ActionBar getActionBar() {
             return ((MainPageActivity) Objects.requireNonNull(getActivity())).getSupportActionBar();
         }
+
+    // --------------------
+    // ERROR HANDLER
+    // --------------------
+
+    protected OnFailureListener onFailureListener(){
+        return new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                StyleableToast.makeText(Objects.requireNonNull(getContext()), "Unknown Error", R.style.personalizedToast).show();
+
+            }
+        };
     }
+}
+
 
 

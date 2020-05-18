@@ -207,7 +207,7 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
                 break;
             case R.id.menu_drawer_Logout:
                 signOutFromUserFirebase();
-                StyleableToast.makeText(getApplicationContext(),"You're deconnected",R.style.personalizedToast).show();;
+                StyleableToast.makeText(getApplicationContext(),"You're deconnected",R.style.personalizedToast).show();
                 break;
 
         }

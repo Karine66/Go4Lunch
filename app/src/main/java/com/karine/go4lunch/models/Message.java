@@ -10,6 +10,7 @@ public class Message {
     private Date dateCreated;
     private User userSender;
     private String urlImage;
+    private User user;
 
     public Message() { }
 
@@ -18,15 +19,17 @@ public class Message {
      * @param message
      * @param userSender
      */
-    public Message(String message, User userSender) {
+    public Message(String message, User userSender, User user) {
         this.message = message;
         this.userSender = userSender;
+        this.user = user;
     }
 
-    public Message(String message, String urlImage, User userSender) {
+    public Message(String message, String urlImage, User userSender, User user) {
         this.message = message;
         this.urlImage = urlImage;
         this.userSender = userSender;
+        this.user = user;
     }
 
     /**

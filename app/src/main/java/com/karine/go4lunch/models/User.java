@@ -8,12 +8,14 @@ import java.util.ArrayList;
 
 public class User implements Serializable {
 
+    private boolean userChat;
     private String reference;
     private String uid;
         private String username;
         @Nullable
         private String urlPicture;
         private String placeId;
+
     private ArrayList<String> like;
 
     public User() { }
@@ -30,6 +32,7 @@ public class User implements Serializable {
             this.urlPicture = urlPicture;
             this.placeId = placeId;
             this.like = like;
+            this.userChat = false;
 
 
         }
@@ -47,7 +50,7 @@ public class User implements Serializable {
         public ArrayList<String> getLike() {
         return like;
         }
-
+        public Boolean getUserChat() { return userChat; }
 
     /**
      * Setters
@@ -62,5 +65,6 @@ public class User implements Serializable {
         public void setLike(ArrayList<String> like) {
             this.like = like;
         }
-    }
+        public void setUserChat(Boolean chatUser) { userChat = chatUser; }
+}
 
