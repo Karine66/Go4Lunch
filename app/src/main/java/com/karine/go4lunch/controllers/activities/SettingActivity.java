@@ -1,6 +1,7 @@
 package com.karine.go4lunch.controllers.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -9,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 
@@ -42,14 +44,13 @@ public class SettingActivity extends AppCompatActivity {
         this.alarmOn();
         this.alarmOff();
 
-        SharedPreferences saveFavPrefs = getSharedPreferences("cancelAlarm", MODE_PRIVATE);;
-        mAlarmOff.setSelected(saveFavPrefs.getBoolean("cancelAlarm", true));
+
     }
 
     public void onTimeSet() {
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, 17);
-        c.set(Calendar.MINUTE,54);
+        c.set(Calendar.HOUR_OF_DAY, 11);
+        c.set(Calendar.MINUTE,10);
         c.set(Calendar.SECOND, 0);
 
         startAlarm(c);
@@ -82,21 +83,21 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 cancelAlarm();
-
+//                mAlarmOff.setBackgroundColor(getResources().getColor(R.color.quantum_white_100));
                 StyleableToast.makeText(getApplicationContext(),"Alarm canceled",R.style.personalizedToast).show();
 
-                SharedPreferences sharedPref = getSharedPreferences("cancelAlarm", MODE_PRIVATE);
+                    if (mAlarmOff.isEnabled()) {
+                        mAlarmOff.setBackgroundColor(getResources().getColor(R.color.quantum_white_100));
+                    } else {
+                        mAlarmOff.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+
+
+                    }
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor editor = sharedPref.edit();
-                if (mAlarmOff.isEnabled()){
-                    editor.putBoolean("alarmOff", true);
-                    editor.apply();
+                editor.putBoolean("alarmOff",mAlarmOff.isEnabled());
+                editor.apply();
 
-                }
-                else{
-
-                    editor.putBoolean("alarmOff", false);
-                    editor.apply();
-                }
             }
         });
     }
@@ -108,6 +109,7 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onTimeSet();
+                mAlarmOn.setBackgroundColor(getResources().getColor(R.color.quantum_white_100));
                 StyleableToast.makeText(getApplicationContext(),"Alarm activated for 12 h",R.style.personalizedToast).show();
 
             }

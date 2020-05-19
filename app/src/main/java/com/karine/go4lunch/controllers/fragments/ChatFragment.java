@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
+import com.karine.go4lunch.API.ChatHelper;
 import com.karine.go4lunch.API.MessageHelper;
 import com.karine.go4lunch.API.UserHelper;
 import com.karine.go4lunch.R;
@@ -61,7 +62,7 @@ public class ChatFragment extends BaseFragment implements ChatAdapter.Listener {
     private User modelCurrentUser;
     private String currentChatName;
     private String chatName;
-
+    private String chat;
 
 
     public ChatFragment() {
@@ -118,7 +119,7 @@ public class ChatFragment extends BaseFragment implements ChatAdapter.Listener {
             //Track current chat name
 //            this.currentChatName = chatName;
             //Configure Adapter & RecyclerView
-            this.chatAdapter = new ChatAdapter(generateOptionsForAdapter(MessageHelper.getAllMessageForChat(this.currentChatName)), Glide.with(this), this, Objects.requireNonNull(getCurrentUser()).getUid());
+            this.chatAdapter = new ChatAdapter(generateOptionsForAdapter(ChatHelper.getAllMessageForChat(chat)), Glide.with(this), this, Objects.requireNonNull(getCurrentUser()).getUid());
             chatAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
                 @Override
                 public void onItemRangeInserted(int positionStart, int itemCount) {

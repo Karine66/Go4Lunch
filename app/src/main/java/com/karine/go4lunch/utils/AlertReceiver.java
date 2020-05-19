@@ -35,14 +35,18 @@ public class AlertReceiver extends BroadcastReceiver {
     private Disposable mDisposable;
     private String restoNotifAddress;
     private String placeId;
+
+    private String nameNotif;
+    private String notifMessage;
     private Context context;
+    private NotificationHelper notificationHelper;
 
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        NotificationHelper notificationHelper = new NotificationHelper(context);
-        NotificationCompat.Builder nb = notificationHelper.getChannelNotification(intent);
-        notificationHelper.getManager().notify(1, nb.build());
+            NotificationHelper notificationHelper = new NotificationHelper(context);
+//        NotificationCompat.Builder nb = notificationHelper.getChannelNotification(notifMessage);
+//        notificationHelper.getManager().notify(1, nb.build());
 
         UserHelper.getUser(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -81,7 +85,11 @@ public class AlertReceiver extends BroadcastReceiver {
                             restoNotifName = detail.getResult().getName();
                             restoNotifAddress = detail.getResult().getVicinity();
                             workmatesNotif(userIdNotif);
-//                            saveData(context);
+                            notifMessage = ("You're lunching at" + " " + restoNotifName + " " + restoNotifAddress + " " + "with" + " " + nameNotif);
+
+//                            NotificationHelper notificationHelper = new NotificationHelper(context);
+                            NotificationCompat.Builder nb = notificationHelper.getChannelNotification(notifMessage);
+                            notificationHelper.getManager().notify(1, nb.build());
                            
                             Log.d("RestoNameNotif",  restoNotifName +" "+ restoNotifAddress);
                         }
@@ -108,7 +116,7 @@ public class AlertReceiver extends BroadcastReceiver {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
                                 Log.d("workmatesNotif", documentSnapshot.getId() + " " + documentSnapshot.getData());
-                                Object nameNotif = documentSnapshot.get("username");
+                                nameNotif = String.valueOf(documentSnapshot.get("username"));
                                 Log.d("nameNotif", Objects.requireNonNull(nameNotif).toString());
                             }
 

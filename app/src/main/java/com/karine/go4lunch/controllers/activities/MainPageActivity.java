@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.preference.TwoStatePreference;
 import android.text.TextUtils;
 import android.util.Log;
@@ -93,6 +94,10 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         this.updateUINavHeader();
         this.onTimeSet();
 
+        //for alarm off
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPref.getBoolean("alarmOff", false);
+        Log.d("TestAlarmOff", String.valueOf(sharedPref.getBoolean("alarmOff", false)));
         //For change title Action Bar
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -301,8 +306,8 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
 
     public void onTimeSet() {
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, 17);
-        c.set(Calendar.MINUTE,54);
+        c.set(Calendar.HOUR_OF_DAY, 11);
+        c.set(Calendar.MINUTE,10);
         c.set(Calendar.SECOND, 0);
 
         startAlarm(c);
