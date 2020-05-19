@@ -97,6 +97,7 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         //for alarm off
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPref.getBoolean("alarmOff", false);
+        sharedPref.getBoolean("alarmOn", false);
         Log.d("TestAlarmOff", String.valueOf(sharedPref.getBoolean("alarmOff", false)));
         //For change title Action Bar
         ActionBar actionBar = getSupportActionBar();
@@ -306,8 +307,8 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
 
     public void onTimeSet() {
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, 11);
-        c.set(Calendar.MINUTE,10);
+        c.set(Calendar.HOUR_OF_DAY, 22);
+        c.set(Calendar.MINUTE,00);
         c.set(Calendar.SECOND, 0);
 
         startAlarm(c);

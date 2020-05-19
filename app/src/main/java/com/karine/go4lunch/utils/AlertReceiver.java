@@ -44,7 +44,7 @@ public class AlertReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-            NotificationHelper notificationHelper = new NotificationHelper(context);
+//            NotificationHelper notificationHelper = new NotificationHelper(context);
 //        NotificationCompat.Builder nb = notificationHelper.getChannelNotification(notifMessage);
 //        notificationHelper.getManager().notify(1, nb.build());
 
@@ -87,7 +87,7 @@ public class AlertReceiver extends BroadcastReceiver {
                             workmatesNotif(userIdNotif);
                             notifMessage = ("You're lunching at" + " " + restoNotifName + " " + restoNotifAddress + " " + "with" + " " + nameNotif);
 
-//                            NotificationHelper notificationHelper = new NotificationHelper(context);
+                            NotificationHelper notificationHelper = new NotificationHelper(context);
                             NotificationCompat.Builder nb = notificationHelper.getChannelNotification(notifMessage);
                             notificationHelper.getManager().notify(1, nb.build());
                            

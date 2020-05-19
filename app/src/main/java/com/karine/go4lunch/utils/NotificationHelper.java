@@ -61,8 +61,6 @@ public class NotificationHelper extends ContextWrapper {
                 .setContentText(notifMessage)
                 .setSmallIcon(R.drawable.lunch_black)
                 .setSound(alarmSound);
-
-
     }
 
 }

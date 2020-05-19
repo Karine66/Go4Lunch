@@ -49,8 +49,8 @@ public class SettingActivity extends AppCompatActivity {
 
     public void onTimeSet() {
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, 11);
-        c.set(Calendar.MINUTE,10);
+        c.set(Calendar.HOUR_OF_DAY, 22);
+        c.set(Calendar.MINUTE,00);
         c.set(Calendar.SECOND, 0);
 
         startAlarm(c);
@@ -82,15 +82,18 @@ public class SettingActivity extends AppCompatActivity {
         mAlarmOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cancelAlarm();
+
 //                mAlarmOff.setBackgroundColor(getResources().getColor(R.color.quantum_white_100));
-                StyleableToast.makeText(getApplicationContext(),"Alarm canceled",R.style.personalizedToast).show();
+
 
                     if (mAlarmOff.isEnabled()) {
+                        cancelAlarm();
                         mAlarmOff.setBackgroundColor(getResources().getColor(R.color.quantum_white_100));
-                    } else {
+                        StyleableToast.makeText(getApplicationContext(),"Alarm canceled",R.style.personalizedToast).show();
+                    } else if (!mAlarmOff.isEnabled()){
+                        onTimeSet();
                         mAlarmOff.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-
+                        StyleableToast.makeText(getApplicationContext(),"Alarm activated for 12 h",R.style.personalizedToast).show();
 
                     }
                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -109,8 +112,20 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onTimeSet();
-                mAlarmOn.setBackgroundColor(getResources().getColor(R.color.quantum_white_100));
+//                mAlarmOn.setBackgroundColor(getResources().getColor(R.color.quantum_white_100));
                 StyleableToast.makeText(getApplicationContext(),"Alarm activated for 12 h",R.style.personalizedToast).show();
+
+                if (mAlarmOn.isEnabled()) {
+                    mAlarmOn.setBackgroundColor(getResources().getColor(R.color.quantum_white_100));
+                } else if (!mAlarmOn.isEnabled()){
+                    mAlarmOn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+
+
+                }
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putBoolean("alarmOn",mAlarmOn.isEnabled());
+                editor.apply();
 
             }
         });
