@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class Message {
 
+    private String textMessage;
     private String message;
     private Date dateCreated;
     private User userSender;
@@ -30,6 +31,11 @@ public class Message {
         this.urlImage = urlImage;
         this.userSender = userSender;
         this.user = user;
+    }
+
+    public Message(String textMessage, User userSender) {
+        this.textMessage = textMessage;
+        this.userSender = userSender;
     }
 
     /**

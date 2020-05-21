@@ -24,7 +24,7 @@
             android:layout_height="50dip"
             app:srcCompat="@drawable/anon_user"/>
 
-        <!-- IMAGE IS MENTOR -->
+        <!-- IMAGE Proile 2 -->
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/chat_item_profile"
             android:layout_width="15dip"
@@ -50,11 +50,11 @@
             android:background="#F0F4C3">
 
             <!-- IMAGE SENT -->
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/chat_item_message_container_image_sent_cardview_image"
                 android:layout_width="100dip"
                 android:layout_height="100dip"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop" />
 
         </androidx.cardview.widget.CardView>
 
@@ -99,7 +99,6 @@
             android:layout_alignEnd="@id/chat_item_message_container_text_message_container"
             android:textStyle="bold"
             android:textSize="@dimen/default_text_size_mini" />
-
     </RelativeLayout>
 
-</RelativeLayout>
+    </RelativeLayout>

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,7 +94,16 @@ public class ChatFragment extends BaseFragment implements ChatAdapter.Listener {
         // --------------------
 
         @OnClick(R.id.chat_send_button)
-        public void onClickSendMessage() { }
+        public void onClickSendMessage() {
+            //Check if text field is not empty and current user properly downloaded from Firestore
+            if (!TextUtils.isEmpty(editTextMessage.getText()) && modelCurrentUser != null){
+                //Create a new Message to Firestore
+                ChatHelper.createMessageForChat(editTextMessage.getText().toString(), this.currentChatName, modelCurrentUser).addOnFailureListener(this.onFailureListener());
+                //Reset text field
+                this.editTextMessage.setText("");
+
+            }
+        }
 
         @OnClick(R.id.chat_add_file_button)
         public void onClickAddFile() { }
@@ -147,5 +157,7 @@ public class ChatFragment extends BaseFragment implements ChatAdapter.Listener {
             // 7 - Show TextView in case RecyclerView is empty
             textViewRecyclerViewEmpty.setVisibility(this.chatAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
         }
+
+
     }
 

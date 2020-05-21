@@ -44,6 +44,7 @@ public class AlertReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        this.context= context;
 //            NotificationHelper notificationHelper = new NotificationHelper(context);
 //        NotificationCompat.Builder nb = notificationHelper.getChannelNotification(notifMessage);
 //        notificationHelper.getManager().notify(1, nb.build());
@@ -85,13 +86,21 @@ public class AlertReceiver extends BroadcastReceiver {
                             restoNotifName = detail.getResult().getName();
                             restoNotifAddress = detail.getResult().getVicinity();
                             workmatesNotif(userIdNotif);
-                            notifMessage = ("You're lunching at" + " " + restoNotifName + " " + restoNotifAddress + " " + "with" + " " + nameNotif);
 
+
+
+                            if(nameNotif !=null) {
+                                notifMessage = ("You're lunching at" + " " + restoNotifName + " " +
+                                        restoNotifAddress + " " + "with" + " " + nameNotif);
+                            } else {
+                                notifMessage = ("You're lunching at" + " " + restoNotifName + " " +
+                                        restoNotifAddress + " " + "alone");
+                            }
                             NotificationHelper notificationHelper = new NotificationHelper(context);
                             NotificationCompat.Builder nb = notificationHelper.getChannelNotification(notifMessage);
                             notificationHelper.getManager().notify(1, nb.build());
                            
-                            Log.d("RestoNameNotif",  restoNotifName +" "+ restoNotifAddress);
+                            Log.d("RestoNameNotif",  restoNotifName +" "+ restoNotifAddress+" "+nameNotif + " " + notifMessage);
                         }
                     }
 
@@ -117,7 +126,7 @@ public class AlertReceiver extends BroadcastReceiver {
                             for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
                                 Log.d("workmatesNotif", documentSnapshot.getId() + " " + documentSnapshot.getData());
                                 nameNotif = String.valueOf(documentSnapshot.get("username"));
-                                Log.d("nameNotif", Objects.requireNonNull(nameNotif).toString());
+                                Log.d("nameNotif", Objects.requireNonNull(nameNotif));
                             }
 
                         }else{
@@ -126,14 +135,7 @@ public class AlertReceiver extends BroadcastReceiver {
                     }
                 });
     }
-//    public void saveData (Context context) {
-//        Intent intent = new Intent(context, NotificationHelper.class);
-//        Bundle bundle = new Bundle();
-//        intent.putExtra("restoNotifName", restoNotifName);
-//        intent.putExtra("restoNotifAddress", restoNotifAddress);
-//        intent.putExtras(bundle);
-//        context.startActivity(intent);
-//    }
+
 }
 
 

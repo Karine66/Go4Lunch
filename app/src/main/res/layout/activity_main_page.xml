@@ -11,6 +11,13 @@
     android:orientation="vertical"
     tools:context=".controllers.activities.MainPageActivity">
 
+    <fragment
+        android:name="com.karine.go4lunch.controllers.fragments.ChatFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_navigation"
+        android:id="@+id/fragment_chat" />
+
 <RelativeLayout
     android:id="@+id/main_page"
     android:layout_width="match_parent"
