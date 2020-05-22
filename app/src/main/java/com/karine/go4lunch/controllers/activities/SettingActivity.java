@@ -43,9 +43,13 @@ public class SettingActivity extends AppCompatActivity {
 
         this.alarmOn();
         this.alarmOff();
-
-
-    }
+        //for retrieve statut color button
+        if (mAlarmOn.isEnabled() && mAlarmOff.isEnabled()) {
+            mAlarmOn.setBackgroundColor(getResources().getColor(R.color.quantum_white_100));
+        } else if (!mAlarmOn.isEnabled() && !mAlarmOff.isEnabled()) {
+            mAlarmOn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        }
+        }
 
     public void onTimeSet() {
         Calendar c = Calendar.getInstance();
@@ -89,10 +93,12 @@ public class SettingActivity extends AppCompatActivity {
                     if (mAlarmOff.isEnabled()) {
                         cancelAlarm();
                         mAlarmOff.setBackgroundColor(getResources().getColor(R.color.quantum_white_100));
+                        mAlarmOn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                         StyleableToast.makeText(getApplicationContext(),"Alarm canceled",R.style.personalizedToast).show();
                     } else if (!mAlarmOff.isEnabled()){
                         onTimeSet();
                         mAlarmOff.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                        mAlarmOn.setBackgroundColor(getResources().getColor(R.color.quantum_white_100));
                         StyleableToast.makeText(getApplicationContext(),"Alarm activated for 12 h",R.style.personalizedToast).show();
 
                     }
@@ -117,9 +123,10 @@ public class SettingActivity extends AppCompatActivity {
 
                 if (mAlarmOn.isEnabled()) {
                     mAlarmOn.setBackgroundColor(getResources().getColor(R.color.quantum_white_100));
+                    mAlarmOff.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 } else if (!mAlarmOn.isEnabled()){
                     mAlarmOn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-
+                    mAlarmOff.setBackgroundColor(getResources().getColor(R.color.quantum_white_100));
 
                 }
                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
