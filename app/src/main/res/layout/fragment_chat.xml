@@ -53,17 +53,17 @@
         android:layout_margin="@dimen/default_margin">
 
         <!-- ADD FILE BUTTON -->
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/chat_add_file_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:src="@drawable/round_add_circle_black_24dp"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:contentDescription="Image" />
+      <androidx.appcompat.widget.AppCompatImageButton
+          android:id="@+id/chat_add_file_button"
+          style="@style/Widget.AppCompat.Button.Borderless"
+          android:layout_width="46dp"
+          android:layout_height="wrap_content"
+          android:adjustViewBounds="true"
+          android:contentDescription="Image"
+          android:src="@drawable/round_add_circle_black_24dp" />
 
         <!-- TEXT MESSAGE EDIT TEXT -->
-        <com.google.android.material.textfield.TextInputEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/chat_message_edit_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

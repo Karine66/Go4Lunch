@@ -48,6 +48,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:17.2.2'
     implementation 'com.google.firebase:firebase-firestore:21.4.0'
     implementation 'com.firebaseui:firebase-ui-firestore:5.0.0'
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
     //For butterknife
     implementation 'com.jakewharton:butterknife:10.2.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'

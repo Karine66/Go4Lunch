@@ -36,10 +36,11 @@
     <!-- MESSAGE CONTAINER -->
     <RelativeLayout
         android:id="@+id/chat_item_message_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="176dp"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="0dp">
 
         <!-- IMAGE SENT CONTAINER -->
         <androidx.cardview.widget.CardView
@@ -48,6 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:background="#F0F4C3">
+
 
             <!-- IMAGE SENT -->
             <androidx.appcompat.widget.AppCompatImageView
@@ -63,15 +65,15 @@
             android:id="@+id/chat_item_message_container_text_message_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/default_margin"
-            android:layout_marginLeft="@dimen/default_margin"
             android:layout_below="@id/chat_item_message_container_image_sent_cardview"
+            android:layout_margin="@dimen/default_margin"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:layout_marginRight="@dimen/default_margin"
             android:background="#FFCC80"
-            android:orientation="horizontal"
-            android:layout_margin="@dimen/default_margin">
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="@dimen/default_margin">
@@ -79,9 +81,10 @@
                 <!-- TEXT MESSAGE -->
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/chat_item_message_container_text_message_container_text_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="120dp"
+                    android:layout_height="41dp"
                     android:textIsSelectable="true"
+                    android:textColor="@color/quantum_brown900"
                     android:textSize="@dimen/default_text_size"
                     tools:text="Text example" />
 
@@ -95,10 +98,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/chat_item_message_container_text_message_container"
-            android:layout_alignParentBottom="true"
             android:layout_alignEnd="@id/chat_item_message_container_text_message_container"
-            android:textStyle="bold"
-            android:textSize="@dimen/default_text_size_mini" />
+            android:layout_alignParentBottom="true"
+            android:textSize="@dimen/default_text_size_mini"
+            android:textStyle="bold" />
     </RelativeLayout>
 
     </RelativeLayout>

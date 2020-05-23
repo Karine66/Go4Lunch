@@ -18,20 +18,27 @@ public class ChatHelper {
 
     public static Query getAllMessageForChat(String chat){
         return FirebaseFirestore.getInstance()
+
                 .collection(COLLECTION_NAME)
                 .orderBy("dateCreated")
                 .limit(50);     }
 
-    public static Task<DocumentReference> createMessageForChat(String textMessage, String chat, User userSender){
+    public static Task<DocumentReference> createMessageForChat(String textMessage, String currentChatName, User userSender){
 
-        // 1 - Create the Message object
+        // Create the Message object
         Message message = new Message(textMessage, userSender);
 
-        // 2 - Store Message to Firestore
+        // Store Message to Firestore
         return ChatHelper.getChatCollection()
-                .document(chat)
-                .collection(COLLECTION_NAME)
                 .add(message);
     }
+
+//    public static Task<DocumentReference> createMessageWithImageForChat(String urlImage, String textMessage, User userSender){
+//        Message message = new Message(urlImage,textMessage, userSender);
+//        return ChatHelper.getChatCollection()
+////                .document(chat)
+////                .collection(COLLECTION_NAME)
+//                .add(message);
+//    }
 }
 

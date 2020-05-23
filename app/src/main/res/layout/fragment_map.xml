@@ -12,7 +12,7 @@
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:searchIcon="@drawable/baseline_search_white_48"/>
+        />
 
 
 </fragment>

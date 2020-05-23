@@ -26,5 +26,5 @@
     <string name="continue_with_google">Continue with Google</string>
     <!-- Used in Chat-->
     <string name="text_view_chat_empty">Chat empty</string>
-    <string name="button_title_chat_activity"> Title chat </string>
+    <string name="button_title_chat_activity"> Send </string>
 </resources>

@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +22,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.karine.go4lunch.API.ChatHelper;
 import com.karine.go4lunch.API.MessageHelper;
 import com.karine.go4lunch.API.UserHelper;
@@ -31,6 +35,7 @@ import com.karine.go4lunch.utils.FirebaseUtils;
 import com.karine.go4lunch.views.ChatAdapter;
 
 import java.util.Objects;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,7 +57,7 @@ public class ChatFragment extends BaseFragment implements ChatAdapter.Listener {
     @BindView(R.id.chat_text_view_recycler_view_empty)
     TextView textViewRecyclerViewEmpty;
     @BindView(R.id.chat_message_edit_text)
-    TextInputEditText editTextMessage;
+    EditText editTextMessage;
     @BindView(R.id.chat_image_chosen_preview)
     ImageView imageViewPreview;
 
@@ -93,17 +98,16 @@ public class ChatFragment extends BaseFragment implements ChatAdapter.Listener {
         // ACTIONS
         // --------------------
 
-        @OnClick(R.id.chat_send_button)
-        public void onClickSendMessage() {
-            //Check if text field is not empty and current user properly downloaded from Firestore
-            if (!TextUtils.isEmpty(editTextMessage.getText()) && modelCurrentUser != null){
-                //Create a new Message to Firestore
-                ChatHelper.createMessageForChat(editTextMessage.getText().toString(), this.currentChatName, modelCurrentUser).addOnFailureListener(this.onFailureListener());
-                //Reset text field
-                this.editTextMessage.setText("");
-
-            }
+    @OnClick(R.id.chat_send_button)
+    public void onClickSendMessage() {
+        // 1 - Check if text field is not empty and current user properly downloaded from Firestore
+        if (!TextUtils.isEmpty(editTextMessage.getText()) && modelCurrentUser != null){
+            // 2 - Create a new Message to Firestore
+            ChatHelper.createMessageForChat(editTextMessage.getText().toString(), this.currentChatName, modelCurrentUser).addOnFailureListener(this.onFailureListener());
+            // 3 - Reset text field
+            this.editTextMessage.setText("");
         }
+    }
 
         @OnClick(R.id.chat_add_file_button)
         public void onClickAddFile() { }
@@ -121,7 +125,25 @@ public class ChatFragment extends BaseFragment implements ChatAdapter.Listener {
             });
         }
 
-        // --------------------
+//    private void uploadPhotoInFirebaseAndSendMessage(final String message) {
+//        String uuid = UUID.randomUUID().toString(); // GENERATE UNIQUE STRING
+//        // A - UPLOAD TO GCS
+//        StorageReference mImageRef = FirebaseStorage.getInstance().getReference(uuid);
+//        mImageRef.putFile(this.uriImageSelected)
+//                .addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                        String pathImageSavedInFirebase = taskSnapshot.getMetadata().getDownloadUrl().toString();
+//                        // B - SAVE MESSAGE IN FIRESTORE
+//                        MessageHelper.createMessageWithImageForChat(pathImageSavedInFirebase, message, currentChatName, modelCurrentUser).addOnFailureListener(onFailureListener());
+//                    }
+//                })
+//                .addOnFailureListener(this.onFailureListener());
+//    }
+
+
+
+    // --------------------
         // UI
         // --------------------
         //Configure RecyclerView with a Query

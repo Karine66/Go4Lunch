@@ -53,8 +53,8 @@ public class SettingActivity extends AppCompatActivity {
 
     public void onTimeSet() {
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, 10);
-        c.set(Calendar.MINUTE,47);
+        c.set(Calendar.HOUR_OF_DAY, 17);
+        c.set(Calendar.MINUTE,51);
         c.set(Calendar.SECOND, 0);
 
         startAlarm(c);

@@ -59,15 +59,16 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
 
 
         //FOR DATA
-        private final int colorCurrentUser;
-        private final int colorRemoteUser;
+//        private final int colorCurrentUser;
+//        private final int colorRemoteUser;
 
 
     public ChatViewHolder(@NonNull View itemView) {
         super(itemView);
                 ButterKnife.bind(this, itemView);
-                colorCurrentUser = ContextCompat.getColor(itemView.getContext(), R.color.colorAccent);
-                colorRemoteUser = ContextCompat.getColor(itemView.getContext(), R.color.colorPrimary);
+
+//                colorCurrentUser = ContextCompat.getColor(itemView.getContext(), R.color.quantum_googyellowA100);
+//                colorRemoteUser = ContextCompat.getColor(itemView.getContext(), R.color.colorPrimary);
             }
 
 
@@ -103,7 +104,7 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
             }
 
             //Update Message Bubble Color Background
-            ((GradientDrawable) textMessageContainer.getBackground()).setColor(isCurrentUser ? colorCurrentUser : colorRemoteUser);
+//            ((GradientDrawable) textMessageContainer.getBackground()).setColor(isCurrentUser ? colorCurrentUser : colorRemoteUser);
 
             // Update all views alignment depending is current user or not
             this.updateDesignDependingUser(isCurrentUser);

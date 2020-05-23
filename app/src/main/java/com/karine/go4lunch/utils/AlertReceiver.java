@@ -89,16 +89,16 @@ public class AlertReceiver extends BroadcastReceiver {
 
 
 
-                            if(nameNotif !=null) {
-                                notifMessage = ("You're lunching at" + " " + restoNotifName + " " +
-                                        restoNotifAddress + " " + "with" + " " + nameNotif);
-                            } else {
-                                notifMessage = ("You're lunching at" + " " + restoNotifName + " " +
-                                        restoNotifAddress + " " + "alone");
-                            }
-                            NotificationHelper notificationHelper = new NotificationHelper(context);
-                            NotificationCompat.Builder nb = notificationHelper.getChannelNotification(notifMessage);
-                            notificationHelper.getManager().notify(1, nb.build());
+//                            if(nameNotif !=null) {
+//                                notifMessage = ("You're lunching at" + " " + restoNotifName + " " +
+//                                        restoNotifAddress + " " + "with" + " " + nameNotif);
+//                            } else {
+//                                notifMessage = ("You're lunching at" + " " + restoNotifName + " " +
+//                                        restoNotifAddress + " " + "alone");
+//                            }
+//                            NotificationHelper notificationHelper = new NotificationHelper(context);
+//                            NotificationCompat.Builder nb = notificationHelper.getChannelNotification(notifMessage);
+//                            notificationHelper.getManager().notify(1, nb.build());
                            
                             Log.d("RestoNameNotif",  restoNotifName +" "+ restoNotifAddress+" "+nameNotif + " " + notifMessage);
                         }
@@ -127,6 +127,17 @@ public class AlertReceiver extends BroadcastReceiver {
                                 Log.d("workmatesNotif", documentSnapshot.getId() + " " + documentSnapshot.getData());
                                 nameNotif = String.valueOf(documentSnapshot.get("username"));
                                 Log.d("nameNotif", Objects.requireNonNull(nameNotif));
+
+                                if(nameNotif !=null) {
+                                    notifMessage = ("You're lunching at" + " " + restoNotifName + " " +
+                                            restoNotifAddress + " " + "with" + " " + nameNotif);
+                                } else {
+                                    notifMessage = ("You're lunching at" + " " + restoNotifName + " " +
+                                            restoNotifAddress + " " + "alone");
+                                }
+                                NotificationHelper notificationHelper = new NotificationHelper(context);
+                                NotificationCompat.Builder nb = notificationHelper.getChannelNotification(notifMessage);
+                                notificationHelper.getManager().notify(1, nb.build());
                             }
 
                         }else{
