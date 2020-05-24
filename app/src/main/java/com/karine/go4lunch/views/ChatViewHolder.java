@@ -66,7 +66,7 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
     public ChatViewHolder(@NonNull View itemView) {
         super(itemView);
                 ButterKnife.bind(this, itemView);
-
+//
 //                colorCurrentUser = ContextCompat.getColor(itemView.getContext(), R.color.quantum_googyellowA100);
 //                colorRemoteUser = ContextCompat.getColor(itemView.getContext(), R.color.colorPrimary);
             }
