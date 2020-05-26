@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Go4Lunch</string>
+    <string name="not_decided" translatable="false">n\'a pas encore décidé</string>
+    <string name="eat_at">mange à</string>
+    <string name="closing_soon">ferme bientot</string>
+    <string name="open_until">ouvert jusqu\'à</string>
+    <string name="title_alarm">Votre restaurant</string>
+    <string name="opening_hours_not_avalaible">Horaires d\'ouvertures non disponibles</string>
+    <string name="alone">seul</string>
+    <string name="with">avec</string>
+    <string name="lunch_at">Vous mangez à</string>
+    <string name="avalaible_workmates">Collègues disponibles</string>
+    <string name="alarm_activated">Alarme activée pour 12h</string>
+    <string name="alarm_canceled">Alarme désactivée</string>
+    <string name="no_website">Pas de site web</string>
+    <string name="permission_denied">Permission refusée</string>
+    <string name="no_phone_available">Pas de téléphone</string>
+    <string name="deconnected">Vous êtes déconnecté</string>
+    <string name="no_restaurant_choose">Pas de restaurant choisi</string>
+    <string name="title_bar">J\'ai faim</string>
+    <string name="succeed_connection">Connexion réussie</string>
+    <string name="unknown_error">Erreur inconnue</string>
+    <string name="no_internet">Pas d\'internet</string>
+    <string name="auth_canceled">Authentification annulée</string>
+    <string name="call_btn">APPEL</string>
+    <string name="website_btn">SITE WEB</string>
+    <string name="toast_title_no_image_chosen">Pas  d\'image selectionnée</string>
+    <string name="popup_title_permission_files_access">Cette application a besoin des permissions</string>
+    <string name="button_title_chat_activity">Envoyer</string>
+    <string name="text_view_chat_empty">Chat vide</string>
+    <string name="continue_with_google">Continuer avec Google</string>
+    <string name="info_no_username_found">Pas de nom d\'utilisateur trouvé</string>
+    <string name="connection_succeed">Connexion réussie</string>
+    <string name="error_authentication_canceled">Erreur d\'authentification</string>
+    <string name="error_no_internet">Pas de connexion internet</string>
+    <string name="error_unknown_error">Erreur inconnue</string>
+    <string name="sign_in_with_facebook">Se connecter avec Facebook</string>
+    <string name="sign_in_with_google">Se connecter avec Google</string>
+    <string name="facebook_btn">Se connecter avec Facebook</string>
+    <string name="rechercher">Rechercher</string>
+</resources>

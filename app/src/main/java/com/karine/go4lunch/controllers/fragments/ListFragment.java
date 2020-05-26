@@ -80,7 +80,7 @@ public class ListFragment extends BaseFragment implements Serializable {
     public void onActivityCreated(@Nullable Bundle saveInstanceState) {
         super.onActivityCreated(saveInstanceState);
 //       For title action bar for this fragment
-        getActionBar().setTitle("I'm Hungry");
+        getActionBar().setTitle(R.string.title_bar);
     }
 
     //For SearchView

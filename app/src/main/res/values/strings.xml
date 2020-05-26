@@ -8,23 +8,65 @@
     <string name="sign_in_with_google">Sign in with Google</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <!--BOTTOM NAVIGATION VIEW-->
-    <string name="bottom_navigation_menu_map"> Map View</string>
-    <string name="bottom_navigation_menu_list">List View</string>
-    <string name="bottom_navigation_menu_workmates">Workmates</string>
-    <string name="bottom_navigation_menu_chat">Chat</string>
+    <string name="bottom_navigation_menu_map" translatable="false"> Map View</string>
+    <string name="bottom_navigation_menu_list" translatable="false">List View</string>
+    <string name="bottom_navigation_menu_workmates" translatable="false">Workmates</string>
+    <string name="bottom_navigation_menu_chat" translatable="false">Chat</string>
     <!--For Facebook-->
     <string name="facebook_application_id" translatable="false">2179065909065296</string>
     <string name="facebook_login_protocol_scheme" translatable="false" tools:ignore="UnusedResources">fb2179065909065296</string>
-
-    <string name="rechercher">Rechercher</string>
+    <string name="facebook_btn">Continue with Facebook</string>
+    <string name="rechercher">Search</string>
     <string name="info_no_username_found">username</string>
     <!-- Used in Navigation Drawer-->
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
     <string name="continue_with_google">Continue with Google</string>
+
     <!-- Used in Chat-->
     <string name="text_view_chat_empty">Chat empty</string>
     <string name="button_title_chat_activity"> Send </string>
+    <string name="popup_title_permission_files_access">This application need permission to work</string>
+    <string name="toast_title_no_image_chosen">No selected image&#8230;</string>
+    <!--restaurant sheet-->
+    <string name="like_btn" translatable="false">LIKE</string>
+    <string name="website_btn">WEBSITE</string>
+    <string name="call_btn">CALL</string>
+    <!--Settings buttons-->
+    <string name="alarm_on_btn" translatable="false">Alarm On</string>
+    <string name="alarm_off_btn" translatable="false">Alarm Off</string>
+    <!-- Login -->
+    <string name="auth_canceled">Error authentication canceled</string>
+    <string name="no_internet">Error no internet</string>
+    <string name="unknown_error">Error unknown error</string>
+    <string name="succeed_connection">Connection succeed</string>
+    <!--MainPage-->
+    <string name="title_bar">I\'m Hungry</string>
+    <string name="no_restaurant_choose">No restaurant choose for the moment</string>
+    <string name="deconnected">You\'re deconnected</string>
+    <!--RestaurantActivity-->
+    <string name="no_phone_available">No Phone Available</string>
+    <string name="permission_denied">Permission Denied</string>
+    <string name="no_website">No Website</string>
+    <!--Settings-->
+    <string name="alarm_canceled">alarm canceled</string>
+    <string name="alarm_activated">Alarm activated for 12 h</string>
+    <!--Workmates Fragment-->
+    <string name="avalaible_workmates">Available Workmates</string>
+    <!--Notifications-->
+    <string name="lunch_at">You\'re lunching at</string>
+    <string name="with">with</string>
+    <string name="alone">alone</string>
+    <string name="title_alarm">Your Today Lunch</string>
+    <!--Go4lunchViewHolder-->
+    <string name="opening_hours_not_avalaible">Opening Hours not available</string>
+    <string name="open_until">Open Until</string>
+    <string name="closing_soon">Closing Soon</string>
+    <!--RestaurantViewHolder-->
+    <string name="eat_at">eat at</string>
+    <string name="not_decided">hasn\'t decided yet</string>
+
+
 </resources>

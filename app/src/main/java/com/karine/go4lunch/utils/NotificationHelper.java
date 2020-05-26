@@ -57,7 +57,7 @@ public class NotificationHelper extends ContextWrapper {
 
         return new NotificationCompat.Builder(getApplicationContext(), channelID)
 
-                .setContentTitle("Your Today Lunch")
+                .setContentTitle(getString(R.string.title_alarm))
                 .setContentText(notifMessage)
                 .setSmallIcon(R.drawable.lunch_black)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(notifMessage))

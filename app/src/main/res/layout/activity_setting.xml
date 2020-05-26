@@ -20,7 +20,7 @@
         android:elevation="20dp"
         android:textColor="#000"
         android:textSize="15dp"
-        android:text="Alarm On" />
+        android:text="@string/alarm_on_btn" />
 
     <Button
         android:id="@+id/alarmOff"
@@ -33,6 +33,6 @@
         android:elevation="20dp"
         android:textColor="#000"
         android:textSize="15dp"
-        android:text="Alarm Off" />
+        android:text="@string/alarm_off_btn" />
 
 </RelativeLayout>

@@ -70,7 +70,7 @@ public class WorkMatesFragment extends BaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getActionBar().setTitle("Available Workmates");
+        getActionBar().setTitle(R.string.avalaible_workmates);
 
     }
 

@@ -1,6 +1,7 @@
 package com.karine.go4lunch.views;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,8 @@ import com.karine.go4lunch.controllers.activities.RestaurantActivity;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 import com.karine.go4lunch.models.User;
+
+import java.util.ResourceBundle;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,6 +48,7 @@ public class RestaurantViewHolder extends RecyclerView.ViewHolder {
     private PlaceDetailsResult result;
     private PlaceDetail detail;
     private String userName;
+    private Context context;
 
 
     public RestaurantViewHolder(@NonNull View itemView) {
@@ -106,10 +110,11 @@ public class RestaurantViewHolder extends RecyclerView.ViewHolder {
 
                         if (idResto != null) {
                             restoName = detail.getResult().getName();
-                            mRestoMatesName.setText(userName + " " + "eat at" + " " + restoName);
+
+                            mRestoMatesName.setText(userName + " " + context.getString(R.string.eat_at) + " " + restoName);
                             Log.d("OnCompleteRestoName", "restoName" + idResto);
                         } else {
-                            mRestoMatesName.setText(userName + " " + "hasn't decided yet");
+                            mRestoMatesName.setText(userName + " " + context.getString(R.string.not_decided));
                             Log.d("RestoName", "noResto" + userName);
                         }
                     }

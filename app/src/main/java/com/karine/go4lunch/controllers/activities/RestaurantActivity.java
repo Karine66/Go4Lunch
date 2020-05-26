@@ -238,7 +238,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
             Log.d("PhoneNumber", formattedPhoneNumber);
             startActivity(intent);
         } else {
-            StyleableToast.makeText(RestaurantActivity.this, "No Phone Available", R.style.personalizedToast).show();
+            StyleableToast.makeText(RestaurantActivity.this, getString(R.string.no_phone_available), R.style.personalizedToast).show();
         }
     }
 
@@ -249,7 +249,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 makePhoneCall(formattedPhoneNumber);
             } else {
-                Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.permission_denied, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -270,7 +270,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
             Log.d("Website", url);
             startActivity(intent);
         } else {
-            StyleableToast.makeText(this, "No Website", R.style.personalizedToast).show();
+            StyleableToast.makeText(this, getString(R.string.no_website), R.style.personalizedToast).show();
         }
 
     }

@@ -60,7 +60,7 @@
           android:layout_height="wrap_content"
           android:adjustViewBounds="true"
           android:contentDescription="Image"
-          android:src="@drawable/round_add_circle_black_24dp" />
+          android:src="@drawable/baseline_add_circle_black_48dp" />
 
         <!-- TEXT MESSAGE EDIT TEXT -->
         <androidx.appcompat.widget.AppCompatEditText

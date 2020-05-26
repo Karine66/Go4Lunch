@@ -18,6 +18,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.karine.go4lunch.API.UserHelper;
+import com.karine.go4lunch.R;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
 import com.karine.go4lunch.models.User;
 
@@ -129,11 +130,11 @@ public class AlertReceiver extends BroadcastReceiver {
                                 Log.d("nameNotif", Objects.requireNonNull(nameNotif));
 
                                 if(nameNotif !=null) {
-                                    notifMessage = ("You're lunching at" + " " + restoNotifName + " " +
-                                            restoNotifAddress + " " + "with" + " " + nameNotif);
+                                    notifMessage = (context.getString(R.string.lunch_at) + " " + restoNotifName + " " +
+                                            restoNotifAddress +context.getString(R.string.with) +  nameNotif);
                                 } else {
-                                    notifMessage = ("You're lunching at" + " " + restoNotifName + " " +
-                                            restoNotifAddress + " " + "alone");
+                                    notifMessage = (context.getString(R.string.lunch_at) + " " + restoNotifName + " " +
+                                            restoNotifAddress + " " + context.getString(R.string.alone));
                                 }
                                 NotificationHelper notificationHelper = new NotificationHelper(context);
                                 NotificationCompat.Builder nb = notificationHelper.getChannelNotification(notifMessage);

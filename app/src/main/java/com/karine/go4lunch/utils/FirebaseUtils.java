@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.karine.go4lunch.R;
 
 public class FirebaseUtils {
 
@@ -31,7 +32,7 @@ public class FirebaseUtils {
         return new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(context, "Unknown Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, R.string.unknown_error, Toast.LENGTH_LONG).show();
 
             }
         };

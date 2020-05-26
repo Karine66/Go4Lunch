@@ -102,7 +102,7 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         //For change title Action Bar
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("I'm Hungry");
+            actionBar.setTitle(R.string.title_bar);
         }
 
         bottomNavigationView.setOnNavigationItemSelectedListener(navlistener);
@@ -201,7 +201,7 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
                             if (Objects.requireNonNull(user).getPlaceId() != null) {
                                 userResto(user);
                             } else {
-                                StyleableToast.makeText(getApplicationContext(), "No restaurant choose for the moment", R.style.personalizedToast).show();
+                                StyleableToast.makeText(getApplicationContext(), getString(R.string.no_restaurant_choose), R.style.personalizedToast).show();
                             }
                         }
                     });
@@ -213,7 +213,7 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
                 break;
             case R.id.menu_drawer_Logout:
                 signOutFromUserFirebase();
-                StyleableToast.makeText(getApplicationContext(),"You're deconnected",R.style.personalizedToast).show();
+                StyleableToast.makeText(getApplicationContext(),getString(R.string.deconnected),R.style.personalizedToast).show();
                 break;
 
         }

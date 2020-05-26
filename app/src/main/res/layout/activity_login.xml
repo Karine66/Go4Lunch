@@ -39,11 +39,13 @@
         android:drawableStart="@drawable/fui_ic_facebook_white_22dp"
         android:layout_marginBottom="150dp"
         android:onClick="onClickFacebookBtn"
-        android:hint="Continue with Facebook"
+        android:hint="@string/facebook_btn"
         android:paddingStart="6dp"
         android:paddingEnd="28dp"
         android:textSize="13sp"
          />
+
+
 </LinearLayout>
 
 </RelativeLayout>

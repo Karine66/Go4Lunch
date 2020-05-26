@@ -117,17 +117,17 @@ public class LoginActivity extends AppCompatActivity {
         IdpResponse response = IdpResponse.fromResultIntent(data);
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == RESULT_OK) {//sucess
-                StyleableToast.makeText(this,"Connection succeed", R.style.personalizedToast).show();
+                StyleableToast.makeText(this,getString(R.string.succeed_connection), R.style.personalizedToast).show();
                 this.createUserInFirestore();
                 Intent loginIntent = new Intent(this, MainPageActivity.class);
                 startActivity(loginIntent);
             } else { //error
                 if (response == null) {
-                    StyleableToast.makeText(this,"Error authentication canceled", R.style.personalizedToast).show();
+                    StyleableToast.makeText(this,getString(R.string.auth_canceled), R.style.personalizedToast).show();
                 } else if (Objects.requireNonNull(response.getError()).getErrorCode() == ErrorCodes.NO_NETWORK) {
-                    StyleableToast.makeText(this,"Error no internet", R.style.personalizedToast).show();
+                    StyleableToast.makeText(this,getString(R.string.no_internet), R.style.personalizedToast).show();
                 } else if (response.getError().getErrorCode() == ErrorCodes.UNKNOWN_ERROR) {
-                    StyleableToast.makeText(this,"Error unknown error", R.style.personalizedToast).show();
+                    StyleableToast.makeText(this,getString(R.string.unknown_error), R.style.personalizedToast).show();
                 }
             }
         }

@@ -23,7 +23,7 @@ public class ChatHelper {
                 .orderBy("dateCreated")
                 .limit(50);     }
 
-    public static Task<DocumentReference> createMessageForChat(String textMessage, String chat, User userSender){
+    public static Task<DocumentReference> createMessageForChat(String textMessage, User userSender){
 
         // Create the Message object
         Message message = new Message(textMessage, userSender);
@@ -36,12 +36,12 @@ public class ChatHelper {
     }
 
 
-//    public static Task<DocumentReference> createMessageWithImageForChat(String urlImage, String textMessage, User userSender){
-//        Message message = new Message(urlImage,textMessage, userSender);
-//        return ChatHelper.getChatCollection()
-////                .document(chat)
-////                .collection(COLLECTION_NAME)
-//                .add(message);
-//    }
+    public static Task<DocumentReference> createMessageWithImageForChat(String urlImage, String textMessage, User userSender){
+        Message message = new Message(urlImage,textMessage, userSender);
+        return ChatHelper.getChatCollection()
+//                .document(chat)
+//                .collection(COLLECTION_NAME)
+                .add(message);
+    }
 }
 
