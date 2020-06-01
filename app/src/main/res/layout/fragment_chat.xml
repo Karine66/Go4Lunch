@@ -71,7 +71,7 @@
             android:imeOptions="actionDone"
             android:inputType="textMultiLine"
             android:textSize="@dimen/default_text_size"
-            android:hint="Enter Text"/>
+            android:hint="@string/enter_text"/>
 
         <!-- ADD MESSAGE BUTTON -->
         <androidx.appcompat.widget.AppCompatButton

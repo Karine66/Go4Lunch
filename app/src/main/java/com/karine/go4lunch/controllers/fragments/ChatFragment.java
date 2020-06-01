@@ -29,19 +29,16 @@ import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.karine.go4lunch.API.ChatHelper;
-import com.karine.go4lunch.API.MessageHelper;
 import com.karine.go4lunch.API.UserHelper;
 import com.karine.go4lunch.R;
 import com.karine.go4lunch.models.Message;
 import com.karine.go4lunch.models.User;
-import com.karine.go4lunch.utils.FirebaseUtils;
 import com.karine.go4lunch.views.ChatAdapter;
 import com.muddzdev.styleabletoast.StyleableToast;
 
@@ -112,7 +109,7 @@ public class ChatFragment extends BaseFragment implements ChatAdapter.Listener {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getActionBar().setTitle("Chat with Workmates");
+        getActionBar().setTitle(R.string.chat_workmates);
     }
     //For permission images
     @Override

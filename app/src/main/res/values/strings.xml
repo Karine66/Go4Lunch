@@ -67,6 +67,14 @@
     <!--RestaurantViewHolder-->
     <string name="eat_at">eat at</string>
     <string name="not_decided">hasn\'t decided yet</string>
+    <string name="eatWorkmates">eat at</string>
+    <string name="no_decided">hasn\'t decided yet</string>
+    <string name="closed">Closed</string>
+    <string name="your_lunch">YOUR LUNCH</string>
+    <string name="settings">SETTINGS</string>
+    <string name="logout">LOGOUT</string>
+    <string name="chat_workmates">Chat with Workmates</string>
+    <string name="enter_text">Enter Text</string>
 
 
 </resources>

@@ -127,7 +127,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         if (result.getOpeningHours() != null) {
 
             if (result.getOpeningHours().getOpenNow().toString().equals("false")) {
-                this.mOpenHours.setText("Closed");
+                this.mOpenHours.setText(R.string.closed);
                 this.mOpenHours.setTextColor(Color.RED);
             } else if (result.getOpeningHours().getOpenNow().toString().equals("true")) {
                 getHoursInfo(result);
@@ -182,7 +182,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
             int[] days = {0, 1, 2, 3, 4, 5, 6};
             Calendar calendar = Calendar.getInstance();
             int day = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-
+           // this.context = context;
             if (result.getOpeningHours() != null && result.getOpeningHours().getPeriods() != null) {
                 for (Period p : result.getOpeningHours().getPeriods()) {
                     String closeHour = p.getClose().getTime();
@@ -193,13 +193,13 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
                     Log.d("diff", String.valueOf(diff));
 
                     if (p.getOpen().getDay() == days[day] && diff <-100) {
-                        mOpenHours.setText(context.getString(R.string.open_until) +" "+ convertStringToHours(closeHour));
+                        mOpenHours.setText(itemView.getContext().getString(R.string.open_until) +" "+ convertStringToHours(closeHour));
                         this.mOpenHours.setTextColor(itemView.getContext().getResources().getColor(R.color.colorOpen));
                         Log.d("Open Until", "Open Until" + " " + convertStringToHours(closeHour));
 
                     }
                     else if (diff >= -100 && days[day] == p.getClose().getDay()) {
-                            mOpenHours.setText(context.getString(R.string.closing_soon)+" "+"("+ convertStringToHours(closeHour)+")");
+                            mOpenHours.setText(itemView.getContext().getString(R.string.closing_soon)+" "+"("+ convertStringToHours(closeHour)+")");
                         this.mOpenHours.setTextColor(itemView.getContext().getResources().getColor(R.color.colorOpen));
                             Log.d("Closing Soon", "closing soon"+convertStringToHours(closeHour));
 

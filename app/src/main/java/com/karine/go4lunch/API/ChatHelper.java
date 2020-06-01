@@ -30,8 +30,6 @@ public class ChatHelper {
 
         // Store Message to Firestore
         return ChatHelper.getChatCollection()
-//                .document(chat)
-//                .collection(COLLECTION_NAME)
                 .add(message);
     }
 
@@ -39,8 +37,6 @@ public class ChatHelper {
     public static Task<DocumentReference> createMessageWithImageForChat(String urlImage, String textMessage, User userSender){
         Message message = new Message(urlImage,textMessage, userSender);
         return ChatHelper.getChatCollection()
-//                .document(chat)
-//                .collection(COLLECTION_NAME)
                 .add(message);
     }
 }

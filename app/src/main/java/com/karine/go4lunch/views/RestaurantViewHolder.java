@@ -111,10 +111,10 @@ public class RestaurantViewHolder extends RecyclerView.ViewHolder {
                         if (idResto != null) {
                             restoName = detail.getResult().getName();
 
-                            mRestoMatesName.setText(userName + " " + context.getString(R.string.eat_at) + " " + restoName);
+                            mRestoMatesName.setText(userName + " " + itemView.getContext().getString(R.string.eat_at) + " " + restoName);
                             Log.d("OnCompleteRestoName", "restoName" + idResto);
                         } else {
-                            mRestoMatesName.setText(userName + " " + context.getString(R.string.not_decided));
+                            mRestoMatesName.setText(userName + " " + itemView.getContext().getString(R.string.not_decided));
                             Log.d("RestoName", "noResto" + userName);
                         }
                     }

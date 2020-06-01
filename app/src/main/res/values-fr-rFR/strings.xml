@@ -3,10 +3,10 @@
     <string name="app_name">Go4Lunch</string>
     <string name="not_decided" translatable="false">n\'a pas encore décidé</string>
     <string name="eat_at">mange à</string>
-    <string name="closing_soon">ferme bientot</string>
-    <string name="open_until">ouvert jusqu\'à</string>
+    <string name="closing_soon">Ferme bientot</string>
+    <string name="open_until">Ouvert jusqu\'à</string>
     <string name="title_alarm">Votre restaurant</string>
-    <string name="opening_hours_not_avalaible">Horaires d\'ouvertures non disponibles</string>
+    <string name="opening_hours_not_avalaible">Horaires non disponibles</string>
     <string name="alone">seul</string>
     <string name="with">avec</string>
     <string name="lunch_at">Vous mangez à</string>
@@ -37,6 +37,14 @@
     <string name="error_unknown_error">Erreur inconnue</string>
     <string name="sign_in_with_facebook">Se connecter avec Facebook</string>
     <string name="sign_in_with_google">Se connecter avec Google</string>
-    <string name="facebook_btn">Se connecter avec Facebook</string>
+    <string name="facebook_btn">Continuer avec Facebook</string>
     <string name="rechercher">Rechercher</string>
+    <string name="eatWorkmates">mange à</string>
+    <string name="no_decided">n\'a pas encore décidé</string>
+    <string name="closed">Fermé</string>
+    <string name="your_lunch">VOTRE REPAS</string>
+    <string name="settings">PARAMETRES</string>
+    <string name="logout">DECONNEXION</string>
+    <string name="chat_workmates">Chat avec les collègues</string>
+    <string name="enter_text">Entrer texte</string>
 </resources>

@@ -103,10 +103,10 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
 
                         if (idResto != null) {
                             restoName = detail.getResult().getName();
-                            mWorkmatesName.setText(userName + " " + "eat at" + " " + restoName);
+                            mWorkmatesName.setText(userName + " " + itemView.getContext().getString(R.string.eatWorkmates) + " " + restoName);
                             Log.d("OnCompleteRestoName", "restoName" + idResto);
                         } else {
-                            mWorkmatesName.setText(userName + " " + "hasn't decided yet");
+                            mWorkmatesName.setText(userName + " " + itemView.getContext().getString(R.string.no_decided));
                             Log.d("RestoName", "noResto" + userName);
                         }
                     }
