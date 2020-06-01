@@ -26,6 +26,8 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.karine.go4lunch.utils.DatesAndHours.convertDateToHour;
+
 public class ChatViewHolder extends RecyclerView.ViewHolder {
 
 
@@ -86,7 +88,7 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
             this.textViewMessage.setTextAlignment(isCurrentUser ? View.TEXT_ALIGNMENT_TEXT_END : View.TEXT_ALIGNMENT_TEXT_START);
 
             // Update date TextView
-            if (message.getDateCreated() != null) this.textViewDate.setText(this.convertDateToHour(message.getDateCreated()));
+            if (message.getDateCreated() != null) this.textViewDate.setText(convertDateToHour(message.getDateCreated()));
 
             // Update isMentor ImageView
             this.imageViewUser.setVisibility(message.getUserSender().getUserChat() ? View.VISIBLE : View.INVISIBLE);
@@ -136,9 +138,9 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
 
         // ---
 
-        private String convertDateToHour(Date date){
-            @SuppressLint("SimpleDateFormat") DateFormat dfTime = new SimpleDateFormat("HH:mm");
-            return dfTime.format(date);
-        }
+//        private String convertDateToHour(Date date){
+//            @SuppressLint("SimpleDateFormat") DateFormat dfTime = new SimpleDateFormat("HH:mm");
+//            return dfTime.format(date);
+//        }
     }
 

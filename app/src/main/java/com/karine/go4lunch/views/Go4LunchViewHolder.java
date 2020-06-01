@@ -49,6 +49,9 @@ import com.karine.go4lunch.models.PlaceDetailsAPI.Period;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 
+import static com.karine.go4lunch.utils.DatesAndHours.convertStringToHours;
+import static com.karine.go4lunch.utils.DatesAndHours.getCurrentTime;
+
 
 public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
 
@@ -98,7 +101,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
 
         ButterKnife.bind(this, itemView);
-        getTodayDate();
+//        getTodayDate();
         getCurrentTime();
     }
 
@@ -234,36 +237,33 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
                             });
                         }
 
-    /**
-     * @param hour
-     * @return
-     */
-    // convert string to hours
-    public String convertStringToHours(String hour){
-        String hour1 = hour.substring(0,2);
-        String hour2 = hour.substring(2,4);
-        return hour1 + ":" + hour2;
-    }
+
+//    // convert string to hours
+//    public String convertStringToHours(String hour){
+//        String hour1 = hour.substring(0,2);
+//        String hour2 = hour.substring(2,4);
+//        return hour1 + ":" + hour2;
+//    }
 
 
-    private void getTodayDate(){
-        Calendar cal = Calendar.getInstance();
-        Date currentDate = cal.getTime();
-        @SuppressLint("SimpleDateFormat")
-        DateFormat date = new SimpleDateFormat("dd-MM-yyy z");
-        String dayDate = date.format(currentDate);
-        Log.d("TestDate", dayDate);
-    }
-
-    private int getCurrentTime() {
-        Calendar calendar = Calendar.getInstance();
-        Date currentLocalTime = calendar.getTime();
-        @SuppressLint("SimpleDateFormat")
-        DateFormat date = new SimpleDateFormat("HHmm");
-        localTime = date.format(currentLocalTime);
-        Log.d("TestHour", localTime);
-        return Integer.parseInt(localTime);
-    }
+//    private void getTodayDate(){
+//        Calendar cal = Calendar.getInstance();
+//        Date currentDate = cal.getTime();
+//        @SuppressLint("SimpleDateFormat")
+//        DateFormat date = new SimpleDateFormat("dd-MM-yyy z");
+//        String dayDate = date.format(currentDate);
+//        Log.d("TestDate", dayDate);
+//    }
+//
+//    private int getCurrentTime() {
+//        Calendar calendar = Calendar.getInstance();
+//        Date currentLocalTime = calendar.getTime();
+//        @SuppressLint("SimpleDateFormat")
+//        DateFormat date = new SimpleDateFormat("HHmm");
+//        localTime = date.format(currentLocalTime);
+//        Log.d("TestHour", localTime);
+//        return Integer.parseInt(localTime);
+//    }
 
 }
 
