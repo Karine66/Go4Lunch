@@ -6,7 +6,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.karine.go4lunch.models.User;
 
 import java.util.ArrayList;
@@ -64,9 +63,11 @@ public class UserHelper {
     public static Task<Void> updateUsername(String username, String uid) {
         return UserHelper.getUsersCollection().document(uid).update("username", username);
     }
+
     public static Task<Void> updatePlaceId(String uid, String placeId) {
         return UserHelper.getUsersCollection().document(uid).update("placeId", placeId);
     }
+
     public static Task<Void> updateLike(String uid, String placeId) {
         return UserHelper.getUsersCollection().document(uid).update("like", FieldValue.arrayUnion(placeId));
     }
@@ -80,10 +81,12 @@ public class UserHelper {
     public static Task<Void> deleteUser(String uid) {
         return UserHelper.getUsersCollection().document(uid).delete();
     }
-    public static Task<Void>deletePlaceId(String uid) {
+
+    public static Task<Void> deletePlaceId(String uid) {
         return UserHelper.getUsersCollection().document(uid).update("placeId", null);
     }
-    public static Task<Void>deleteLike(String uid, String placeId) {
+
+    public static Task<Void> deleteLike(String uid, String placeId) {
         return UserHelper.getUsersCollection().document(uid).update("like", FieldValue.arrayRemove(placeId));
     }
 }

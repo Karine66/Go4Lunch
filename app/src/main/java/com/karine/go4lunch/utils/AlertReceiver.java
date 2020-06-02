@@ -27,6 +27,8 @@ import java.util.Objects;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
+import static com.karine.go4lunch.utils.DatesAndHours.getCurrentTime;
+
 public class AlertReceiver extends BroadcastReceiver {
 
 
@@ -129,7 +131,7 @@ public class AlertReceiver extends BroadcastReceiver {
                                 nameNotif = String.valueOf(documentSnapshot.get("username"));
                                 Log.d("nameNotif", Objects.requireNonNull(nameNotif));
 
-                                if(nameNotif !=null) {
+                                if(nameNotif !=null && getCurrentTime() < 1200) {
                                     notifMessage = (context.getString(R.string.lunch_at) + " " + restoNotifName + " " +
                                             restoNotifAddress +context.getString(R.string.with) +  nameNotif);
                                 } else {

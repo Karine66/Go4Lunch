@@ -1,8 +1,5 @@
 package com.karine.go4lunch.controllers.activities;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +9,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.karine.go4lunch.R;
 
 import butterknife.BindView;
@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 
 public class WebViewActivity extends AppCompatActivity {
 
+    //Declaration
     @BindView(R.id.webView)
     WebView mWebView;
     @BindView(R.id.progressBar)
@@ -52,7 +53,6 @@ public class WebViewActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.hide();
         }
-
     }
 
     /**
@@ -78,8 +78,6 @@ public class WebViewActivity extends AppCompatActivity {
 
                 // Force links and redirects to open in the WebView instead of in a browser
                 mWebView.setWebViewClient(new WebViewClient());
-
-
             }
             return true;
         }

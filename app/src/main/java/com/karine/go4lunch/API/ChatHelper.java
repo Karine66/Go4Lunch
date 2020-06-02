@@ -10,20 +10,41 @@ import com.karine.go4lunch.models.User;
 
 public class ChatHelper {
 
+    //Static referencement for request CRUD for Chats Collection
     private static final String COLLECTION_NAME = "chats";
 
-    public static CollectionReference getChatCollection(){
+
+    /**
+     * Collection reference
+     *
+     * @return
+     */
+    public static CollectionReference getChatCollection() {
         return FirebaseFirestore.getInstance().collection(COLLECTION_NAME);
     }
 
-    public static Query getAllMessageForChat(String chat){
+    /**
+     * Get
+     *
+     * @param chat
+     * @return
+     */
+    public static Query getAllMessageForChat(String chat) {
         return FirebaseFirestore.getInstance()
 
                 .collection(COLLECTION_NAME)
                 .orderBy("dateCreated")
-                .limit(50);     }
+                .limit(50);
+    }
 
-    public static Task<DocumentReference> createMessageForChat(String textMessage, User userSender){
+    /**
+     * Create without image
+     *
+     * @param textMessage
+     * @param userSender
+     * @return
+     */
+    public static Task<DocumentReference> createMessageForChat(String textMessage, User userSender) {
 
         // Create the Message object
         Message message = new Message(textMessage, userSender);
@@ -33,9 +54,16 @@ public class ChatHelper {
                 .add(message);
     }
 
-
-    public static Task<DocumentReference> createMessageWithImageForChat(String urlImage, String textMessage, User userSender){
-        Message message = new Message(urlImage,textMessage, userSender);
+    /**
+     * Create with image
+     *
+     * @param urlImage
+     * @param textMessage
+     * @param userSender
+     * @return
+     */
+    public static Task<DocumentReference> createMessageWithImageForChat(String urlImage, String textMessage, User userSender) {
+        Message message = new Message(urlImage, textMessage, userSender);
         return ChatHelper.getChatCollection()
                 .add(message);
     }
