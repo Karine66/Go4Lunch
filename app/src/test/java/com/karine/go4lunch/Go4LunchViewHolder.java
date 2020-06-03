@@ -7,13 +7,13 @@ import org.junit.Test;
 
 public class Go4LunchViewHolder {
 
-//    @Test
-//    public void getHoursInfoTest() {
-//
-//        PlaceDetailsResult result = new PlaceDetailsResult();
-//        String openUntil = "";
-//        String closed ="";
-//        String closingSoon = "";
-//
-//    }
+    @Test
+    public void getHoursInfoTest() {
+
+        PlaceDetailsResult result = new PlaceDetailsResult();
+        String openUntil = "";
+        String closed ="";
+        String closingSoon = "";
+
+    }
 }

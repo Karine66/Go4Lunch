@@ -24,17 +24,16 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.karine.go4lunch.R;
-import com.karine.go4lunch.utils.Go4LunchStream;
 import com.karine.go4lunch.controllers.activities.RestaurantActivity;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
+import com.karine.go4lunch.utils.Go4LunchStream;
 
 import java.io.Serializable;
 import java.util.List;
@@ -51,7 +50,7 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
 
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;
-//    private Location location;
+    //    private Location location;
     private Disposable mDisposable;
     private String mPosition;
     private Marker positionMarker;
@@ -69,12 +68,10 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         ButterKnife.bind(this, view);
 
-//for SearchView
+        //for SearchView
         setHasOptionsMenu(true);
 
         return view;
-
-
     }
 
     @Override
@@ -85,7 +82,12 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
         getActionBar().setTitle(R.string.title_bar);
     }
 
-    //For SearchView
+    /**
+     * For SearchView
+     *
+     * @param menu
+     * @param inflater
+     */
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -106,7 +108,6 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
                 if (newText.isEmpty()) {
                     executeHttpRequestWithRetrofit();
                 }
-
                 executeHttpRequestWithRetrofitAutocomplete(newText);
                 return true;
             }
@@ -125,30 +126,34 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
         loadMap();
     }
 
+    /**
+     * For load map
+     */
     private void loadMap() {
-        mapFragment.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap googleMap) {
-                mMap = googleMap;
-                googleMap.moveCamera(CameraUpdateFactory.zoomBy(15));
-                if (ActivityCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                        ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions((Activity) getContext(), new String[]{
-                            Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION
-                    }, PERMS_CALL_ID);
-                    return;
-                }
-                googleMap.setMyLocationEnabled(true);
+        mapFragment.getMapAsync(googleMap -> {
+            mMap = googleMap;
+            googleMap.moveCamera(CameraUpdateFactory.zoomBy(15));
+            if (ActivityCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions((Activity) getContext(), new String[]{
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                }, PERMS_CALL_ID);
+                return;
             }
+            googleMap.setMyLocationEnabled(true);
         });
     }
 
+    /**
+     * For user position
+     *
+     * @param location
+     */
     public void onLocationChanged(Location location) {
         double mLatitude = location.getLatitude();
         double mLongitude = location.getLongitude();
 
-//        Toast.makeText(getContext(), "Location" + latitude + "/" + longitude, Toast.LENGTH_LONG).show();
         if (mMap != null) {
             LatLng googleLocation = new LatLng(mLatitude, mLongitude);
             mMap.moveCamera(CameraUpdateFactory.newLatLng(googleLocation));
@@ -159,7 +164,11 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
         }
     }
 
-    //for position marker
+    /**
+     * for position marker
+     *
+     * @param placeDetails
+     */
     private void positionMarker(List<PlaceDetail> placeDetails) {
         mMap.clear();
         for (PlaceDetail detail : placeDetails) {
@@ -176,9 +185,10 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
             Log.d("detailResultMap", String.valueOf(placeDetailsResult));
         }
     }
-//    /**
-//     * HTTP request RX Java for restaurants
-//     */
+
+    /**
+     * HTTP request RX Java for restaurants
+     */
 
     private void executeHttpRequestWithRetrofit() {
 
@@ -197,18 +207,14 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
                     }
                 });
 
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-
-            public void onInfoWindowClick(Marker marker) {
-
-                PlaceDetailsResult positionMarkerList = (PlaceDetailsResult) positionMarker.getTag();
-                Intent intent = new Intent(getContext(), RestaurantActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("placeDetailsResult", positionMarkerList);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
+        mMap.setOnInfoWindowClickListener(marker -> {
+            //for retrieve result
+            PlaceDetailsResult positionMarkerList = (PlaceDetailsResult) positionMarker.getTag();
+            Intent intent = new Intent(getContext(), RestaurantActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("placeDetailsResult", positionMarkerList);
+            intent.putExtras(bundle);
+            startActivity(intent);
         });
     }
 
@@ -239,18 +245,14 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
                         Log.e("TestAutocomplete", Log.getStackTraceString(e));
                     }
                 });
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-
-            public void onInfoWindowClick(Marker marker) {
-
-                PlaceDetailsResult positionMarkerList = (PlaceDetailsResult) positionMarker.getTag();
-                Intent intent = new Intent(getContext(), RestaurantActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("placeDetailsResult", positionMarkerList);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
+        mMap.setOnInfoWindowClickListener(marker -> {
+            //For retrieve result
+            PlaceDetailsResult positionMarkerList = (PlaceDetailsResult) positionMarker.getTag();
+            Intent intent = new Intent(getContext(), RestaurantActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("placeDetailsResult", positionMarkerList);
+            intent.putExtras(bundle);
+            startActivity(intent);
         });
     }
 }

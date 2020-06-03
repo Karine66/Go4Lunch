@@ -10,7 +10,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,8 +21,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.karine.go4lunch.R;
 import com.karine.go4lunch.controllers.activities.MainPageActivity;
 import com.muddzdev.styleabletoast.StyleableToast;
@@ -35,22 +32,28 @@ import java.util.Objects;
  */
 public abstract class BaseFragment extends Fragment implements LocationListener {
 
-    public LocationManager locationManager;
     protected static final int PERMS_CALL_ID = 200;
+    public LocationManager locationManager;
     private GoogleMap mMap;
     private String mPosition;
-    private static Context context;
 
 
     public BaseFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
 
+    /**
+     * For change title fragments
+     *
+     * @return
+     */
+    public ActionBar getActionBar() {
+        return ((MainPageActivity) Objects.requireNonNull(getActivity())).getSupportActionBar();
     }
 
     /**
@@ -70,15 +73,15 @@ public abstract class BaseFragment extends Fragment implements LocationListener 
         assert locationManager != null;
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             locationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER, 15000, 10, (LocationListener) this);
+                    LocationManager.GPS_PROVIDER, 15000, 10, this);
             Log.e("GPSProvider", "testGPS");
         } else if (locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER)) {
             locationManager.requestLocationUpdates(
-                    LocationManager.PASSIVE_PROVIDER, 15000, 10, (LocationListener) this);
+                    LocationManager.PASSIVE_PROVIDER, 15000, 10, this);
             Log.e("PassiveProvider", "testPassive");
         } else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             locationManager.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER, 15000, 10, (LocationListener) this);
+                    LocationManager.NETWORK_PROVIDER, 15000, 10, this);
             Log.e("NetWorkProvider", "testNetwork");
         }
     }
@@ -126,7 +129,6 @@ public abstract class BaseFragment extends Fragment implements LocationListener 
             mMap.moveCamera(CameraUpdateFactory.newLatLng(googleLocation));
             mPosition = mLatitude + "," + mLongitude;
             Log.d("TestLatLng", mPosition);
-
         }
     }
 
@@ -136,26 +138,12 @@ public abstract class BaseFragment extends Fragment implements LocationListener 
         checkPermissions();
     }
 
-//    /**
-//     * For change title fragments
-//     * @return
-//     */
-        public ActionBar getActionBar() {
-            return ((MainPageActivity) Objects.requireNonNull(getActivity())).getSupportActionBar();
-        }
-
     // --------------------
     // ERROR HANDLER
     // --------------------
 
-    protected OnFailureListener onFailureListener(){
-        return new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                StyleableToast.makeText(Objects.requireNonNull(getContext()), "Unknown Error", R.style.personalizedToast).show();
-
-            }
-        };
+    protected OnFailureListener onFailureListener() {
+        return e -> StyleableToast.makeText(Objects.requireNonNull(getContext()), "Unknown Error", R.style.personalizedToast).show();
     }
 }
 

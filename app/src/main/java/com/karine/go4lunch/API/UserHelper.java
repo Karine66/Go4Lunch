@@ -64,8 +64,8 @@ public class UserHelper {
         return UserHelper.getUsersCollection().document(uid).update("username", username);
     }
 
-    public static Task<Void> updatePlaceId(String uid, String placeId) {
-        return UserHelper.getUsersCollection().document(uid).update("placeId", placeId);
+    public static Task<Void> updatePlaceId(String uid, String placeId, int currentTime) {
+        return UserHelper.getUsersCollection().document(uid).update("placeId", placeId, "currentTime", currentTime);
     }
 
     public static Task<Void> updateLike(String uid, String placeId) {

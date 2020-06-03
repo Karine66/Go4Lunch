@@ -43,6 +43,7 @@ public class AlertReceiver extends BroadcastReceiver {
     private String notifMessage;
     private Context context;
     private NotificationHelper notificationHelper;
+    private Integer currentTime;
 
 
     @Override
@@ -131,7 +132,7 @@ public class AlertReceiver extends BroadcastReceiver {
                                 nameNotif = String.valueOf(documentSnapshot.get("username"));
                                 Log.d("nameNotif", Objects.requireNonNull(nameNotif));
 
-                                if(nameNotif !=null && getCurrentTime() < 1200) {
+                                if(nameNotif !=null) {
                                     notifMessage = (context.getString(R.string.lunch_at) + " " + restoNotifName + " " +
                                             restoNotifAddress +context.getString(R.string.with) +  nameNotif);
                                 } else {

@@ -20,13 +20,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.karine.go4lunch.R;
-import com.karine.go4lunch.utils.Go4LunchStream;
-import com.karine.go4lunch.utils.ItemClickSupport;
 import com.karine.go4lunch.controllers.activities.RestaurantActivity;
 import com.karine.go4lunch.models.AutocompleteAPI.AutocompleteResult;
 import com.karine.go4lunch.models.AutocompleteAPI.Prediction;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
+import com.karine.go4lunch.utils.Go4LunchStream;
+import com.karine.go4lunch.utils.ItemClickSupport;
 import com.karine.go4lunch.views.Go4LunchAdapter;
 
 import java.io.Serializable;
@@ -83,7 +83,12 @@ public class ListFragment extends BaseFragment implements Serializable {
         getActionBar().setTitle(R.string.title_bar);
     }
 
-    //For SearchView
+    /**
+     * For SearchView
+     *
+     * @param menu
+     * @param inflater
+     */
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -107,7 +112,6 @@ public class ListFragment extends BaseFragment implements Serializable {
                 executeHttpRequestWithRetrofitAutocomplete(newText);
                 return true;
             }
-
         });
     }
 
@@ -117,7 +121,9 @@ public class ListFragment extends BaseFragment implements Serializable {
         this.disposeWhenDestroy();
     }
 
-    //Configure RecyclerView, Adapter, LayoutManager & glue it
+    /**
+     * Configure RecyclerView, Adapter, LayoutManager & glue it
+     */
     private void configureRecyclerView() {
         //reset List
         this.placeDetails = new ArrayList<>();
@@ -135,25 +141,27 @@ public class ListFragment extends BaseFragment implements Serializable {
 
     }
 
-    //Configure item click on RecyclerView
+    /**
+     * Configure item click on RecyclerView
+     */
     private void configureOnClickRecyclerView() {
         ItemClickSupport.addTo(mRecyclerView, R.layout.fragment_list_item)
-                .setOnItemClickListener((new ItemClickSupport.OnItemClickListener() {
+                .setOnItemClickListener(((recyclerView, position, v) -> {
 
-                    @Override
-                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-
-                        PlaceDetailsResult placeDetailsResult = placeDetails.get(position).getResult();
-                        Intent intent = new Intent(getActivity(), RestaurantActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("placeDetailsResult", placeDetailsResult);
-                        intent.putExtras(bundle);
-                        startActivity(intent);
-                    }
+                    PlaceDetailsResult placeDetailsResult = placeDetails.get(position).getResult();
+                    Intent intent = new Intent(getActivity(), RestaurantActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("placeDetailsResult", placeDetailsResult);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 }));
     }
 
-
+    /**
+     * For retrieve user location
+     *
+     * @param location
+     */
     public void onLocationChanged(Location location) {
         double mLatitude = location.getLatitude();
         double mLongitude = location.getLongitude();
@@ -192,7 +200,11 @@ public class ListFragment extends BaseFragment implements Serializable {
         if (this.mDisposable != null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
     }
 
-    //Update UI Restaurants
+    /**
+     * Update UI Restaurants
+     *
+     * @param placeDetails
+     */
     private void updateUI(List<PlaceDetail> placeDetails) {
 
         this.placeDetails.clear();

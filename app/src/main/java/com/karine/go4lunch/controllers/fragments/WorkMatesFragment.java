@@ -15,12 +15,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.karine.go4lunch.R;
-import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
-import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 import com.karine.go4lunch.models.User;
 import com.karine.go4lunch.views.WorkmatesAdapter;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,22 +27,15 @@ import io.reactivex.disposables.Disposable;
  * A simple {@link Fragment} subclass.
  */
 public class WorkMatesFragment extends BaseFragment {
-    public List<PlaceDetail> placeDetails;
-    /**
-     * Déclarations
-     */
+
     @BindView(R.id.fragment_Workmates_RV)
     RecyclerView mRecyclerViewMates;
+
     private Disposable mDisposable;
     private WorkmatesAdapter workmatesAdapter;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference collectionUsers = db.collection("users");
-    private PlaceDetailsResult placeDetailsResult;
 
-
-    /**
-     * Constructor
-     */
     public WorkMatesFragment() {
         // Required empty public constructor
     }

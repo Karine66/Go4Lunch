@@ -220,11 +220,11 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         }
 
         if (placeDetailsResult != null) {
-            UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeDetailsResult.getPlaceId());
+            UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeDetailsResult.getPlaceId(), getCurrentTime());
             mFloatingBtn.setImageDrawable(getResources().getDrawable(R.drawable.fui_ic_check_circle_black_128dp));
             mFloatingBtn.setTag(UNSELECTED);
-            getCurrentTime();
-            Log.d("dateResto", "dateResto" + getCurrentTime());
+//            getCurrentTime();
+//            Log.d("dateResto", "dateResto" + getCurrentTime());
         }
     }
 
