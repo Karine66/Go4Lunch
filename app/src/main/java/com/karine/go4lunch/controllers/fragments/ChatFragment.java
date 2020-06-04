@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
@@ -45,6 +46,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pub.devrel.easypermissions.EasyPermissions;
 
+import static android.app.Activity.RESULT_OK;
 import static com.karine.go4lunch.utils.FirebaseUtils.getCurrentUser;
 
 
@@ -57,7 +59,7 @@ public class ChatFragment extends BaseFragment implements ChatAdapter.Listener {
     private static final String PERMS = Manifest.permission.READ_EXTERNAL_STORAGE;
     private static final int RC_IMAGE_PERMS = 100;
     private static final int RC_CHOOSE_PHOTO = 200;
-    private static final int RESULT_OK = 300;
+
     //Declaration view
     @BindView(R.id.chat_recycler_view)
     RecyclerView recyclerView;
@@ -207,7 +209,7 @@ public class ChatFragment extends BaseFragment implements ChatAdapter.Listener {
                 this.uriImageSelected = data.getData();
                 Glide.with(this) //SHOWING PREVIEW OF IMAGE
                         .load(this.uriImageSelected)
-                        .apply(RequestOptions.circleCropTransform())
+                        .apply(RequestOptions.centerCropTransform())
                         .into(this.imageViewPreview);
             } else {
                 StyleableToast.makeText(Objects.requireNonNull(getContext()), getString(R.string.toast_title_no_image_chosen), R.style.personalizedToast).show();
