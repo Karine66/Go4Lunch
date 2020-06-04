@@ -44,6 +44,7 @@ public class AlertReceiver extends BroadcastReceiver {
     private Context context;
     private NotificationHelper notificationHelper;
     private Integer currentTime;
+    private int timeUser;
 
 
     @Override
@@ -58,9 +59,10 @@ public class AlertReceiver extends BroadcastReceiver {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 com.karine.go4lunch.models.User user = documentSnapshot.toObject(User.class);
                 if (user != null) {
-                    if (!user.getPlaceId().isEmpty()) {
+                    if (!user.getPlaceId().isEmpty() && (user.getCurrentTime() <= 1200) && (user.getCurrentTime() >0)) {
 
                         userIdNotif = user.getPlaceId();
+                        timeUser = user.getCurrentTime();
                         executeHttpRequestWithRetrofit();
                     Log.d("TestNotifId", userIdNotif);
                     }
@@ -89,7 +91,7 @@ public class AlertReceiver extends BroadcastReceiver {
                         if (userIdNotif != null) {
                             restoNotifName = detail.getResult().getName();
                             restoNotifAddress = detail.getResult().getVicinity();
-                            workmatesNotif(userIdNotif);
+                            workmatesNotif(userIdNotif, timeUser);
 
 
 
@@ -117,10 +119,12 @@ public class AlertReceiver extends BroadcastReceiver {
 
     //For Retrieve workmates who chose this restaurant
 
-    private void workmatesNotif(String userIdNotif) {
+    private void workmatesNotif(String userIdNotif, int timeUser) {
 
         UserHelper.getUsersCollection()
                 .whereEqualTo("placeId", userIdNotif)
+                .whereEqualTo("currentTime", timeUser)
+                .whereLessThan("currentTime", 1200)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 
@@ -134,7 +138,7 @@ public class AlertReceiver extends BroadcastReceiver {
 
                                 if(nameNotif !=null) {
                                     notifMessage = (context.getString(R.string.lunch_at) + " " + restoNotifName + " " +
-                                            restoNotifAddress +context.getString(R.string.with) +  nameNotif);
+                                            restoNotifAddress +" "+context.getString(R.string.with) +" "+  nameNotif);
                                 } else {
                                     notifMessage = (context.getString(R.string.lunch_at) + " " + restoNotifName + " " +
                                             restoNotifAddress + " " + context.getString(R.string.alone));

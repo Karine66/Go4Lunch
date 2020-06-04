@@ -105,9 +105,9 @@ public class LoginActivity extends AppCompatActivity {
         UserHelper.getUser(uid).addOnSuccessListener(documentSnapshot -> {
             User user = documentSnapshot.toObject(User.class);
             if (user != null) {
-                UserHelper.createUser(uid, userName, urlPicture, user.getPlaceId(), user.getLike()).addOnFailureListener(onFailureListener());
+                UserHelper.createUser(uid, userName, urlPicture, user.getPlaceId(), user.getLike(), user.getCurrentTime()).addOnFailureListener(onFailureListener());
             } else {
-                UserHelper.createUser(uid, userName, urlPicture, null, null).addOnFailureListener(onFailureListener());
+                UserHelper.createUser(uid, userName, urlPicture, null, null, 0).addOnFailureListener(onFailureListener());
             }
         });
     }

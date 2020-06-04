@@ -223,8 +223,6 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
             UserHelper.updatePlaceId(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid(), placeDetailsResult.getPlaceId(), getCurrentTime());
             mFloatingBtn.setImageDrawable(getResources().getDrawable(R.drawable.fui_ic_check_circle_black_128dp));
             mFloatingBtn.setTag(UNSELECTED);
-//            getCurrentTime();
-//            Log.d("dateResto", "dateResto" + getCurrentTime());
         }
     }
 
@@ -235,8 +233,6 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         UserHelper.deletePlaceId(Objects.requireNonNull(Objects.requireNonNull(FirebaseUtils.getCurrentUser()).getUid()));
         mFloatingBtn.setImageDrawable(getResources().getDrawable(R.drawable.baseline_done_white_24));
         mFloatingBtn.setTag(SELECTED);
-        getCurrentTime();
-        Log.d("dateRestaurant", "dateRestaurant" + getCurrentTime());
     }
 
 

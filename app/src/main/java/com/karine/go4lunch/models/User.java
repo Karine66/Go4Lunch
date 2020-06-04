@@ -15,8 +15,8 @@ public class User implements Serializable {
         @Nullable
         private String urlPicture;
         private String placeId;
-
     private ArrayList<String> like;
+    private int currentTime;
 
     public User() { }
 
@@ -26,14 +26,14 @@ public class User implements Serializable {
      * @param username
      * @param urlPicture
      */
-    public User(String uid, String username, @Nullable String urlPicture, String placeId, ArrayList<String> like) {
+    public User(String uid, String username, @Nullable String urlPicture, String placeId, ArrayList<String> like, int currentTime) {
             this.uid = uid;
             this.username = username;
             this.urlPicture = urlPicture;
             this.placeId = placeId;
             this.like = like;
             this.userChat = false;
-
+            this.currentTime = currentTime;
 
         }
 
@@ -53,6 +53,9 @@ public class User implements Serializable {
         return like;
         }
         public Boolean getUserChat() { return userChat; }
+        public int getCurrentTime() {
+        return currentTime;
+        }
 
     /**
      * Setters
@@ -68,5 +71,8 @@ public class User implements Serializable {
             this.like = like;
         }
         public void setUserChat(Boolean chatUser) { userChat = chatUser; }
+        private void setCurrentTime(int currentTime){
+            this.currentTime = currentTime;
+        }
 }
 

@@ -34,9 +34,9 @@ public class UserHelper {
      * @param urlPicture
      * @return
      */
-    public static Task<Void> createUser(String uid, String username, String urlPicture, String placeId, ArrayList<String> like) {
+    public static Task<Void> createUser(String uid, String username, String urlPicture, String placeId, ArrayList<String> like, int currentTime) {
         //Create user object
-        User userToCreate = new User(uid, username, urlPicture, placeId, like);
+        User userToCreate = new User(uid, username, urlPicture, placeId, like, currentTime);
         //Add a new user Document in Firestore
         return UserHelper.getUsersCollection()
                 .document(uid) //Setting uID for Document
