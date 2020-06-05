@@ -1,9 +1,8 @@
-package com.karine.go4lunch.utils;
+package com.karine.go4lunch.utils.notifications;
 
 import android.annotation.TargetApi;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.media.RingtoneManager;
@@ -20,10 +19,7 @@ public class NotificationHelper extends ContextWrapper {
     public static final String channelName = "Channel Name";
 
     private NotificationManager mManager;
-    private NotificationCompat.Builder notifBuilder;
-    private PendingIntent pendingIntent;
-    private String resto;
-    private String address;
+
     //For Sound alarm
     Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
@@ -35,9 +31,11 @@ public class NotificationHelper extends ContextWrapper {
             createChannel();
 
         }
-
     }
 
+    /**
+     * For api 26 and up
+     */
     @TargetApi(Build.VERSION_CODES.O)
     private void createChannel() {
         NotificationChannel channel = new NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_HIGH);
@@ -49,10 +47,15 @@ public class NotificationHelper extends ContextWrapper {
         if (mManager == null) {
             mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         }
-
         return mManager;
     }
 
+    /**
+     * for initialization notifications
+     *
+     * @param notifMessage
+     * @return
+     */
     public NotificationCompat.Builder getChannelNotification(String notifMessage) {
 
         return new NotificationCompat.Builder(getApplicationContext(), channelID)
@@ -63,5 +66,4 @@ public class NotificationHelper extends ContextWrapper {
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(notifMessage))
                 .setSound(alarmSound);
     }
-
 }

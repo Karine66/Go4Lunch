@@ -63,7 +63,7 @@ public class ChatHelper {
      * @return
      */
     public static Task<DocumentReference> createMessageWithImageForChat(String urlImage, String textMessage, User userSender) {
-        Message message = new Message(urlImage, textMessage, userSender);
+        Message message = new Message(textMessage, urlImage, userSender);
         return ChatHelper.getChatCollection()
                 .add(message);
     }

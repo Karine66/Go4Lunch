@@ -37,7 +37,7 @@ import com.karine.go4lunch.controllers.fragments.MapFragment;
 import com.karine.go4lunch.controllers.fragments.WorkMatesFragment;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
 import com.karine.go4lunch.models.User;
-import com.karine.go4lunch.utils.AlertReceiver;
+import com.karine.go4lunch.utils.notifications.AlertReceiver;
 import com.karine.go4lunch.utils.FirebaseUtils;
 import com.karine.go4lunch.utils.Go4LunchStream;
 import com.muddzdev.styleabletoast.StyleableToast;

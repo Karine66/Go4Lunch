@@ -24,18 +24,13 @@ public class FirebaseUtils {
         return (getCurrentUser() != null);
     }
 
-    // --------------------
-    // ERROR HANDLER
-    // --------------------
+    /**
+     * Error Handler
+     * @return
+     */
 
     public static OnFailureListener onFailureListener(){
-        return new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(context, R.string.unknown_error, Toast.LENGTH_LONG).show();
-
-            }
-        };
+        return e -> Toast.makeText(context, R.string.unknown_error, Toast.LENGTH_LONG).show();
     }
 
 }

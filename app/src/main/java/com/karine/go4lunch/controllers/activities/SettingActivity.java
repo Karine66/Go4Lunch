@@ -13,7 +13,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.karine.go4lunch.R;
-import com.karine.go4lunch.utils.AlertReceiver;
+import com.karine.go4lunch.utils.notifications.AlertReceiver;
 import com.muddzdev.styleabletoast.StyleableToast;
 
 import java.util.Calendar;

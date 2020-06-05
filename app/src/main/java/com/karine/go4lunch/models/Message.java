@@ -20,11 +20,6 @@ public class Message {
      * @param message
      * @param userSender
      */
-//    public Message(String message, User userSender, User user) {
-//        this.message = message;
-//        this.userSender = userSender;
-//        this.user = user;
-//    }
 
     public Message(String message, String urlImage, User userSender) {
         this.message = message;

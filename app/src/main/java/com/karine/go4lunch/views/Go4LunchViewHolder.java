@@ -1,10 +1,7 @@
 package com.karine.go4lunch.views;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.graphics.Color;
-import android.location.Location;
-import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,42 +9,25 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.karine.go4lunch.API.UserHelper;
 import com.karine.go4lunch.BuildConfig;
 import com.karine.go4lunch.R;
+import com.karine.go4lunch.models.PlaceDetailsAPI.Period;
+import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.adapter.rxjava2.Result;
-
-import com.karine.go4lunch.models.PlaceDetailsAPI.Period;
-import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
-import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 
 import static com.karine.go4lunch.utils.DatesAndHours.convertStringToHours;
 import static com.karine.go4lunch.utils.DatesAndHours.getCurrentTime;
@@ -55,12 +35,7 @@ import static com.karine.go4lunch.utils.DatesAndHours.getCurrentTime;
 
 public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
 
-
-    private int hour;
-    private int minute;
-    private float longitude;
-    private float latitude;
-    //Déclarations
+    //Declarations
     @BindView(R.id.list_name)
     TextView mName;
     @BindView(R.id.list_adress)
@@ -74,42 +49,32 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.list_distance)
     TextView mDistance;
     @BindView(R.id.list_workmates)
-            TextView mWormates;
+    TextView mWormates;
 
 
     String GOOGLE_MAP_API_KEY = BuildConfig.GOOGLE_MAP_API_KEY;
     private static final long serialVersionUID = 1L;
-    private List<PlaceDetailsResult> result;
-    private String mPosition;
-    private Context context;
-    private Location location;
-    private String resto;
     private float[] distanceResults = new float[3];
-    private Period periods;
-    private String localTime;
     private String closeHour;
-
-
-
-    private SimpleDateFormat newCloseHour;
-    private String newHourString;
     private int diff;
-    private String placeId;
 
 
     public Go4LunchViewHolder(View itemView) {
         super(itemView);
 
         ButterKnife.bind(this, itemView);
-//        getTodayDate();
         getCurrentTime();
     }
 
-
-    //For update details restaurants
+    /**
+     * For update details restaurants
+     *
+     * @param result
+     * @param glide
+     * @param mPosition
+     */
     @SuppressLint("SetTextI18n")
     public void updateWithDetails(PlaceDetailsResult result, RequestManager glide, String mPosition) {
-
 
         //restaurant name
         this.mName.setText(result.getName());
@@ -123,10 +88,10 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         this.mDistance.setText(distance);
         Log.d("TestDistance", distance);
 
-
+        //for numberWorkmates
         numberWorkmates(result.getPlaceId());
-        //for retrieve opening hours (open or closed)
 
+        //for retrieve opening hours (open or closed)
         if (result.getOpeningHours() != null) {
 
             if (result.getOpeningHours().getOpenNow().toString().equals("false")) {
@@ -150,7 +115,12 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    //For calculate restaurant Distance
+    /**
+     * For calculate restaurant distance
+     *
+     * @param startLocation
+     * @param endLocation
+     */
     private void restaurantDistance(String startLocation, com.karine.go4lunch.models.PlaceDetailsAPI.Location endLocation) {
         String[] separatedStart = startLocation.split(",");
         double startLatitude = Double.parseDouble(separatedStart[0]);
@@ -158,9 +128,11 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         double endLatitude = endLocation.getLat();
         double endLongitude = endLocation.getLng();
         android.location.Location.distanceBetween(startLatitude, startLongitude, endLatitude, endLongitude, distanceResults);
-   }
+    }
 
     /**
+     * For rating
+     *
      * @param result
      */
     private void restaurantRating(PlaceDetailsResult result) {
@@ -175,96 +147,72 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-
     /**
+     * For hours info (open until, closed, closing soon)
+     *
      * @param result
      * @return
      */
-        @SuppressLint("SetTextI18n")
-        private String getHoursInfo(PlaceDetailsResult result) {
-            int[] days = {0, 1, 2, 3, 4, 5, 6};
-            Calendar calendar = Calendar.getInstance();
-            int day = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-           // this.context = context;
-            if (result.getOpeningHours() != null && result.getOpeningHours().getPeriods() != null) {
-                for (Period p : result.getOpeningHours().getPeriods()) {
-                    String closeHour = p.getClose().getTime();
-                    Log.d("closeHour", String.valueOf(closeHour));
-                    int hourClose = Integer.parseInt(closeHour);
-                    Log.d("hourClose", String.valueOf(hourClose));
-                    diff = getCurrentTime()-hourClose;
-                    Log.d("diff", String.valueOf(diff));
+    @SuppressLint("SetTextI18n")
+    private String getHoursInfo(PlaceDetailsResult result) {
+        int[] days = {0, 1, 2, 3, 4, 5, 6};
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+        // this.context = context;
+        if (result.getOpeningHours() != null && result.getOpeningHours().getPeriods() != null) {
+            for (Period p : result.getOpeningHours().getPeriods()) {
+                String closeHour = p.getClose().getTime();
+                Log.d("closeHour", String.valueOf(closeHour));
+                int hourClose = Integer.parseInt(closeHour);
+                Log.d("hourClose", String.valueOf(hourClose));
+                diff = getCurrentTime() - hourClose;
+                Log.d("diff", String.valueOf(diff));
 
-                    if (p.getOpen().getDay() == days[day] && diff <-100) {
-                        mOpenHours.setText(itemView.getContext().getString(R.string.open_until) +" "+ convertStringToHours(closeHour));
-                        this.mOpenHours.setTextColor(itemView.getContext().getResources().getColor(R.color.colorOpen));
-                        Log.d("Open Until", "Open Until" + " " + convertStringToHours(closeHour));
+                if (p.getOpen().getDay() == days[day] && diff < -100) {
+                    mOpenHours.setText(itemView.getContext().getString(R.string.open_until) + " " + convertStringToHours(closeHour));
+                    this.mOpenHours.setTextColor(itemView.getContext().getResources().getColor(R.color.colorOpen));
+                    Log.d("Open Until", "Open Until" + " " + convertStringToHours(closeHour));
 
-                    }
-                    else if (diff >= -100 && days[day] == p.getClose().getDay()) {
-                            mOpenHours.setText(itemView.getContext().getString(R.string.closing_soon)+" "+"("+ convertStringToHours(closeHour)+")");
-                        this.mOpenHours.setTextColor(itemView.getContext().getResources().getColor(R.color.colorOpen));
-                            Log.d("Closing Soon", "closing soon"+convertStringToHours(closeHour));
+                } else if (diff >= -100 && days[day] == p.getClose().getDay()) {
+                    mOpenHours.setText(itemView.getContext().getString(R.string.closing_soon) + " " + "(" + convertStringToHours(closeHour) + ")");
+                    this.mOpenHours.setTextColor(itemView.getContext().getResources().getColor(R.color.colorOpen));
+                    Log.d("Closing Soon", "closing soon" + convertStringToHours(closeHour));
 
-                        }
-                    }
                 }
-            return closeHour;
             }
+        }
+        return closeHour;
+    }
 
-            private void numberWorkmates(String placeId) {
+    /**
+     * For retrieve number workmates who choose restaurant
+     *
+     * @param placeId
+     */
+    private void numberWorkmates(String placeId) {
 
-                UserHelper.getUsersCollection()
-                        .whereEqualTo("placeId", placeId)
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        UserHelper.getUsersCollection()
+                .whereEqualTo("placeId", placeId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                        for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
-                                        Log.d("numberWorkmates", documentSnapshot.getId()+" "+documentSnapshot.getData());
-                                        }
-                                            int numberWorkmates = Objects.requireNonNull(task.getResult()).size();
-                                            String workmatesNumber = "(" + numberWorkmates + ")";
-                                            mWormates.setText(workmatesNumber);
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
+                                Log.d("numberWorkmates", documentSnapshot.getId() + " " + documentSnapshot.getData());
+                            }
+                            int numberWorkmates = Objects.requireNonNull(task.getResult()).size();
+                            String workmatesNumber = "(" + numberWorkmates + ")";
+                            mWormates.setText(workmatesNumber);
 
 
-                                    }else{
-                                    Log.e("numberMatesError", "Error getting documents: ", task.getException());
-                                }
-                                }
-                            });
+                        } else {
+                            Log.e("numberMatesError", "Error getting documents: ", task.getException());
                         }
-
-
-//    // convert string to hours
-//    public String convertStringToHours(String hour){
-//        String hour1 = hour.substring(0,2);
-//        String hour2 = hour.substring(2,4);
-//        return hour1 + ":" + hour2;
-//    }
-
-
-//    private void getTodayDate(){
-//        Calendar cal = Calendar.getInstance();
-//        Date currentDate = cal.getTime();
-//        @SuppressLint("SimpleDateFormat")
-//        DateFormat date = new SimpleDateFormat("dd-MM-yyy z");
-//        String dayDate = date.format(currentDate);
-//        Log.d("TestDate", dayDate);
-//    }
-//
-//    private int getCurrentTime() {
-//        Calendar calendar = Calendar.getInstance();
-//        Date currentLocalTime = calendar.getTime();
-//        @SuppressLint("SimpleDateFormat")
-//        DateFormat date = new SimpleDateFormat("HHmm");
-//        localTime = date.format(currentLocalTime);
-//        Log.d("TestHour", localTime);
-//        return Integer.parseInt(localTime);
-//    }
-
+                    }
+                });
+    }
 }
 
 

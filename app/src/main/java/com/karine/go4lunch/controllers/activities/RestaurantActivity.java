@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -362,19 +364,21 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     /**
      * For like button
      */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void starBtn() {
         mStarBtn.setOnClickListener(v ->
                 likeRestaurant());
-        if (mStarBtn.isEnabled()) {
-            mStarBtn.setBackgroundColor(getResources().getColor(R.color.quantum_yellow300));
-        } else if (!mStarBtn.isEnabled()) {
-            mStarBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        }
+//        if (mStarBtn.isEnabled()) {
+//            mStarBtn.setBackgroundColor(getResources().getColor(R.color.quantum_yellow300));
+//        } else if (!mStarBtn.isEnabled()) {
+//            mStarBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+//        }
     }
 
     /**
      * For like/dislike
      */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void likeRestaurant() {
 
         Intent intent = this.getIntent();
@@ -391,9 +395,10 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
                 if (user != null) {
                     if (!user.getLike().isEmpty() && user.getLike().contains(placeRestaurantId)) {
                         UserHelper.deleteLike(FirebaseUtils.getCurrentUser().getUid(), placeRestaurantId);
-                        mStarBtn.setBackgroundColor(Color.TRANSPARENT);
+//                        mStarBtn.setBackgroundColor(Color.TRANSPARENT);
                     } else {
                         UserHelper.updateLike(FirebaseUtils.getCurrentUser().getUid(), placeRestaurantId);
+                        mStarBtn.setBackground(getDrawable(R.drawable.round_star_black_48dp));
          //               mStarBtn.setBackgroundColor(Color.BLUE);
 
                     }

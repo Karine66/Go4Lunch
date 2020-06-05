@@ -10,31 +10,42 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.RequestManager;
 import com.karine.go4lunch.R;
+import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
 
 import java.util.List;
 
-import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
-
 public class Go4LunchAdapter extends RecyclerView.Adapter<Go4LunchViewHolder> {
+
+
+    //Declarations
+    private String mPosition;
+    private RequestManager glide;
+    private List<PlaceDetail> placeDetails;
 
     public void setPosition(String position) {
         mPosition = position;
     }
 
-    private String mPosition;
-    private RequestManager glide;
-    private List<PlaceDetail> placeDetails;
-
-
-
-    //Constructor
+    /**
+     * Constructor
+     *
+     * @param placeDetails
+     * @param glide
+     * @param mPosition
+     */
     public Go4LunchAdapter(List<PlaceDetail> placeDetails, RequestManager glide, String mPosition) {
         this.placeDetails = placeDetails;
         this.glide = glide;
         this.mPosition = mPosition;
     }
 
-
+    /**
+     * Create viewHolder
+     *
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public Go4LunchViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -44,21 +55,25 @@ public class Go4LunchAdapter extends RecyclerView.Adapter<Go4LunchViewHolder> {
 
         return new Go4LunchViewHolder(view);
     }
-    //Update view holer with place details
+
+    /**
+     * Update viewHolder with placeDetails
+     *
+     * @param viewHolder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull Go4LunchViewHolder viewHolder, int position) {
-    viewHolder.updateWithDetails(this.placeDetails.get(position).getResult(), this.glide, this.mPosition);
+        viewHolder.updateWithDetails(this.placeDetails.get(position).getResult(), this.glide, this.mPosition);
     }
 
-    public PlaceDetail getPlaceDetails(int position) {
-        return this.placeDetails.get(position);
-    }
-
-    //return the total count of items in the list
+    /**
+     * return the total count of items in the list
+     *
+     * @return
+     */
     @Override
     public int getItemCount() {
         return this.placeDetails.size();
     }
-
-
 }

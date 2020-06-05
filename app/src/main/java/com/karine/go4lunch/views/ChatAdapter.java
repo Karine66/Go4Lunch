@@ -25,6 +25,13 @@ public class ChatAdapter extends FirestoreRecyclerAdapter<Message, ChatViewHolde
         //FOR COMMUNICATION
         private Listener callback;
 
+    /**
+     * constructor
+     * @param options
+     * @param glide
+     * @param callback
+     * @param idCurrentUser
+     */
         public ChatAdapter(@NonNull FirestoreRecyclerOptions<Message> options, RequestManager glide, Listener callback, String idCurrentUser) {
             super(options);
             this.glide = glide;
@@ -32,17 +39,29 @@ public class ChatAdapter extends FirestoreRecyclerAdapter<Message, ChatViewHolde
             this.idCurrentUser = idCurrentUser;
         }
 
-        @Override
-        protected void onBindViewHolder(@NonNull ChatViewHolder holder, int position, @NonNull Message model) {
-            holder.updateWithMessage(model, this.idCurrentUser, this.glide);
-        }
-
-        @NonNull
+    /**
+     * create viewHolder
+     * @param parent
+     * @param viewType
+     * @return
+     */
+    @NonNull
         @Override
         public ChatViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return new ChatViewHolder(LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.fragment_chat_item, parent, false));
         }
+
+    /**
+     * Update viewHolder
+     * @param holder
+     * @param position
+     * @param model
+     */
+    @Override
+    protected void onBindViewHolder(@NonNull ChatViewHolder holder, int position, @NonNull Message model) {
+        holder.updateWithMessage(model, this.idCurrentUser, this.glide);
+    }
 
         @Override
         public void onDataChanged() {

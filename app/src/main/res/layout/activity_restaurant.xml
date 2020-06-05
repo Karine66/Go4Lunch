@@ -58,7 +58,7 @@
         android:id="@+id/action_btn"
         android:layout_marginTop="270dp"
         android:layout_width="match_parent"
-        android:layout_height="80dp">
+        android:layout_height="65dp">
     <Button
         android:id="@+id/call_btn"
         android:layout_width="65dp"

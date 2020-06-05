@@ -9,7 +9,6 @@ import java.util.ArrayList;
 public class User implements Serializable {
 
     private boolean userChat;
-    private String reference;
     private String uid;
         private String username;
         @Nullable
