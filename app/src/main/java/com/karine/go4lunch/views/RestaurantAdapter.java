@@ -22,9 +22,6 @@ public class RestaurantAdapter extends FirestoreRecyclerAdapter<User, Restaurant
     TextView mRestoMatesName;
 
     private RequestManager glide;
-    private User model;
-
-
 
     /**
      * Create constructor

@@ -80,6 +80,7 @@
             android:layout_gravity="center|center_vertical"
             android:drawableTop="@drawable/round_star_black_48dp"
             android:drawableTint="@color/colorPrimaryDark"
+            android:clickable="true"
             android:background="#00FFFFFF"
             android:text="@string/like_btn"
             android:textAlignment="center"

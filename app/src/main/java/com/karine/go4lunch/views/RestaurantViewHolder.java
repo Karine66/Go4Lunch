@@ -1,7 +1,6 @@
 package com.karine.go4lunch.views;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,13 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.karine.go4lunch.R;
-import com.karine.go4lunch.utils.Go4LunchStream;
 import com.karine.go4lunch.controllers.activities.RestaurantActivity;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
-import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 import com.karine.go4lunch.models.User;
-
-import java.util.ResourceBundle;
+import com.karine.go4lunch.utils.Go4LunchStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,25 +26,18 @@ import io.reactivex.observers.DisposableObserver;
 
 public class RestaurantViewHolder extends RecyclerView.ViewHolder {
     /**
-     * Déclarations
+     * Declarations
      */
     @BindView(R.id.resto_mates_photo)
     ImageView mRestoMatesPhoto;
     @BindView(R.id.resto_mates_name)
     TextView mRestoMatesName;
-    private PlaceDetail placeDetail;
+
     private Disposable mDisposable;
-    private String placeId;
-
-
     private String restoName;
-    private String name;
     private String idResto;
-    private User users;
-    private PlaceDetailsResult result;
     private PlaceDetail detail;
     private String userName;
-    private Context context;
 
 
     public RestaurantViewHolder(@NonNull View itemView) {
@@ -58,7 +47,7 @@ public class RestaurantViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(detail!=null) {
+                if (detail != null) {
                     Intent intent = new Intent(v.getContext(), RestaurantActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("placeDetailsResult", detail.getResult());
@@ -72,6 +61,7 @@ public class RestaurantViewHolder extends RecyclerView.ViewHolder {
 
     /**
      * For update usernames and photos
+     *
      * @param users
      * @param glide
      */
@@ -81,9 +71,9 @@ public class RestaurantViewHolder extends RecyclerView.ViewHolder {
         //for retrieve name and id resto for request
         userName = users.getUsername();
         idResto = users.getPlaceId();
-        Log.d("idRestoUser", "idRestoUsers"+ " " +idResto);
+        Log.d("idRestoUser", "idRestoUsers" + " " + idResto);
         executeHttpRequestWithRetrofit();
-       //for retrieve user photo
+        //for retrieve user photo
         if (users.getUrlPicture() != null && !users.getUrlPicture().isEmpty()) {
             glide.load(users.getUrlPicture()).apply(RequestOptions.circleCropTransform()).into(mRestoMatesPhoto);
         } else {
@@ -101,7 +91,7 @@ public class RestaurantViewHolder extends RecyclerView.ViewHolder {
 
                     @Override
                     public void onNext(PlaceDetail placeDetail) {
-                    detail = placeDetail;
+                        detail = placeDetail;
                     }
 
                     @SuppressLint("SetTextI18n")

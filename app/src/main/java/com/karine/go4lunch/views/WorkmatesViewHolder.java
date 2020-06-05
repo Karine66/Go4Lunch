@@ -14,11 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.karine.go4lunch.R;
-import com.karine.go4lunch.utils.Go4LunchStream;
 import com.karine.go4lunch.controllers.activities.RestaurantActivity;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
-import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 import com.karine.go4lunch.models.User;
+import com.karine.go4lunch.utils.Go4LunchStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,22 +26,16 @@ import io.reactivex.observers.DisposableObserver;
 
 public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
     /**
-     * Déclarations
+     * Declarations
      */
     @BindView(R.id.workmates_photo)
     ImageView mWorkmatesPhoto;
     @BindView(R.id.workmates_name)
     TextView mWorkmatesName;
-    private PlaceDetail placeDetail;
+
     private Disposable mDisposable;
-    private String placeId;
-
-
     private String restoName;
-    private String name;
     private String idResto;
-    private User users;
-    private PlaceDetailsResult result;
     private PlaceDetail detail;
     private String userName;
 
@@ -52,7 +45,7 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
         //for retrieve restaurant sheet on click workmates
         itemView.setOnClickListener(v -> {
-            if(detail!=null) {
+            if (detail != null) {
                 Intent intent = new Intent(v.getContext(), RestaurantActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("placeDetailsResult", detail.getResult());
@@ -64,6 +57,7 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
 
     /**
      * For update usernames and photos
+     *
      * @param users
      * @param glide
      */
@@ -74,9 +68,9 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
         userName = users.getUsername();
         idResto = users.getPlaceId();
 
-        Log.d("idRestoUser", "idRestoUsers"+ " " +idResto);
+        Log.d("idRestoUser", "idRestoUsers" + " " + idResto);
         executeHttpRequestWithRetrofit();
-       //for retrieve user photo
+        //for retrieve user photo
         if (users.getUrlPicture() != null && !users.getUrlPicture().isEmpty()) {
             glide.load(users.getUrlPicture()).apply(RequestOptions.circleCropTransform()).into(mWorkmatesPhoto);
         } else {
@@ -94,7 +88,7 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
 
                     @Override
                     public void onNext(PlaceDetail placeDetail) {
-                    detail = placeDetail;
+                        detail = placeDetail;
                     }
 
                     @SuppressLint("SetTextI18n")

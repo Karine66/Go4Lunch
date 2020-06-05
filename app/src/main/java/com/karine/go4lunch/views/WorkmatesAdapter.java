@@ -9,12 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.RequestManager;
-
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.karine.go4lunch.R;
-import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
 import com.karine.go4lunch.models.User;
 
 import butterknife.BindView;
@@ -25,12 +22,10 @@ public class WorkmatesAdapter extends FirestoreRecyclerAdapter<User, WorkmatesVi
     TextView mWorkmatesName;
 
     private RequestManager glide;
-    private User model;
-
-
 
     /**
      * Create constructor
+     *
      * @param options
      * @param glide
      */
@@ -41,6 +36,7 @@ public class WorkmatesAdapter extends FirestoreRecyclerAdapter<User, WorkmatesVi
 
     /**
      * Create ViewHolder
+     *
      * @param parent
      * @param viewType
      * @return
@@ -54,9 +50,9 @@ public class WorkmatesAdapter extends FirestoreRecyclerAdapter<User, WorkmatesVi
         return new WorkmatesViewHolder(view);
     }
 
-
     /**
      * Update viewHolder
+     *
      * @param workmatesViewHolder
      * @param position
      * @param model
@@ -65,6 +61,4 @@ public class WorkmatesAdapter extends FirestoreRecyclerAdapter<User, WorkmatesVi
     protected void onBindViewHolder(@NonNull WorkmatesViewHolder workmatesViewHolder, int position, @NonNull User model) {
         workmatesViewHolder.updateWithDetails(model, this.glide);
     }
-
-
 }

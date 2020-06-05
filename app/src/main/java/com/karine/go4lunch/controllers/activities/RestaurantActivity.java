@@ -368,11 +368,6 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     public void starBtn() {
         mStarBtn.setOnClickListener(v ->
                 likeRestaurant());
-//        if (mStarBtn.isEnabled()) {
-//            mStarBtn.setBackgroundColor(getResources().getColor(R.color.quantum_yellow300));
-//        } else if (!mStarBtn.isEnabled()) {
-//            mStarBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-//        }
     }
 
     /**
@@ -395,12 +390,10 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
                 if (user != null) {
                     if (!user.getLike().isEmpty() && user.getLike().contains(placeRestaurantId)) {
                         UserHelper.deleteLike(FirebaseUtils.getCurrentUser().getUid(), placeRestaurantId);
-//                        mStarBtn.setBackgroundColor(Color.TRANSPARENT);
+                        mStarBtn.setBackgroundResource(R.color.fui_transparent);
                     } else {
                         UserHelper.updateLike(FirebaseUtils.getCurrentUser().getUid(), placeRestaurantId);
-                        mStarBtn.setBackground(getDrawable(R.drawable.round_star_black_48dp));
-         //               mStarBtn.setBackgroundColor(Color.BLUE);
-
+                        mStarBtn.setBackgroundResource(R.color.quantum_yellow);
                     }
                 }
             });
