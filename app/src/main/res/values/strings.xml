@@ -75,6 +75,7 @@
     <string name="logout">LOGOUT</string>
     <string name="chat_workmates">Chat with Workmates</string>
     <string name="enter_text">Enter Text</string>
+    <string name="photo_resto">photo_resto</string>
 
 
 </resources>

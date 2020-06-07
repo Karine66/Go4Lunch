@@ -1,12 +1,14 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+<!--    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">#252627</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+
     </style>
 
     <style name="RatingBar" parent="Theme.AppCompat">
@@ -24,7 +26,7 @@
         <item name="stColorBackground">#FFEE58</item>
         <item name="stTextColor">#000</item>
         <item name="stIconStart">@drawable/lunch_black</item>
-        <item name="stStrokeColor">@color/colorAccentDark</item>
+        <item name="stStrokeColor">@color/colorPrimaryDark</item>
         <item name="stStrokeWidth">2dp</item>
         <item name="cornerRadius">5dp</item>
         <item name="stLength">SHORT</item>

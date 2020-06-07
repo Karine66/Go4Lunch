@@ -7,45 +7,40 @@
     tools:context=".controllers.fragments.ChatFragment">
 
 
-
     <!-- RECYCLER VIEW CONTAINER -->
     <LinearLayout
         android:id="@+id/chat_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_above="@id/chat_add_message_container">
+        android:layout_above="@id/chat_add_message_container"
+        android:orientation="vertical">
 
         <!-- MESSAGE RECYCLER VIEW EMPTY -->
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/chat_text_view_recycler_view_empty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_large_margin"
             android:text="@string/text_view_chat_empty"
-            android:textAlignment="center"
-            android:layout_margin="@dimen/default_large_margin"/>
+            android:textAlignment="center" />
         <!-- RECYCLER VIEW -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/chat_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-
-
-
-            </LinearLayout>
+    </LinearLayout>
 
     <!-- IMAGE CHOSEN PREVIEW -->
-
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/chat_image_chosen_preview"
         android:layout_width="50dip"
         android:layout_height="50dip"
-        android:layout_margin="@dimen/default_margin"
         android:layout_above="@id/chat_add_message_container"
+        android:layout_margin="@dimen/default_margin"
         android:contentDescription="Image preview" />
 
     <!-- ADD MESSAGE CONTAINER -->
-  <LinearLayout
+    <LinearLayout
         android:id="@+id/chat_add_message_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -53,14 +48,14 @@
         android:layout_margin="@dimen/default_margin">
 
         <!-- ADD FILE BUTTON -->
-      <androidx.appcompat.widget.AppCompatImageButton
-          android:id="@+id/chat_add_file_button"
-          style="@style/Widget.AppCompat.Button.Borderless"
-          android:layout_width="46dp"
-          android:layout_height="wrap_content"
-          android:adjustViewBounds="true"
-          android:contentDescription="Image"
-          android:src="@drawable/baseline_add_circle_black_48dp" />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/chat_add_file_button"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="46dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:contentDescription="Image"
+            android:src="@drawable/baseline_add_circle_black_48dp" />
 
         <!-- TEXT MESSAGE EDIT TEXT -->
         <androidx.appcompat.widget.AppCompatEditText
@@ -68,10 +63,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:hint="@string/enter_text"
             android:imeOptions="actionDone"
             android:inputType="textMultiLine"
-            android:textSize="@dimen/default_text_size"
-            android:hint="@string/enter_text"/>
+            android:textSize="@dimen/default_text_size" />
 
         <!-- ADD MESSAGE BUTTON -->
         <androidx.appcompat.widget.AppCompatButton
@@ -82,6 +77,4 @@
             android:text="@string/button_title_chat_activity" />
 
     </LinearLayout>
-
-
 </RelativeLayout>

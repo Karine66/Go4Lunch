@@ -76,12 +76,9 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
 
     String GOOGLE_MAP_API_KEY = BuildConfig.GOOGLE_MAP_API_KEY;
 
-//    private RequestManager glide;
+
     private String formattedPhoneNumber;
-//    private String url;
     private RequestManager mGlide;
-//    private String restoId;
-//    private PlaceDetailsResult placeDetailsResult;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference collectionUsers = db.collection("users");
     private RestaurantAdapter restaurantAdapter;
@@ -89,9 +86,9 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     private static final String SELECTED = "SELECTED";
     private static final String UNSELECTED = "UNSELECTED";
     private String placeId;
-//    private String like;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {

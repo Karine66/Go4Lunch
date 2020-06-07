@@ -22,6 +22,12 @@ import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApi;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.internal.ConnectionCallbacks;
+import com.google.android.gms.common.api.internal.OnConnectionFailedListener;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -36,6 +42,7 @@ import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetailsResult;
 import com.karine.go4lunch.utils.Go4LunchStream;
 
 import java.io.Serializable;
+import java.text.BreakIterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -50,11 +57,10 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
 
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;
-    //    private Location location;
     private Disposable mDisposable;
     private String mPosition;
     private Marker positionMarker;
-//    private String input;
+    private GoogleApiClient mClient;
 
 
     public MapFragment() {
@@ -71,7 +77,9 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
         //for SearchView
         setHasOptionsMenu(true);
 
+
         return view;
+
     }
 
     @Override
@@ -255,4 +263,6 @@ public class MapFragment extends BaseFragment implements LocationListener, Seria
             startActivity(intent);
         });
     }
+
+
 }

@@ -12,10 +12,11 @@
         android:id="@+id/resto_photo"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:contentDescription="@string/photo_resto" />
+        android:contentDescription="photo_resto" />
 
    <com.google.android.material.floatingactionbutton.FloatingActionButton
        android:id="@+id/floating_ok_btn"
+       style="@style/Widget.MaterialComponents.FloatingActionButton"
        android:layout_height="wrap_content"
        android:layout_width="wrap_content"
        android:layout_marginStart="300dp"
@@ -30,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="200dp"
-        android:background="@color/colorPrimaryDark">
+        android:background="@color/colorPrimary">
 
         <TextView
             android:id="@+id/resto_name"
@@ -58,45 +59,45 @@
         android:layout_marginTop="270dp"
         android:layout_width="match_parent"
         android:layout_height="65dp">
+    <Button
+        android:id="@+id/call_btn"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_gravity="start|center_horizontal"
+        android:drawableTop="@drawable/round_call_black_48dp"
+        android:drawableTint="@color/colorPrimaryDark"
+        android:background="#00FFFFFF"
+        android:text="@string/call_btn"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        tools:ignore="TextViewEdits" />
 
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/call_btn"
-            android:layout_width="65dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|center_horizontal"
-            android:layout_marginStart="30dp"
-            android:background="#FFFFFF"
-            android:drawableTop="@drawable/round_call_black_48dp"
-            android:drawableTint="@color/colorPrimaryDark"
-            android:text="@string/call_btn"
-            android:textAlignment="center"
-            android:textStyle="bold"/>
-
-        <androidx.appcompat.widget.AppCompatButton
+        <Button
             android:id="@+id/star_btn"
             android:layout_width="65dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center|center_vertical"
-            android:background="#FFFFFF"
             android:drawableTop="@drawable/round_star_black_48dp"
             android:drawableTint="@color/colorPrimaryDark"
+            android:clickable="true"
+            android:background="#00FFFFFF"
             android:text="@string/like_btn"
             android:textAlignment="center"
             android:textStyle="bold" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/web_btn"
-            android:layout_width="85dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
-            android:layout_marginEnd="30dp"
-            android:background="#FFFFFF"
-            android:drawableTop="@drawable/round_public_black_48dp"
-            android:drawableTint="@color/colorPrimaryDark"
-            android:text="@string/website_btn"
-            android:textAlignment="center"
-            android:textStyle="bold"
+        <Button
+        android:id="@+id/web_btn"
+        android:layout_width="85dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|center_vertical"
+        android:layout_marginEnd="30dp"
+            android:background="#00FFFFFF"
+        android:drawableTop="@drawable/round_public_black_48dp"
+        android:drawableTint="@color/colorPrimaryDark"
+        android:text="@string/website_btn"
+        android:textAlignment="center"
+        android:textStyle="bold"
             tools:ignore="RtlCompat" />
 
     </FrameLayout>

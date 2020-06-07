@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_activity_coordinator_layout"
     android:layout_width="match_parent"
@@ -10,42 +8,41 @@
     tools:context=".controllers.activities.LoginActivity">
 
 
+    <LinearLayout
+        android:id="@+id/connection_btn"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:orientation="vertical">
 
-<LinearLayout
-    android:id="@+id/connection_btn"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="bottom">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/google_btn"
+            android:layout_width="212dp"
+            android:layout_height="37dp"
+            android:layout_gravity="center"
+            android:background="#ffff"
+            android:drawableStart="@drawable/fui_ic_googleg_color_24dp"
+            android:hint="@string/continue_with_google"
+            android:onClick="onClickGoogleBtn"
+            android:paddingStart="6dp"
+            android:paddingEnd="28dp"
+            android:textSize="13sp" />
 
-    <Button
-        android:id="@+id/google_btn"
-        android:layout_width="213dp"
-        android:layout_height="33dp"
-        android:layout_gravity="center"
-        android:background="#ffff"
-        android:drawableStart="@drawable/fui_ic_googleg_color_24dp"
-        android:hint="@string/continue_with_google"
-        android:onClick="onClickGoogleBtn"
-        android:paddingStart="6dp"
-        android:paddingEnd="28dp"/>
-
-    <Button
-        android:id="@+id/facebook_btn"
-        android:layout_width="213dp"
-        android:layout_height="33dp"
-        android:layout_gravity="center"
-        android:background="@color/com_facebook_button_background_color"
-        android:drawableStart="@drawable/fui_ic_facebook_white_22dp"
-        android:layout_marginBottom="150dp"
-        android:onClick="onClickFacebookBtn"
-        android:hint="@string/facebook_btn"
-        android:paddingStart="6dp"
-        android:paddingEnd="28dp"
-        android:textSize="13sp"
-         />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/facebook_btn"
+            android:layout_width="212dp"
+            android:layout_height="37dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="150dp"
+            android:background="@color/com_facebook_button_background_color"
+            android:drawableStart="@drawable/fui_ic_facebook_white_22dp"
+            android:hint="@string/facebook_btn"
+            android:onClick="onClickFacebookBtn"
+            android:paddingStart="6dp"
+            android:paddingEnd="28dp"
+            android:textSize="13sp" />
 
 
-</LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>
