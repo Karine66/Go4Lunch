@@ -33,6 +33,14 @@ public class PlaceDetailsResult implements Serializable {
     @SerializedName("reference")
     private String mReference;
 
+//    public PlaceDetailsResult(String name, String vicinity, String placeId) {
+//       this.mName = name;
+//       this.mVicinity = vicinity;
+//       this.mPlaceId = placeId;
+//
+//
+//
+//    }
 
 
     public String getName() {

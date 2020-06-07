@@ -63,22 +63,22 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/call_btn"
             android:layout_width="65dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="start|center_horizontal"
+            android:backgroundTint="#FFFFFF"
             android:layout_marginStart="30dp"
-            android:background="#FFFFFF"
             android:drawableTop="@drawable/round_call_black_48dp"
             android:drawableTint="@color/colorPrimaryDark"
             android:text="@string/call_btn"
             android:textAlignment="center"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/star_btn"
             android:layout_width="65dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center|center_vertical"
-            android:background="#FFFFFF"
+            android:background="#00FFFFFF"
             android:drawableTop="@drawable/round_star_black_48dp"
             android:drawableTint="@color/colorPrimaryDark"
             android:text="@string/like_btn"
@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
             android:layout_marginEnd="30dp"
-            android:background="#FFFFFF"
+            android:background="#00FFFFFF"
             android:drawableTop="@drawable/round_public_black_48dp"
             android:drawableTint="@color/colorPrimaryDark"
             android:text="@string/website_btn"

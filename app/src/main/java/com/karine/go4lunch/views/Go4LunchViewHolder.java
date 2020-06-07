@@ -158,7 +158,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         int[] days = {0, 1, 2, 3, 4, 5, 6};
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-        // this.context = context;
+
         if (result.getOpeningHours() != null && result.getOpeningHours().getPeriods() != null) {
             for (Period p : result.getOpeningHours().getPeriods()) {
                 String closeHour = p.getClose().getTime();
