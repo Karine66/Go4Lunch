@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,6 +62,8 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
     ImageView mRestoPhoto;
     @BindView(R.id.resto_name)
     TextView mRestoName;
+    @BindView(R.id.rating_bar)
+    RatingBar mRating;
     @BindView(R.id.resto_address)
     TextView mRestoAddress;
     @BindView(R.id.call_btn)
@@ -123,7 +126,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
                             mStarBtn.setBackgroundColor(Color.TRANSPARENT);
                         }
                     }
-               }
+                }
             });
         }
 
@@ -149,12 +152,14 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         if (placeDetailsResult != null) {
             updateUI(placeDetailsResult, mGlide);
             placeId = placeDetailsResult.getPlaceId();
+
         }
 
     }
 
     /**
      * For update UI
+     *
      * @param placeDetailsResult
      * @param glide
      */
@@ -170,11 +175,12 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         } else {
             mRestoPhoto.setImageResource(R.drawable.no_picture);
         }
-
         //For Restaurant Name
         mRestoName.setText(placeDetailsResult.getName());
         //For Restaurant address
         mRestoAddress.setText(placeDetailsResult.getVicinity());
+        //For rating
+        restaurantRating(placeDetailsResult);
         //For  restaurant telephone number
         String formattedPhoneNumber = placeDetailsResult.getFormattedPhoneNumber();
         callBtn(formattedPhoneNumber);
@@ -183,25 +189,35 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
         webBtn(url);
     }
 
+
+
+    private void restaurantRating(PlaceDetailsResult placeDetailsResult) {
+
+        if (placeDetailsResult.getRating() != null) {
+            double restaurantRating = placeDetailsResult.getRating();
+            double rating = (restaurantRating / 5) * 3;
+            this.mRating.setRating((float) rating);
+            this.mRating.setVisibility(View.VISIBLE);
+
+        } else {
+            this.mRating.setVisibility(View.GONE);
+        }
+    }
     /**
      * For floating button
      */
     public void floatingBtn() {
-        mFloatingBtn.setOnClickListener(new View.OnClickListener() {
+        mFloatingBtn.setOnClickListener(v -> {
+            if (v.getId() == R.id.floating_ok_btn)
+                if (SELECTED.equals(mFloatingBtn.getTag())) {
+                    selectedRestaurant();
 
-            @Override
-            public void onClick(View v) {
-                if (v.getId() == R.id.floating_ok_btn)
-                    if (SELECTED.equals(mFloatingBtn.getTag())) {
-                        selectedRestaurant();
+                } else if (mFloatingBtn.isSelected()) {
+                    selectedRestaurant();
 
-                    } else if (mFloatingBtn.isSelected()) {
-                        selectedRestaurant();
-
-                    } else {
-                        removeRestaurant();
-                    }
-            }
+                } else {
+                    removeRestaurant();
+                }
         });
     }
 
@@ -240,12 +256,7 @@ public class RestaurantActivity extends AppCompatActivity implements Serializabl
      * @param formattedPhoneNumber
      */
     public void callBtn(String formattedPhoneNumber) {
-        mCallBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                makePhoneCall(formattedPhoneNumber);
-            }
-        });
+        mCallBtn.setOnClickListener(view -> makePhoneCall(formattedPhoneNumber));
     }
 
     /**

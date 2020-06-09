@@ -2,12 +2,11 @@ package com.karine.go4lunch.utils;
 
 
 import com.karine.go4lunch.BuildConfig;
-
-import io.reactivex.Observable;
-
 import com.karine.go4lunch.models.AutocompleteAPI.AutocompleteResult;
 import com.karine.go4lunch.models.NearbySearchAPI.GoogleApi;
 import com.karine.go4lunch.models.PlaceDetailsAPI.PlaceDetail;
+
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 

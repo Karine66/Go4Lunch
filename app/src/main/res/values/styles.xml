@@ -16,6 +16,11 @@
         <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
 
+    <style name="RatingBarRestaurant" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="colorControlActivated">#FFCA28</item>
+    </style>
+
     <!--Hamburger menu -->
     <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
