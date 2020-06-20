@@ -87,7 +87,7 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
         if (message.getDateCreated() != null)
             this.textViewDate.setText(convertDateToHour(message.getDateCreated()));
 
-        // Update isMentor ImageView
+        // Update ImageView
         this.imageViewUser.setVisibility(message.getUserSender().getUserChat() ? View.VISIBLE : View.INVISIBLE);
 
 

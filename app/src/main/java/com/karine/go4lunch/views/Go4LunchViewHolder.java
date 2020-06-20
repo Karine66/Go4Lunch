@@ -84,7 +84,7 @@ public class Go4LunchViewHolder extends RecyclerView.ViewHolder {
         restaurantRating(result);
         //restaurant distance
         restaurantDistance(mPosition, result.getGeometry().getLocation());
-        String distance = Integer.toString(Math.round(distanceResults[0])) + "m";
+        String distance = Math.round(distanceResults[0]) + "m";
         this.mDistance.setText(distance);
         Log.d("TestDistance", distance);
 

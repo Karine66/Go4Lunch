@@ -47,8 +47,8 @@
 
             android:id="@+id/rating_bar"
             style="?android:attr/ratingBarStyleSmall"
-            android:layout_width="60dp"
-            android:layout_height="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="230dp"
             android:layout_marginTop="7dp"
             android:numStars="3"
