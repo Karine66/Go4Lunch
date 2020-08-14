@@ -38,7 +38,7 @@
             android:value="@string/google_api_key" />
 
 
-        
+
         <activity android:name=".controllers.activities.MainPageActivity" />
         <activity android:name=".controllers.activities.LoginActivity">
             <intent-filter>
